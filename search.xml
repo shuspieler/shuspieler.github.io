@@ -1,6 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>树莓派安装VirtualHere服务器端</title>
+    <url>//2033.html</url>
+    <content><![CDATA[<p>我的打印机型号是HP PSC 1205打印扫描复印一体机，查询亚马逊英国站在2002年就上架了这款商品，真的是有年头了。虽然年代久远了点，可是用着还挺好，各项功能满足我的需求。就是在现代社会稍微有一点点瑕疵，使用起来有些许不方便，我的写字桌也比较小，最近在家办公又拿回来一个电脑，俩笔记本一个显示器，桌子就占满了，没有一点点空间放我的打印机。并且打印机也不像显示器天天用，放在桌子上也挺浪费桌子空间。</p>
+<p>于是我将打印机放在另外一个地方，然后连接一个树莓派，在树莓派上运行打印机服务，这样就可以设置成远程打印机。树莓派通过无线远程连接路由器，这样我家庭网络都可以发现搜索到我的网络打印机，包括手机。我的古董打印机支持了时髦的无线模式，美滋滋。但是还有一点不足，就是只能打印不能远程扫描。我尝试了原生CUPS的网络打印协议，以及Samba的网络打印协议，都是只支持打印功能，而丢失了扫描功能。然后我想了个曲线解决这个问题的方法，使用远程USB的软件，当我电脑需要扫描功能时候，通过远程USB连接到我的树莓派上的打印机，这样对于电脑来讲，就像是亲自通过USB连接上硬件打印机一样。</p>
+<p>远程USB我使用的VirtualHere，免费的license支持一个设备，正好满足我的需求。在此记录一下我的流程，给自己一个备份，同时可能也能帮助到有类似需求的人。</p>
+<p><img data-src="https://cdn.passerby.net/2020/04/4758831132310721.jpg"></p>
+<p>树莓派版本的VirtualHere服务器端下来地址在这个网页：</p>
+<p><a href="https://www.virtualhere.com/usb_server_software">https://www.virtualhere.com/usb_server_software</a></p>
+<p>在Generic VirtualHere USB Server Builds下 “VirtualHere USB Server for Linux (ARM) &lt;– Raspberry Pi, pi2, pi3,pi4,BeagleBone, Odroid, Angstrom, &amp; any ARM 32-bit based Android” 是对应免费license的版本。可以先下载到本地，然后通过WinSCP传到树莓派上，或者通过下边的脚本一步到位。</p>
+<p><a href="https://www.virtualhere.com/oem_faq">https://www.virtualhere.com/oem_faq</a></p>
+<p>这个页面是官方的Linux下安装服务器端的指导，包含了各种架构的步骤。我在这里把有用的提炼出来，其中对于树莓派端，下载以及赋予文件执行权限如下：</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">wget https:<span class="regexp">//</span>www.virtualhere.com<span class="regexp">/sites/</span>default<span class="regexp">/files/u</span>sbserver/vhusbdarm</span><br><span class="line">sudo chmod +x ./vhusbdarm</span><br><span class="line">sudo mv vhusbdarm <span class="regexp">/usr/</span>sbin</span><br></pre></td></tr></table></figure>
+
+<p>这个命令和原帮助文档基本相同，我只是在第一步更新了一下对于树莓派的文件下载地址。其中第二步是授予执行权限，第三步是将程序放在超级用户可执行命令的文件夹下。</p>
+<p>添加一步，在执行完第一步第二步当程序下载好并且赋予执行的权限后，先本地尝试运行一次，这样会生成程序需要的配置文件在同一个文件夹：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./vhusbdarm</span><br></pre></td></tr></table></figure>
+
+<p>ctrl+c 终止运行，可以看本地配置文件名为 config.ini</p>
+<p>根据教程，创建 &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;virtualhere.service 文件，填入以下内容</p>
+<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=VirtualHere USB Sharing</span><br><span class="line"><span class="attr">Requires</span>=networking.service</span><br><span class="line"><span class="attr">After</span>=networking.service</span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">ExecStartPre</span>=/bin/sh -c <span class="string">&#x27;logger VirtualHere settling...;sleep 1s;logger VirtualHere settled&#x27;</span></span><br><span class="line"><span class="attr">ExecStart</span>=/usr/sbin/vhusbdarm</span><br><span class="line"><span class="attr">Type</span>=idle</span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span>=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>然后执行如下语句：</p>
+<figure class="highlight nsis"><table><tr><td class="code"><pre><span class="line">sudo <span class="params">system</span>ctl daemon-reload</span><br><span class="line">sudo <span class="params">system</span>ctl enable virtualhere</span><br><span class="line">sudo <span class="params">system</span>ctl start virtualhere</span><br></pre></td></tr></table></figure>
+
+<p>这些命令具体做的事情可以大体总结为生成要给新的系统服务，然后告诉Linux更新一下并且将新添加的服务运行。</p>
+<p>这样理论上讲，在和树莓派同一个路由器内网下的电脑，通过官网下载VirtualHere Client客户端就可以自动发现网络中的这个设备下挂载的所有USB设备了。在我这里Windows客户端自动发现功能并不好用，偶尔发现不到。所以我手动挡添加了树莓派的IP在VirtualHere Client里边如下图，前边的IP为树莓派内网IP，7575是免费版默认端口</p>
+<p><img data-src="https://cdn.passerby.net/2020/04/7214745314909527.png"></p>
+<p>有时候还会自动识别成功，这样就是一个自动一个手动的，在窗口显示两个，也是挺讨人厌的。</p>
+<p>到现在对于绝大多数同学已经满足需求了。如果需要电脑扫描的话，就通过在Windows上VirtualHere客户端双击一下psc 1200 series，这样远程USB程序就将电脑和打印机通过虚拟USB连接了起来。实现了远程打印的功能。但是在我这里还有一点点小瑕疵，一个是我不清楚当我在Windows断开连接，那树莓派远程打印功能有没有自动还原，其他设备还能不能搜索到以及连接打印机，通过网络打印协议打印文件，而不是通过虚拟USB连接打印机。另外如上图，由于我树莓派比较老没有无线功能，我连接了一个USB网卡，在VirtualHere客户端会显示Cohiba 3887 rev0这个，这就是我的无线网卡。但是我千万不能点错点到这里，一旦我点击，树莓派就会试图将无线网卡通过虚拟USB连接到我的Windows电脑上，同时断开在树莓派上的正常服务。这样就有一个悖论，网卡断开了那么树莓派就失联了，也就无从谈起远程网络USB的啥事情，因为我Windows电脑已经无法和树莓派通信。为了解决这个问题我查看帮助手册得知可以通过修改配置文件，让一些设备隐藏。配置文件的介绍在这里，其中包含了许许多多可以额外配置的功能：</p>
+<p><a href="https://www.virtualhere.com/configuration_faq">https://www.virtualhere.com/configuration_faq</a></p>
+<p><img data-src="https://cdn.passerby.net/2020/04/5158588188150774.png"></p>
+<p>其中AutoAttachToKernel这个功能我很喜欢，将其置1的话，当Client端断开连接，那么这个设备就会重新连接树莓派执行树莓派的任务，正好解决了刚才我的那个困扰。IgnoredDevices就是忽略一些设备。帮助文档也讲了，由于树莓派Ethernet网络接口其实也是通过一个USB加上转换芯片实现的，连接这个设备也意义不大，他们默认给树莓派用户屏蔽了424&#x2F;ec00 这个设备。根据帮助文件在Linux下将配置文件放在&#x2F;root下边。将config.ini更新如下：</p>
+<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="attr">It</span>=XXXXXXXXXX</span><br><span class="line"><span class="attr">EasyFindId</span>=XXXXXXXXXXXXXXXXXXXXX</span><br><span class="line"><span class="attr">EasyFindPin</span>=XXXXXX</span><br><span class="line"><span class="attr">UseAVAHI</span>=<span class="number">1</span></span><br><span class="line"><span class="attr">IgnoredDevices</span>=<span class="number">1435</span>/<span class="number">0427</span>,<span class="number">424</span>/EC00</span><br><span class="line"><span class="attr">AutoAttachToKernel</span>=<span class="number">1</span></span><br><span class="line"><span class="attr">ServerName</span>=VirtualHere@Raspberry Pi</span><br></pre></td></tr></table></figure>
+
+<p>其中IgnoreDevices的厂商和型号信息，可以通过Windows中VirtualHere 客户端右键对应的设备属性中查看。1435&#x2F;0427是我的无线网卡的厂商以及型号信息，424&#x2F;EC00是刚才提到的树莓派Ethernet的硬件。之所以这里我又写了出来，是因为经过测试，如果不加IgnoredDevices的话，这个设备被默认屏蔽，但是使用了这个命令，我只屏蔽了1435&#x2F;0427的话，Ethernet的那个伪USB就显现出来了。我对此的理解是默认可以把这个端口屏蔽掉，但是如果我们选择手动屏蔽的话，那么这个文件也需要我们手动去打理。看下图设备信息，就是官方文档讲的那个USB to Ethernet 转换器。</p>
+<p><img data-src="https://cdn.passerby.net/2020/04/4735413832958894.png"></p>
+<p>可是我尝试上边添加服务后自动化脚本，程序并没有调用&#x2F;root下配置文件，而是在&#x2F;usr&#x2F;sbin文件夹又新生成一个配置文件。所以我们在讲config.ini放在&#x2F;root下同时修改一下上边的新增服务文件的内容：</p>
+<p>在&#x2F;etc&#x2F;systemd&#x2F;system&#x2F;virtualhere.service 中修改为如下。其实就是ExecStart那一行有改变，增加了带配置文件运行的参数。</p>
+<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=VirtualHere USB Sharing</span><br><span class="line"><span class="attr">Requires</span>=networking.service</span><br><span class="line"><span class="attr">After</span>=networking.service</span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">ExecStartPre</span>=/bin/sh -c <span class="string">&#x27;logger VirtualHere settling...;sleep 1s;logger VirtualHere settled&#x27;</span></span><br><span class="line"><span class="attr">ExecStart</span>=/usr/sbin/vhusbdarm -c /root/config.ini</span><br><span class="line"><span class="attr">Type</span>=idle</span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span>=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>测试一下，通过网络打印机协议打印测试页，效果很棒。</p>
+<p><img data-src="https://cdn.passerby.net/2020/04/9467337691907141.jpg"></p>
+<p>然后通过上边的教程，远程扫描，很完美，赞赞赞。</p>
+<p><img data-src="https://cdn.passerby.net/2020/04/0529531990112436.png"></p>
+<p>另外经过测试，当打印机被Windows通过虚拟USB连接走后，树莓派远程打印服务还可以接受任务，然后缓存在CUPS程序中，在Windows断开连接后，CUPS恢复对于打印机的控制权，然后顺序执行缓存中的打印任务，棒棒棒。这样我的2002年古董打印扫描复印一体机，就变成了时髦的支持网络打印以及无线打印的智能打印机了。</p>
+<p>在知乎镜像贴与我互动： <a href="https://zhuanlan.zhihu.com/p/138768674">树莓派安装VirtualHere服务器端</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>外星人 Alienware Area-51m 设置和规格</title>
     <url>//2555.html</url>
     <content><![CDATA[<p>最近我的电脑有 Type-C 接口的问题，于是查了很多资料也联系了客服。期间看到了戴尔官方关于这个型号的pdf用户手册。我的电脑计划服役10年，就像之前买家用电器要将说明书电路图放好一样，官方文档也有必要留存一份。不知道存那儿好，又由于是公开的资料，所以就放在这里吧，说不定其他人也需要，正好可以很方便看一看。</p>
@@ -41,7 +90,7 @@
   </entry>
   <entry>
     <title>TEST</title>
-    <url>/cl0qns23s0007nuy5dg7n05mo/</url>
+    <url>/cl0qpdf6o00082qy5cxtjddqt/</url>
     <content><![CDATA[<figure class="highlight erlang-repl"><table><tr><td class="code"><pre><span class="line">Hello World!</span><br></pre></td></tr></table></figure>
 
 <p>Push the post from server success!<br>update nodejs and npm success!<br>push with Linux&#x2F;Windows SSH key success!<br>CDN deployment success!<br>Plugins activation success!<br>Permalink success!<br>Pages success!<br>Code insert success!<br>PDF insert success!<br>About&#x2F;Contact pages success!</p>
