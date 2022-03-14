@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>iOS 14 连不上 Apple Watch</title>
+    <url>//2587.html</url>
+    <content><![CDATA[<p>之前将手机升级到 iOS14 Beta，于是华丽丽连不上不能和我的苹果手表配对了。我以为是Beta版本的bug，于是将Beta证书卸载，等了好久等到了iOS 14正式版，试了iOS 14.01以及 14.1 可是我的问题依旧，依然在配对时候提示手表需要软件升级，但是报错说我没有网络链接。我尝试过重置手表，试过在iCloud里边解除绑定，试了重置手机网络链接，但是逐一失败了。我甚至还去了苹果店，万万没想到的是，唯一的一起去售后，真是差劲到极致的一次体验。我将我得经历记录在另外一篇日志中：<a href="https://passerby.net/">移除</a> 。</p>
+<p>刚开始我从网上查资料，查到很多和我相同情况的同学，可是唯一的解决办法是找一个iOS 13的设备，先将苹果手表升级，然后再配对到使用iOS 14的设备上。可是啊，我哪有iOS 13的设备，这明明是系统的bug，可是苹果为啥还不修复。自从上次在苹果店被恶心到了，很久不想再处理这个事情，我的手表扔那儿很久不想去管。</p>
+<p><img src="https://cdn.passerby.net/2020/10/4638637167349440.jpg"></p>
+<p><img src="https://cdn.passerby.net/2020/10/6418996130099890.jpg"></p>
+<p>今天闲来无事网上查了查，在苹果开发者论坛终于看到有人讨论并且给出了切实可行的iOS14 配对苹果手表的方案。我将步骤简单总结在这里，希望遇到和我一样境遇的同学，可以参考一下。</p>
+<ol>
+<li>这个问题是手表不支持5G Wifi造成的，现在多数路由器是5G信号或者5G与2.4G合并，而iOS14这个bug简直愚蠢到，因为手机自动连接了5G的Wifi，而手表没这个模块，于是冲突了。所以第一步是将打开路由器设置，将5G模式关闭，只保留2.4G信号，尤其那种信号融合的，更的再三确认，只有2.4G而没有5G，不然当同一个SSID时候，iPhone优先连接5G。</li>
+<li>手表按住关机键还是皇冠键，我忘了，点击重置，需要一定时间。</li>
+<li>到iPhone设置&#x3D;&#x3D;&gt;通用&#x3D;&#x3D;&gt;还原&#x3D;&#x3D;&gt;还原网络设置（注意，此操作会移除所有VPN设置，以及储存的连接过的Wifi密码）</li>
+<li>重新连接2.4G Wifi，需要输入密码</li>
+<li>手机接近手表，提示连接，根据提示连接。第一次可能失败，需要点取消再点击还原手表设置。</li>
+<li>需要一定时间，然后手表显示画面是配对画面，而手机软件显示可以新给自己配对。</li>
+<li>现在正常流程配对，终于不再软件更新报无网络连接的错误了。</li>
+</ol>
+<p><img src="https://cdn.passerby.net/2020/10/5701432207089188.jpg"></p>
+<p>下载特别慢，等了三四个小时吧，还没下载完，太困了就去睡了，第二天早晨看已经下载好。之后安装又一个小时左右，不过最终，终于回来了。</p>
+<p><img src="https://cdn.passerby.net/2020/10/4150373346890615.jpg"></p>
+<p>在知乎镜像贴与我互动： <a href="https://zhuanlan.zhihu.com/p/270408917">Passerby</a></p>
+<p>Reference:</p>
+<p><a href="https://developer.apple.com/forums/thread/652021?login=true&amp;page=1#643193022">https://developer.apple.com/forums/thread/652021?login=true&amp;page=1#643193022</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Hello world!</title>
+    <url>//583.html</url>
+    <content><![CDATA[<p>Welcome to WordPress. This is your first post. Edit or delete it, then start writing!</p>
+<p>在知乎镜像贴与我互动： <a href="https://zhihu.com/people/passerby_net">Passerby</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>TEST</title>
+    <url>/cl0qevd0600041cy5296y1jkm/</url>
+    <content><![CDATA[<p>update nodejs and npm </p>
+]]></content>
+  </entry>
+  <entry>
+    <title>draft</title>
+    <url>/cl0qevd0800051cy540xsh7l4/</url>
+    <content><![CDATA[<p>draft</p>
+<figure class="highlight isbl"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="title">alert</span>(<span class="string">&#x27;Hello World!&#x27;</span>);</span></span><br></pre></td></tr></table></figure>
+
+<p>push with Linux&#x2F;Windows SSH key success!</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>TEST</title>
+    <url>/cl0qevd0a00061cy5fihibidu/</url>
+    <content><![CDATA[<p>Push the post from server</p>
+]]></content>
+  </entry>
+</search>
