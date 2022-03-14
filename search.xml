@@ -41,23 +41,10 @@
   </entry>
   <entry>
     <title>TEST</title>
-    <url>/cl0qhhbne0006lny54i082est/</url>
-    <content><![CDATA[<p>update nodejs and npm </p>
-]]></content>
-  </entry>
-  <entry>
-    <title>draft</title>
-    <url>/cl0qhhbni0007lny5an47eoee/</url>
-    <content><![CDATA[<p>draft</p>
-<figure class="highlight isbl"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="title">alert</span>(<span class="string">&#x27;Hello World!&#x27;</span>);</span></span><br></pre></td></tr></table></figure>
+    <url>/cl0qlb1xp000676y5asxjgers/</url>
+    <content><![CDATA[<figure class="highlight erlang-repl"><table><tr><td class="code"><pre><span class="line">Hello World!</span><br></pre></td></tr></table></figure>
 
-<p>push with Linux&#x2F;Windows SSH key success!</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>TEST</title>
-    <url>/cl0qhhbnk0008lny5hg3h4c0j/</url>
-    <content><![CDATA[<p>Push the post from server</p>
+<p>Push the post from server success!<br>update nodejs and npm success!<br>push with Linux&#x2F;Windows SSH key success!<br>CDN deployment success!<br>Plugins activation success!<br>Permalink success!<br>Pages success!<br>Code insert success!<br>PDF insert success!<br>About&#x2F;Contact pages success!</p>
 ]]></content>
   </entry>
 </search>
