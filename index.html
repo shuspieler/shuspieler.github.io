@@ -207,7 +207,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://passerby.net/cuideki40TaTV0ArO7JFnui5l/">
+    <link itemprop="mainEntityOfPage" href="https://passerby.net/cuid0mbfu0LEGCSfWCKW1B6O1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -225,7 +225,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/cuideki40TaTV0ArO7JFnui5l/" class="post-title-link" itemprop="url">Claude Code 测试</a>
+          <a href="/cuid0mbfu0LEGCSfWCKW1B6O1/" class="post-title-link" itemprop="url">Claude Code 测试</a>
         </h2>
 
         <div class="post-meta-container">
@@ -324,32 +324,15 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>最近一只大龙虾在科技圈好火，甚至说早已出圈了，各种平时不是科技内容的公众号，也开始说这只无所不能，甚至“成了精的”了的龙虾。我初步用了一周时间，现在记录一下自己的体验。</p>
-<p>我对于OpenClaw的理解是赋予了大模型本地电脑的命令执行能力，尤其通过Terminal这个接口，能做很多事情了，而不仅仅是之前聊聊天只是给用户一个建议，真正执行还需要用户自己去做。</p>
-<p>首先是安装步骤，这个工具目前还远达不到常见软件的使用便利度，在终端安装并且通过命令行配置真会劝退很多人，后边还涉及模型接入和Skills补充，如果不是工科背景，真挺有挑战的。现在网上安装指导已经多如牛毛了，不是我要记录的重点，我想分享的，是这期间对多个模型不同能力的感受，并且我还是不是完全敢赋予它我本地电脑全部权限，现在我是将其部署在我的服务器上的，主要尝试其一些远程能协助我的功能。</p>
-<p>从一开始到现在我相对深入尝试过5个模型：GPT-40, Claude Opus 4.6, Kimi 2.5， Kimi 2.5 Coding, Gemini-3-pro-preview，我在这几个模型中都尝试了这几个问题：</p>
-<ul>
-<li>告诉我现在的金价&#x2F;告诉我北京天气：测试工具联网搜索整合信息的能力；</li>
-<li>给我每分钟告诉我一次天气&#x2F;当前时间：测试工具集合大模型定时任务的效果</li>
-</ul>
-<p>一开始用的是GPT-4o，主要是其在我的CoPilot订阅中免费（后来得知只是在VS Code中免费，像在OpenClaw中通过API也不免费），配置好后几轮沟通下来感觉像个智障，完全没有网上帖子说的神乎又神自己去解决问题的能力，而是连基本的能力都不会，我问个天气问不出来，最后给我编了一个，还好比较诚实后来告诉是编的。。。同时我让它给我设个定时任务，每1分钟给我发个消息，也搞不定。感觉如果说给我这样一个助力，我真的不敢用，给我收集信息不敢信的同时，对于提醒也收不到。</p>
-<p><img data-src="https://cdn.passerby.net/2026/03/3181264578492675-scaled.jpg"></p>
-<p>然后看OpenClaw官方说最最推荐的模型是Claude Opus 4.6，我订阅的CoPilot也可以使用这个模型，于是我切过去试了相同的问题，真正让我感受到不同的天赋真是不能比，因为是天与地的差别。我问了金价，并且让给我定时报时，真的是一次成功，没有任何的纠结可言，这让我稍微感受到了助理的感觉，同样我的环境没有做任何改变，只是换了一个模型，信息也能推送了，网络也能搜索了，而不像前一位GPT-4o同学，抱怨环境不好，抱怨工具有问题，然后任务没完成的同时，抛回给我一大堆问题让我去给他解决，而Claude Opus 4.6就像是一位很聪明的助力，咔咔咔不废话把任务完成（联网查询金价，通过飞书推送时间），然后顺便说了我的飞书配置有些问题，但是不影响当前的任务已经做完了。这感觉非常像职场上不同风格的下属了，把任务交给能力强的人比如Opus 4.6就很放心，即使中间有不少挑战（比如我配置的飞书有瑕疵），该下属也能灵活应变将其搞定从而完成任务。而把任务交给一个能力欠佳的人比如GPT-4o，推进途径遇到很多麻烦一次又一次回来麻烦领导，最后好多任务完不成（比如定时通知），好不容易完成的一个（比如查询天气），老板也不敢信任，因为那个天气真的是编的。。。</p>
-<p><img data-src="https://cdn.passerby.net/2026/03/3045314594958295-scaled.jpg"></p>
-<p>后来我又尝试了Gemini-3-pro-preview，像一个还算聪明，但是很马虎的下属。同样的问题，查询天气一次搞定，但是推送时间上，首先第一次推送到飞书，通道对了，但是给我推送的是欧洲柏林时间，我指出其问题后，时间确实改对了是北京时间了，但是又把这个信息推送到了trace而不是飞书，真是不靠谱。如果是这样的下属，我感觉至少是聪明，马虎的问题还是一定程度有解决的空间的。</p>
-<p><img data-src="https://cdn.passerby.net/2026/03/8689773491222270-scaled.jpg"></p>
-<p>最后我还试了Kimi 2.5 和Kimi Code，这两者差异不大，总体靠谱程度感觉介于Claude Opus 4.6和Gemini-3-pro-preview之间。上边两个问题基本OK，除了在时区上有点栽。</p>
-<p><img data-src="https://cdn.passerby.net/2026/03/5502254724969234-scaled.jpg"></p>
-<p>总结下来就最聪明的大模型在智能助手上感觉确实到了能有正收益的临界点，一些信息收集整理，真可以交给这位助手来解决。目前我是部署在服务器上，我感觉按照Claude Opus 4.6给我的正反馈，安装在自己个人电脑让其逐步开始帮我处理一些文件整理，材料整备等内容，真的是可以去信赖了。但是如果是GPT-4o我感觉会吓死人的，部署在自己电脑上指不定会出什么幺蛾子。我感觉这真的是像极了职场，老板招聘员工时候一方面很缺人一方面又招不来人，因为很多时候宁缺毋滥，让一个很蠢的人来帮自己做事，作为老板们可能还不如自己做。今天我一直以老板以领导的角度来思考问题，都快差点忘了我却是那个给老板打工的人，努力让自己成为Claude Opus，很很多时候感觉自己是GPT-4o。</p>
-<p>在切换多个模型过程中，我还问了新模型有没有记得我对于OpenClaw的一些嘱咐，通过回答可以了解到OpenClaw对于用户个人信息其实就是将其总结然后存在本地的一个md文件中，在新的会话或者换了模型后，这些核心信息也会加载到与大模型沟通的内容中。这个过程是带提炼总结压缩的，尤其是上下文太长的时候，其中可能就会丢失信息，最近新闻提到一个安全专家的邮件都被删了，据说就是由于信息压缩把一些很重要内容搞丢了造成的。</p>
-<p><img data-src="https://cdn.passerby.net/2026/03/6764772501150674-scaled.jpg"></p>
-<p><img data-src="https://cdn.passerby.net/2026/03/1051479570938398-scaled.jpg"></p>
-<p>再总结一下费用方面，对于OpenClaw部署，多数人是安装在自己的电脑上，也有一些人可能买了Mac Mini，（确实在把玩Skills发现如果在Mac工作环境下应该体验更好），这块应该投入还好，VPS也不贵，电脑大家都有，即使新买个Mac Mini也是一次性的。关键是大模型费用，真的挺烧Token挺贵的。我的CoPilot订阅是一个月10刀，Claude Opus 4.6是三倍Token用量，也就是说我10刀用100个来往交流就烧没了！事实上也是这样，我差不多用了两天，我的CoPilot就提示超额度了。。。其次我还尝试了Kimi，如果使用moonshot的API订阅的话，基本上每一次对话就是几毛钱的费用，不知道随着使用得越久上下文越长，每一次的沟通就是一个很夸张的费用。后来尝试了Kimi Code 49元&#x2F;月的订阅，感觉比从moonshot订阅得到的额度大多了，其是按照周用量和频现来要求的，也比CoPilot合理很多。感觉是对于普通OpenClaw用户最合适的选择。</p>
-<p><img data-src="https://cdn.passerby.net/2026/03/4788584997691753.jpg"></p>
-<p><img data-src="https://cdn.passerby.net/2026/03/2048567188027715.jpg"></p>
-<p>我的一周体验大致总结差不多了，给我的整体感受是这个真的是一个跨度很大的能力跃迁，并且成熟速度惊人OpenClaw几乎一天一更新，感觉用不了多长时间，就能够很大程度上成为普通用户友好的智能助手，投入到每天具体的牛马工作中。我的计划是继续在服务器用一段时间，然后在之后某个时间点将其引入我的个人电脑上，尝试提升我的效率，将一些我一直想做但是没时间做的事情，看看能否交给OpenClaw帮我完成。</p>
-<p>大致就先记录到这里啦，如果你也最近对这只龙虾很上头，我们可以多交流交流，分享经验心得一起玩一起玩。</p>
-
+          <p>作者将OpenClaw部署在服务器上，实测五款大模型处理联网查询与定时推送的能力。Claude Opus 4.6一次成功、灵活应变；GPT-4o频繁失败且编造信息；Gemini聪明但马虎；Kimi居中。顶尖模型Token消耗极高，两天即超出月度配额。作者认为优秀模型已到实用临界点，差的反而帮倒忙。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/7873.html">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -603,7 +586,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://passerby.net/cuidQGX6gculGgInzpRlqfzNy/">
+    <link itemprop="mainEntityOfPage" href="https://passerby.net/cuidDwNzfoEQouO-jGwwA17n9/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -621,7 +604,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/cuidQGX6gculGgInzpRlqfzNy/" class="post-title-link" itemprop="url">TEST</a>
+          <a href="/cuidDwNzfoEQouO-jGwwA17n9/" class="post-title-link" itemprop="url">TEST</a>
         </h2>
 
         <div class="post-meta-container">
