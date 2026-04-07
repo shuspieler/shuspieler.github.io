@@ -22,15 +22,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"passerby.net","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="最近需要配置一台CUDA环境深度学习工作站，打算把流程都记录一下，以防每次都得现查。 首先下载Linux镜像，我这里用的是Ubuntu24.04： https:&#x2F;&#x2F;ubuntu.com&#x2F;download&#x2F;desktop 然后制作一个USB镜像启动盘，这次我用的Ubuntu官网推荐的小工具，免安装并且只有3个按钮：选择镜像，选择U盘，烧录！ 挺好用的推荐！ balenaEtcher：https:&#x2F;&#x2F;">
+    <meta name="description" content="本文记录了从零搭建Ubuntu深度学习工作站的完整流程，涵盖系统安装、多用户配置、中文输入法、Anaconda Python环境管理、PyTorch与CUDA版本匹配安装，以及VS Code IDE配置。作者强调推荐使用Conda统一管理依赖，避免与pip混用引发兼容问题，并提供了SSH远程连接开启、常用工具安装及启动盘恢复等实用补充，是一份可复用的环境配置参考手册。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深度学习工作站系统重装步骤记录">
 <meta property="og:url" content="https://passerby.net/6740.html">
 <meta property="og:site_name" content="矛盾体">
-<meta property="og:description" content="最近需要配置一台CUDA环境深度学习工作站，打算把流程都记录一下，以防每次都得现查。 首先下载Linux镜像，我这里用的是Ubuntu24.04： https:&#x2F;&#x2F;ubuntu.com&#x2F;download&#x2F;desktop 然后制作一个USB镜像启动盘，这次我用的Ubuntu官网推荐的小工具，免安装并且只有3个按钮：选择镜像，选择U盘，烧录！ 挺好用的推荐！ balenaEtcher：https:&#x2F;&#x2F;">
+<meta property="og:description" content="本文记录了从零搭建Ubuntu深度学习工作站的完整流程，涵盖系统安装、多用户配置、中文输入法、Anaconda Python环境管理、PyTorch与CUDA版本匹配安装，以及VS Code IDE配置。作者强调推荐使用Conda统一管理依赖，避免与pip混用引发兼容问题，并提供了SSH远程连接开启、常用工具安装及启动盘恢复等实用补充，是一份可复用的环境配置参考手册。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2025-07-15T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-04-01T15:09:55.096Z">
+<meta property="article:modified_time" content="2026-04-07T02:56:45.906Z">
 <meta property="article:author" content="Passerby">
 <meta name="twitter:card" content="summary">
 
@@ -177,7 +177,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -226,7 +226,7 @@
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
       <meta itemprop="name" content="深度学习工作站系统重装步骤记录 | 矛盾体">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content="本文记录了从零搭建Ubuntu深度学习工作站的完整流程，涵盖系统安装、多用户配置、中文输入法、Anaconda Python环境管理、PyTorch与CUDA版本匹配安装，以及VS Code IDE配置。作者强调推荐使用Conda统一管理依赖，避免与pip混用引发兼容问题，并提供了SSH远程连接开启、常用工具安装及启动盘恢复等实用补充，是一份可复用的环境配置参考手册。">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -247,6 +247,7 @@
   
 </div>
 
+            <div class="post-description">本文记录了从零搭建Ubuntu深度学习工作站的完整流程，涵盖系统安装、多用户配置、中文输入法、Anaconda Python环境管理、PyTorch与CUDA版本匹配安装，以及VS Code IDE配置。作者强调推荐使用Conda统一管理依赖，避免与pip混用引发兼容问题，并提供了SSH远程连接开启、常用工具安装及启动盘恢复等实用补充，是一份可复用的环境配置参考手册。</div>
         </div>
       </header>
 
@@ -321,7 +322,7 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/cuidzM0mSb_AxdJZWKD0PYf9x/" rel="prev" title="TEST">
+                <a href="/cuidQGX6gculGgInzpRlqfzNy/" rel="prev" title="TEST">
                   <i class="fa fa-angle-left"></i> TEST
                 </a>
             </div>
