@@ -12,7 +12,7 @@
 <p>在Generic VirtualHere USB Server Builds下 “VirtualHere USB Server for Linux (ARM) &lt;– Raspberry Pi, pi2, pi3,pi4,BeagleBone, Odroid, Angstrom, &amp; any ARM 32-bit based Android” 是对应免费license的版本。可以先下载到本地，然后通过WinSCP传到树莓派上，或者通过下边的脚本一步到位。</p>
 <p><a href="https://www.virtualhere.com/oem_faq">https://www.virtualhere.com/oem_faq</a></p>
 <p>这个页面是官方的Linux下安装服务器端的指导，包含了各种架构的步骤。我在这里把有用的提炼出来，其中对于树莓派端，下载以及赋予文件执行权限如下：</p>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">wget https:<span class="regexp">//</span>www.virtualhere.com<span class="regexp">/sites/</span>default<span class="regexp">/files/u</span>sbserver/vhusbdarm</span><br><span class="line">sudo chmod +x ./vhusbdarm</span><br><span class="line">sudo mv vhusbdarm <span class="regexp">/usr/</span>sbin</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget https://www.virtualhere.com/sites/default/files/usbserver/vhusbdarm</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">chmod</span> +x ./vhusbdarm</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">mv</span> vhusbdarm /usr/sbin</span><br></pre></td></tr></table></figure>
 
 <p>这个命令和原帮助文档基本相同，我只是在第一步更新了一下对于树莓派的文件下载地址。其中第二步是授予执行权限，第三步是将程序放在超级用户可执行命令的文件夹下。</p>
 <p>添加一步，在执行完第一步第二步当程序下载好并且赋予执行的权限后，先本地尝试运行一次，这样会生成程序需要的配置文件在同一个文件夹：</p>
@@ -23,14 +23,14 @@
 <figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=VirtualHere USB Sharing</span><br><span class="line"><span class="attr">Requires</span>=networking.service</span><br><span class="line"><span class="attr">After</span>=networking.service</span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">ExecStartPre</span>=/bin/sh -c <span class="string">&#x27;logger VirtualHere settling...;sleep 1s;logger VirtualHere settled&#x27;</span></span><br><span class="line"><span class="attr">ExecStart</span>=/usr/sbin/vhusbdarm</span><br><span class="line"><span class="attr">Type</span>=idle</span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span>=multi-user.target</span><br></pre></td></tr></table></figure>
 
 <p>然后执行如下语句：</p>
-<figure class="highlight nsis"><table><tr><td class="code"><pre><span class="line">sudo <span class="params">system</span>ctl daemon-reload</span><br><span class="line">sudo <span class="params">system</span>ctl enable virtualhere</span><br><span class="line">sudo <span class="params">system</span>ctl start virtualhere</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl daemon-reload</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> virtualhere</span><br><span class="line"><span class="built_in">sudo</span> systemctl start virtualhere</span><br></pre></td></tr></table></figure>
 
 <p>这些命令具体做的事情可以大体总结为生成要给新的系统服务，然后告诉Linux更新一下并且将新添加的服务运行。</p>
 <p>这样理论上讲，在和树莓派同一个路由器内网下的电脑，通过官网下载VirtualHere Client客户端就可以自动发现网络中的这个设备下挂载的所有USB设备了。在我这里Windows客户端自动发现功能并不好用，偶尔发现不到。所以我手动挡添加了树莓派的IP在VirtualHere Client里边如下图，前边的IP为树莓派内网IP，7575是免费版默认端口</p>
 <p><img data-src="https://cdn.passerby.net/2020/04/7214745314909527.png"></p>
 <p>有时候还会自动识别成功，这样就是一个自动一个手动的，在窗口显示两个，也是挺讨人厌的。</p>
 <p>到现在对于绝大多数同学已经满足需求了。如果需要电脑扫描的话，就通过在Windows上VirtualHere客户端双击一下psc 1200 series，这样远程USB程序就将电脑和打印机通过虚拟USB连接了起来。实现了远程打印的功能。但是在我这里还有一点点小瑕疵，一个是我不清楚当我在Windows断开连接，那树莓派远程打印功能有没有自动还原，其他设备还能不能搜索到以及连接打印机，通过网络打印协议打印文件，而不是通过虚拟USB连接打印机。另外如上图，由于我树莓派比较老没有无线功能，我连接了一个USB网卡，在VirtualHere客户端会显示Cohiba 3887 rev0这个，这就是我的无线网卡。但是我千万不能点错点到这里，一旦我点击，树莓派就会试图将无线网卡通过虚拟USB连接到我的Windows电脑上，同时断开在树莓派上的正常服务。这样就有一个悖论，网卡断开了那么树莓派就失联了，也就无从谈起远程网络USB的啥事情，因为我Windows电脑已经无法和树莓派通信。为了解决这个问题我查看帮助手册得知可以通过修改配置文件，让一些设备隐藏。配置文件的介绍在这里，其中包含了许许多多可以额外配置的功能：</p>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">https:<span class="regexp">//</span>www.virtualhere.com/configuration_faq</span><br></pre></td></tr></table></figure>
+<figure class="highlight dts"><table><tr><td class="code"><pre><span class="line"><span class="symbol">https:</span><span class="comment">//www.virtualhere.com/configuration_faq</span></span><br></pre></td></tr></table></figure>
 
 <p><img data-src="https://cdn.passerby.net/2020/04/5158588188150774.png"></p>
 <p>其中AutoAttachToKernel这个功能我很喜欢，将其置1的话，当Client端断开连接，那么这个设备就会重新连接树莓派执行树莓派的任务，正好解决了刚才我的那个困扰。IgnoredDevices就是忽略一些设备。帮助文档也讲了，由于树莓派Ethernet网络接口其实也是通过一个USB加上转换芯片实现的，连接这个设备也意义不大，他们默认给树莓派用户屏蔽了424&#x2F;ec00 这个设备。根据帮助文件在Linux下将配置文件放在&#x2F;root下边。将config.ini更新如下：</p>
@@ -77,7 +77,7 @@
 <p>下载特别慢，等了三四个小时吧，还没下载完，太困了就去睡了，第二天早晨看已经下载好。之后安装又一个小时左右，不过最终，终于回来了。</p>
 <p><img data-src="https://cdn.passerby.net/2020/10/4150373346890615.jpg"></p>
 <p>Reference:</p>
-<p><a href="https://developer.apple.com/forums/thread/652021?login=true&page=1#643193022">https://developer.apple.com/forums/thread/652021?login=true&page=1#643193022</a></p>
+<p><a href="https://developer.apple.com/forums/thread/652021?login=true&page=1#643193022">https://developer.apple.com/forums/thread/652021?login=true&amp;page=1#643193022</a></p>
 ]]></content>
   </entry>
   <entry>
@@ -96,7 +96,7 @@
 <p>balenaEtcher：<a href="https://github.com/balena-io/etcher/releases">https://github.com/balena-io/etcher/releases</a></p>
 <p>接下来就是将BIOS选择U盘启动了，各个品牌电脑差异挺大的，按照自己实际情况去操作。然后选择全新安装Ubuntu，多数情况下直接默认选项安装就好。</p>
 <p>系统装好后，我习惯先把当前版本的系统软件更新到最新：</p>
-<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">sudo apt update</span></span><br><span class="line"><span class="attribute">sudo apt upgrade</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt upgrade</span><br></pre></td></tr></table></figure>
 
 <p>当前这台工作站是公共的，需要给每个人分配一个帐号，可以在桌面环境操作，也可以通过命令完成，可以参考下边一篇记录：</p>
 <p><a href="https://passerby.net/1811.html">Ubuntu添加新用户并加入sudo组</a></p>
@@ -105,7 +105,7 @@
 <p>接下来安装Python环境，不建议直接使用系统的Python来配置各种库，出现了问题太难修复了。建议使用Anaconda，各个环境相互不干扰。Anaconda的安装是通过官网的一个sh脚本：</p>
 <p><a href="https://www.anaconda.com/download/success">https://www.anaconda.com/download/success</a></p>
 <p>下载后对其赋予一个执行权限，然后在终端里运行：</p>
-<figure class="highlight arcade"><table><tr><td class="code"><pre><span class="line">sudo chmod +x ~<span class="regexp">/Downloads/</span>Anaconda3<span class="number">-2025.06</span><span class="number">-0</span>-Linux-x86_64.sh</span><br><span class="line">~<span class="regexp">/Downloads/</span>Anaconda3<span class="number">-2025.06</span><span class="number">-0</span>-Linux-x86_64.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight subunit"><table><tr><td class="code"><pre><span class="line">sudo chmod +x ~/Downloads/Anaconda3<span class="string">-2025</span>.06<span class="string">-0</span>-Linux-x86_64.sh</span><br><span class="line">~/Downloads/Anaconda3<span class="string">-2025</span>.06<span class="string">-0</span>-Linux-x86_64.sh</span><br></pre></td></tr></table></figure>
 
 <p>根据交互一步一步安装，最后一步询问要不要将Conda加入到开机初始化列表中，建议yes，不然后边每次使用Conda切环境需要手动找Anaconda安装文件夹，很麻烦。</p>
 <p>安装完毕后，熟悉Anaconda的可以直接使用Conda来管理Python环境，若不太熟悉的话可以使用图形化的一个工具，在终端输入：anaconda-navigator</p>
@@ -122,7 +122,7 @@
 <p>当需要远程连接到这台设备的话，发现SSH连不上，这是由于Ubuntu安装后默认没有sshd服务端。按照下列指导操作一下即可：</p>
 <p><a href="https://passerby.net/4948.html">Ubuntu 开启SSH连接</a></p>
 <p>一些其他可能必备的工具：</p>
-<figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line">sudo apt <span class="keyword">install</span> htop vim</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install htop vim</span><br></pre></td></tr></table></figure>
 
 <p>最后再记录一下将U盘烧录成一个启动盘后，怎样恢复。按照通常的格式化format不管在windows还是linux都是解决不了的，可以参考下列记录解决：</p>
 <p><a href="https://passerby.net/1223.html">https://blog.shuspieler.com/1223/</a></p>
@@ -231,7 +231,7 @@
   </entry>
   <entry>
     <title>Claude Code 测试</title>
-    <url>/cmng6mqvh000cthlfhbfncohf/</url>
+    <url>/cuidA6h7Uwe1lVFy9NS_NvcpW/</url>
     <content><![CDATA[<p>这是一篇由 Claude Code 自动创建的测试文章，用于验证博客构建与部署流程是否正常。</p>
 <h2 id="测试内容"><a href="#测试内容" class="headerlink" title="测试内容"></a>测试内容</h2><ul>
 <li>Hexo 构建正常</li>
@@ -246,7 +246,7 @@
   </entry>
   <entry>
     <title>TEST</title>
-    <url>/cmng6mqvk000dthlf2v3x1n6c/</url>
+    <url>/cuidzM0mSb_AxdJZWKD0PYf9x/</url>
     <content><![CDATA[<figure class="highlight erlang-repl"><table><tr><td class="code"><pre><span class="line">Hello World!</span><br></pre></td></tr></table></figure>
 
 <p>Push the post from server success!<br>update nodejs and npm success!<br>push with Linux&#x2F;Windows SSH key success!<br>CDN deployment success!<br>Plugins activation success!<br>Permalink success!<br>Pages success!<br>Code insert success!<br>PDF insert success!<br>About&#x2F;Contact pages success!</p>
