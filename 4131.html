@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"passerby.net","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="今天在不定期检查服务器运行状态时候，看到提示说有很多个包可以更新，于是想着今天相对不那么忙，顺便更新一下服务器的软件包吧。这样的操作经常做的，很多时候是为了安全的考虑，在功能使用上没啥特别大的需求，整个过程也没啥特别的地方，于是熟练地输入下列命令更新软件包列表：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux内核升级失败后回退">
+<meta property="og:url" content="https://passerby.net/4131.html">
+<meta property="og:site_name" content="矛盾体">
+<meta property="og:description" content="今天在不定期检查服务器运行状态时候，看到提示说有很多个包可以更新，于是想着今天相对不那么忙，顺便更新一下服务器的软件包吧。这样的操作经常做的，很多时候是为了安全的考虑，在功能使用上没啥特别大的需求，整个过程也没啥特别的地方，于是熟练地输入下列命令更新软件包列表：">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.passerby.net/2023/03/1772833391577891.png">
+<meta property="og:image" content="https://cdn.passerby.net/2023/03/5075205607885771.png">
+<meta property="og:image" content="https://cdn.passerby.net/2023/03/6825473350358373.png">
+<meta property="og:image" content="https://cdn.passerby.net/2023/03/9132233365536497.png">
+<meta property="og:image" content="https://cdn.passerby.net/2023/03/5628298630878058.png">
+<meta property="article:published_time" content="2023-03-29T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-13T13:44:59.186Z">
+<meta property="article:author" content="Passerby">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.passerby.net/2023/03/1772833391577891.png">
+
+
+<link rel="canonical" href="https://passerby.net/4131">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://passerby.net/4131.html","path":"/4131.html","title":"Linux内核升级失败后回退"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Linux内核升级失败后回退 | 矛盾体</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@7.2.0/dist/browser/pangu.umd.js" integrity="sha256-JnmRRnJK7DC6RQJbAJb6AXOM9OmWzS6z8eYultk/48Y=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/pjax.js" defer></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.5.0/dist/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.3.1/pdfobject.min.js","integrity":"sha256-jI72I8ZLVflVOisZIOaLvRew3tyvzeu6aZXFm7P7dEo="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">矛盾体</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-about"><a href="/about.html" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-contact"><a href="/contact.html" rel="section"><i class="fa fa-heartbeat fa-fw"></i>Contact</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="Searching..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Passerby</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">226</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://passerby.net/4131.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Passerby">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="矛盾体">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Linux内核升级失败后回退 | 矛盾体">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux内核升级失败后回退
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-03-30 00:00:00" itemprop="dateCreated datePublished" datetime="2023-03-30T00:00:00+08:00">2023-03-30</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>今天在不定期检查服务器运行状态时候，看到提示说有很多个包可以更新，于是想着今天相对不那么忙，顺便更新一下服务器的软件包吧。这样的操作经常做的，很多时候是为了安全的考虑，在功能使用上没啥特别大的需求，整个过程也没啥特别的地方，于是熟练地输入下列命令更新软件包列表：</p>
+<span id="more"></span>
+
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sudo apt <span class="keyword">update</span></span><br><span class="line">Hi<span class="variable">t:1</span> http://archive.ubuntu.<span class="keyword">com</span>/ubuntu focal InRelease</span><br><span class="line">Ge<span class="variable">t:2</span> http://archive.ubuntu.<span class="keyword">com</span>/ubuntu focal-updates InRelease [<span class="number">114</span> kB]</span><br><span class="line">Ge<span class="variable">t:3</span> http://archive.ubuntu.<span class="keyword">com</span>/ubuntu focal-backports InRelease [<span class="number">108</span> kB]</span><br><span class="line">Ge<span class="variable">t:4</span> http://archive.ubuntu.<span class="keyword">com</span>/ubuntu focal-security InRelease [<span class="number">114</span> kB]</span><br><span class="line">Ge<span class="variable">t:5</span> http://archive.ubuntu.<span class="keyword">com</span>/ubuntu focal-updates/main amd64 Packages [<span class="number">2</span>,<span class="number">465</span> kB]</span><br><span class="line">Ge<span class="variable">t:6</span> http://archive.ubuntu.<span class="keyword">com</span>/ubuntu focal-updates/main Translation-<span class="keyword">en</span> [<span class="number">420</span> kB]</span><br><span class="line">Fetched <span class="number">3</span>,<span class="number">221</span> kB in <span class="number">1</span>s (<span class="number">2</span>,<span class="number">312</span> kB/s)</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree</span><br><span class="line">Reading state information... Done</span><br><span class="line"><span class="number">101</span> packages can <span class="keyword">be</span> upgraded. Run <span class="string">&#x27;apt list --upgradable&#x27;</span> <span class="keyword">to</span> see them.</span><br></pre></td></tr></table></figure>
+
+<p>半年时间有101个包有更新，又熟练地输入下列命令开始升级：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt upgrade</span><br></pre></td></tr></table></figure>
+
+<p>输入Y开始，升级需要一会儿时间，看着进度条一点一点完成。</p>
+<p>可是到了进度条中后期的时候，开始报一些error，在升级完成后最后显示有如下错误：</p>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">update-initramfs: Generating /boot/initrd.img<span class="string">-5</span>.4.0<span class="string">-135</span>-generic</span><br><span class="line"><span class="keyword">Error </span>24 : Write error : cannot write compressed block</span><br><span class="line">E: mkinitramfs failure cpio 141 lz4 <span class="string">-9</span> -l 24</span><br><span class="line">update-initramfs: failed for /boot/initrd.img<span class="string">-5</span>.4.0<span class="string">-135</span>-generic with 1.</span><br><span class="line">dpkg: error processing package initramfs-tools (--configure):</span><br><span class="line">installed initramfs-tools package post-installation script subprocess returned error exit status 1</span><br><span class="line">Processing triggers for linux-image<span class="string">-5</span>.4.0<span class="string">-146</span>-generic (5.4.0<span class="string">-146</span>.163) ...</span><br><span class="line">No apport report written because MaxReports is reached already</span><br><span class="line">/etc/kernel/postinst.d/initramfs-tools:</span><br><span class="line">update-initramfs: Generating /boot/initrd.img<span class="string">-5</span>.4.0<span class="string">-146</span>-generic</span><br><span class="line"><span class="keyword">Error </span>24 : Write error : cannot write compressed block</span><br><span class="line">E: mkinitramfs failure cpio 141 lz4 <span class="string">-9</span> -l 24</span><br><span class="line">update-initramfs: failed for /boot/initrd.img<span class="string">-5</span>.4.0<span class="string">-146</span>-generic with 1.</span><br><span class="line">run-parts: /etc/kernel/postinst.d/initramfs-tools exited with return code 1</span><br><span class="line">dpkg: error processing package linux-image<span class="string">-5</span>.4.0<span class="string">-146</span>-generic (--configure):</span><br><span class="line">installed linux-image<span class="string">-5</span>.4.0<span class="string">-146</span>-generic package post-installation script subprocess returned error exit status 1</span><br><span class="line">No apport report written because MaxReports is reached already</span><br><span class="line">Processing triggers for ca-certificates (20211016ubuntu0.20.04.1) ...</span><br><span class="line">Updating certificates in /etc/ssl/certs...</span><br><span class="line">0 added, 0 removed; done.</span><br><span class="line">Running hooks in /etc/ca-certificates/update.d...</span><br><span class="line">done.</span><br><span class="line">Errors were encountered while processing:</span><br><span class="line">linux-firmware</span><br><span class="line">linux-image-generic</span><br><span class="line">linux-generic</span><br><span class="line">initramfs-tools</span><br><span class="line">linux-image<span class="string">-5</span>.4.0<span class="string">-146</span>-generic</span><br><span class="line">E: Sub-process /usr/bin/dpkg returned an error code (1)</span><br></pre></td></tr></table></figure>
+
+<p>可看到在升级Linux内核5.4.0-146的时候发生错误，通过前边的Log可看到新的内核信息又写入了grub，这就是悲剧的开始。我同时操作两个服务器，遇到了同样的问题，关键我还没太仔细看这些Log，然后我重启了我的两个服务器来加载新内核，于是，于是我再也不能通过SSH连接上我的服务器了。两台服务器同时失联，这让我也突然间紧张起来，大事不妙。</p>
+<p>我上服务器管理页面，这两个服务器来自不同的供应商，但是都提供了网页版VNC服务。我看现在服务器启动都爆出了相同的内核错误：</p>
+<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ <span class="keyword">end</span> kernel panic - <span class="keyword">not</span> syncing: VFS: Unable <span class="keyword">to</span> mount root fs <span class="keyword">on</span> unknown-<span class="keyword">block</span>(<span class="number">0</span>,<span class="number">0</span>）]</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.passerby.net/2023/03/1772833391577891.png"></p>
+<p>还真是与刚才报错有关，并且还是个内核级错误，我遇到个首个kernel panic，有点慌的同时，又感觉了不得了了不得了。</p>
+<p>然后开始了查资料看咋回事，按道理升级稳定版的软件包以及内核，遇到失败的概率是很低的，我两个服务器还是完全一样的现象，同时我也不是第一次升级软件包和内核，之前多少年都没问题，这次非常怀疑是Linux的Bug，通过关键字问Google还真的是！看上边日期是昨天，我第一次遇到了Linux的内核Bug，并且还如此新鲜热乎着！</p>
+<p><a target="_blank" rel="noopener" href="https://bugs.launchpad.net/ubuntu/+source/linux/+bug/2013194">https://bugs.launchpad.net/ubuntu/+source/linux/+bug/2013194</a></p>
+<p>这个网页只告诉我了这是新版本内核的Bug并且Linux已经确认了这件事，但是没讲太多解决办法。我之前玩Linux也编译过内核也升级内核从而把系统搞崩溃过，也无意中卸载过内核把实验室公共服务器给弄崩过，所以我相对还是有一些思路的。我知道刚刚我升级了新内核，但是我还并没来得及卸载旧的内核。理论上我可以切换会旧的内核然后把这个有问题新内核卸载掉就好。但是我是远程服务器，切换内核这一步遇到了很大的麻烦。</p>
+<p>我搞坏了两个服务器，其中一个服务器官方提供snapshot，我也是第一次用到这个功能，我用昨天一个自动保存的镜像恢复然后几分钟就把系统恢复到昨天的，问题就解决了。但是另外一个系统没有shnapshot，我唯一的选择就是自己将这个有bug的内核解决掉。</p>
+<p>还好这两个服务器提供商都提供VNC连接，一家叫做VNC而另一家叫做Root shell – interactive但是是一回事。在打开VNC窗口后，通过服务器供应商后台按钮重启服务器，然后在VNC窗口按上下键，激活GNU GRUB菜单，选择第二项Advanced options for Ubuntu,</p>
+<p><img data-src="https://cdn.passerby.net/2023/03/5075205607885771.png"></p>
+<p>然后可以看到默认是启动了我们升级失败有Bug的内核 Linux 5.4.0-146-generic，所以会启动失败报错。在这里我们选择老版本内核，在我这里是Linux 5.4.0-135-generic。点击回车后应该可以正常启动。</p>
+<p><img data-src="https://cdn.passerby.net/2023/03/6825473350358373.png"></p>
+<p>输入用户名密码后我们可以成功登录到系统。现在我们可以通过下面命令将有bug没安装完毕的新内核删掉：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sudo</span> apt remove *<span class="number">5</span>.<span class="number">4</span>.<span class="number">0</span>-<span class="number">146</span>*</span><br></pre></td></tr></table></figure>
+
+<p>通过星号*通配符可以将最新内核相关的包都删干净，在我这里有5个包：</p>
+<p><img data-src="https://cdn.passerby.net/2023/03/9132233365536497.png"></p>
+<p>点击Y开始删除，通过日志也可看到这个内核在卸载时候也是有报错，这个过程中同时更新了GRUB配置，所里理论上下次启动可以自动启动旧内核了。</p>
+<p><img data-src="https://cdn.passerby.net/2023/03/5628298630878058.png"></p>
+<p>然后我们reboot看下效果，成功进入系统，问题解决。由于是软件包的问题，并且官方也在上边链接内确认，所以我们可以等等之后修复bug后新的内核再升级，就可以避免这个问题了。</p>
+<p>回顾一下今天遇到的有点惊险的事情，常规软件包和内核升级通常来讲是风险概率很低的，我这么些年也就遇到过这么一次。但是一旦内核升级失败那很可能是灭顶之灾。在这种情况下如果有snapshot的话那是最方便的解决办法，可以说一键修复。但是假如是自己的物理机，或者说即使是云服务器但是像我一样是穷人没买服务，那就只能是寄希望于VNC连接然后调用旧内核启动了。我尝试了三家供应商提供的VNC连接服务，在启动阶段通过上下键呼出GRUB菜单并没有那么容易，我的一个被我弄坏的服务器我尝试了好多次才成功呼出这个菜单，然后赶紧把服务器修好，因为我在这家没有snapshot。另外的一家VNC功能还挺好用，基本上每次启动时候按上下键都能呼出。而第三家我一次都没成功，幸好我的这台服务器没被我搞坏。。。</p>
+<p>总之内核升级还是挺危险的，虽然概率上比较低，但是后果上那是相当严重。另外snapshot这个服务能买还是买一个吧，关键时刻是救命的。最差最差那就选一个VNC好用一点的服务器供应商吧。</p>
+<p>Reference:</p>
+<p><a target="_blank" rel="noopener" href="https://bugs.launchpad.net/ubuntu/+source/linux/+bug/2013194">https://bugs.launchpad.net/ubuntu/+source/linux/+bug/2013194</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Passerby
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://passerby.net/4131.html" title="Linux内核升级失败后回退">https://passerby.net/4131.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/4231.html" rel="prev" title="">
+                  <i class="fa fa-angle-left"></i> 
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/4323.html" rel="next" title="保险配置笔记：重疾、医疗、意外、人寿">
+                  保险配置笔记：重疾、医疗、意外、人寿 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2016 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Passerby</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

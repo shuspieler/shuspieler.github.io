@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"passerby.net","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="之前在这个贴子（Linux内核升级失败后回退）提到我升级内核遇到了问题，导致系统无法启动。后边又尝试了几次依旧同样的报错。最近又有了新的内核版本，现在跨版本升级，还是失败。研究好久才搞明白根本原因。原来是升级过几次后服务器&#x2F;boot分区满了，所以当再次升级适合就遇到奇怪的报错。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux内核升级失败原因找到">
+<meta property="og:url" content="https://passerby.net/4330.html">
+<meta property="og:site_name" content="矛盾体">
+<meta property="og:description" content="之前在这个贴子（Linux内核升级失败后回退）提到我升级内核遇到了问题，导致系统无法启动。后边又尝试了几次依旧同样的报错。最近又有了新的内核版本，现在跨版本升级，还是失败。研究好久才搞明白根本原因。原来是升级过几次后服务器&#x2F;boot分区满了，所以当再次升级适合就遇到奇怪的报错。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-07-01T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-13T13:44:55.781Z">
+<meta property="article:author" content="Passerby">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://passerby.net/4330">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://passerby.net/4330.html","path":"/4330.html","title":"Linux内核升级失败原因找到"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Linux内核升级失败原因找到 | 矛盾体</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@7.2.0/dist/browser/pangu.umd.js" integrity="sha256-JnmRRnJK7DC6RQJbAJb6AXOM9OmWzS6z8eYultk/48Y=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/pjax.js" defer></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.5.0/dist/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.3.1/pdfobject.min.js","integrity":"sha256-jI72I8ZLVflVOisZIOaLvRew3tyvzeu6aZXFm7P7dEo="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">矛盾体</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-about"><a href="/about.html" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-contact"><a href="/contact.html" rel="section"><i class="fa fa-heartbeat fa-fw"></i>Contact</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="Searching..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Passerby</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">226</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://passerby.net/4330.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Passerby">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="矛盾体">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Linux内核升级失败原因找到 | 矛盾体">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux内核升级失败原因找到
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-07-02 00:00:00" itemprop="dateCreated datePublished" datetime="2023-07-02T00:00:00+08:00">2023-07-02</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>之前在这个贴子（<a href="https://passerby.net/4131.html">Linux内核升级失败后回退</a>）提到我升级内核遇到了问题，导致系统无法启动。后边又尝试了几次依旧同样的报错。最近又有了新的内核版本，现在跨版本升级，还是失败。研究好久才搞明白根本原因。原来是升级过几次后服务器&#x2F;boot分区满了，所以当再次升级适合就遇到奇怪的报错。</p>
+<span id="more"></span>
+
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Filesystem Size Used Avail Use% Mounted on</span><br><span class="line">udev <span class="number">445</span>M <span class="number">0</span> <span class="number">445</span>M <span class="number">0</span>% <span class="regexp">/dev</span></span><br><span class="line"><span class="regexp">tmpfs 98M 1.1M 97M 2% /run</span></span><br><span class="line"><span class="regexp">/dev/sda</span>3 <span class="number">20</span>G <span class="number">5.8</span>G <span class="number">13</span>G <span class="number">32</span>% <span class="regexp">/</span></span><br><span class="line"><span class="regexp">tmpfs 490M 0 490M 0% /dev</span><span class="regexp">/shm</span></span><br><span class="line"><span class="regexp">tmpfs 5.0M 0 5.0M 0% /run</span><span class="regexp">/lock</span></span><br><span class="line"><span class="regexp">tmpfs 490M 0 490M 0% /sys</span><span class="regexp">/fs/cgroup</span></span><br><span class="line"><span class="regexp">/dev/sda</span>2 <span class="number">371</span>M <span class="number">309</span>M <span class="number">35</span>M <span class="number">91</span>% <span class="regexp">/boot</span></span><br><span class="line"><span class="regexp">/dev</span><span class="regexp">/loop1 56M 56M 0 100% /snap</span><span class="regexp">/core18/</span><span class="number">2751</span></span><br><span class="line"><span class="regexp">/dev/loop</span>2 <span class="number">56</span>M <span class="number">56</span>M <span class="number">0</span> <span class="number">100</span>% <span class="regexp">/snap/core</span>18/<span class="number">2785</span></span><br><span class="line"><span class="regexp">/dev/loop</span>3 <span class="number">64</span>M <span class="number">64</span>M <span class="number">0</span> <span class="number">100</span>% <span class="regexp">/snap/core</span>20/<span class="number">1891</span></span><br><span class="line"><span class="regexp">/dev/loop</span>0 <span class="number">45</span>M <span class="number">45</span>M <span class="number">0</span> <span class="number">100</span>% <span class="regexp">/snap/certbot</span><span class="regexp">/3024</span></span><br><span class="line"><span class="regexp">/dev</span><span class="regexp">/loop4 74M 74M 0 100% /snap</span><span class="regexp">/core22/</span><span class="number">750</span></span><br><span class="line"><span class="regexp">/dev/loop</span>6 <span class="number">45</span>M <span class="number">45</span>M <span class="number">0</span> <span class="number">100</span>% <span class="regexp">/snap/certbot</span><span class="regexp">/2913</span></span><br><span class="line"><span class="regexp">/dev</span><span class="regexp">/loop5 74M 74M 0 100% /snap</span><span class="regexp">/core22/</span><span class="number">766</span></span><br><span class="line"><span class="regexp">/dev/loop</span>7 <span class="number">54</span>M <span class="number">54</span>M <span class="number">0</span> <span class="number">100</span>% <span class="regexp">/snap/snapd</span><span class="regexp">/19457</span></span><br><span class="line"><span class="regexp">/dev</span><span class="regexp">/loop8 174M 174M 0 100% /snap</span><span class="regexp">/lxd/</span><span class="number">25086</span></span><br><span class="line"><span class="regexp">/dev/loop</span>9 <span class="number">171</span>M <span class="number">171</span>M <span class="number">0</span> <span class="number">100</span>% <span class="regexp">/snap/lxd</span><span class="regexp">/24918</span></span><br><span class="line"><span class="regexp">/dev</span><span class="regexp">/loop10 54M 54M 0 100% /snap</span><span class="regexp">/snapd/</span><span class="number">19361</span></span><br><span class="line"><span class="regexp">/dev/loop</span>11 <span class="number">64</span>M <span class="number">64</span>M <span class="number">0</span> <span class="number">100</span>% <span class="regexp">/snap/core</span>20/<span class="number">1950</span></span><br><span class="line">tmpfs <span class="number">98</span>M <span class="number">0</span> <span class="number">98</span>M <span class="number">0</span>% <span class="regexp">/run/user</span><span class="regexp">/1000</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到这个服务器虽然提供20G的内存，但是&#x2F;boot分区只有371M，并且用掉了91%。当再安装新的内核时候，就会由于内存满了而失败。</p>
+<p>我们可以将除当前使用内核之外的旧内核删除掉，再进行新的内核升级。先查下现在所用的内核版本：uname -a</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Linux</span> audicdn <span class="number">5</span>.<span class="number">4</span>.<span class="number">0</span>-<span class="number">144</span>-generic #<span class="number">161</span>-Ubuntu SMP Fri Feb <span class="number">3</span> <span class="number">14</span>:<span class="number">49</span>:<span class="number">04</span> UTC <span class="number">2023</span> x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
+
+<p>查询系统中共安装了哪些内核：apt list <em>linux</em> –installed</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Listing</span>... Done</span><br><span class="line"><span class="attribute">console</span>-setup-linux/focal,now <span class="number">1</span>.<span class="number">194</span>ubuntu3 <span class="literal">all</span><span class="meta"> [installed,automatic]</span></span><br><span class="line"><span class="attribute">libselinux1</span>/focal,now <span class="number">3</span>.<span class="number">0</span>-<span class="number">1</span>build2 amd64<span class="meta"> [installed,automatic]</span></span><br><span class="line"><span class="attribute">linux</span>-base/focal-updates,now <span class="number">4</span>.<span class="number">5</span>ubuntu3.<span class="number">7</span> <span class="literal">all</span><span class="meta"> [installed,automatic]</span></span><br><span class="line"><span class="attribute">linux</span>-firmware/now <span class="number">1</span>.<span class="number">187</span>.<span class="number">36</span> <span class="literal">all</span><span class="meta"> [installed,upgradable to: 1.187.39]</span></span><br><span class="line"><span class="attribute">linux</span>-headers-<span class="number">5</span>.<span class="number">4</span>.<span class="number">0</span>-<span class="number">139</span>-generic/focal-updates,focal-security,now <span class="number">5</span>.<span class="number">4</span>.<span class="number">0</span>-<span class="number">139</span>.<span class="number">156</span> amd64<span class="meta"> [installed,automatic]</span></span><br><span class="line"><span class="attribute">linux</span>-headers-<span class="number">5</span>.<span class="number">4</span>.<span class="number">0</span>-<span class="number">139</span>/focal-updates,focal-security,now <span class="number">5</span>.<span class="number">4</span>.<span class="number">0</span>-<span class="number">139</span>.<span class="number">156</span> <span class="literal">all</span><span class="meta"> [installed,automatic]</span></span><br><span class="line"><span class="attribute">linux</span>-image-<span class="number">5</span>.<span class="number">4</span>.<span class="number">0</span>-<span class="number">139</span>-generic/focal-updates,focal-security,now <span class="number">5</span>.<span class="number">4</span>.<span class="number">0</span>-<span class="number">139</span>.<span class="number">156</span> amd64<span class="meta"> [installed,automatic]</span></span><br><span class="line"><span class="attribute">linux</span>-image-<span class="number">5</span>.<span class="number">4</span>.<span class="number">0</span>-<span class="number">144</span>-generic/focal-updates,focal-security,now <span class="number">5</span>.<span class="number">4</span>.<span class="number">0</span>-<span class="number">144</span>.<span class="number">161</span> amd64<span class="meta"> [installed,automatic]</span></span><br><span class="line"><span class="attribute">linux</span>-modules-<span class="number">5</span>.<span class="number">4</span>.<span class="number">0</span>-<span class="number">139</span>-generic/focal-updates,focal-security,now <span class="number">5</span>.<span class="number">4</span>.<span class="number">0</span>-<span class="number">139</span>.<span class="number">156</span> amd64<span class="meta"> [installed,automatic]</span></span><br><span class="line"><span class="attribute">linux</span>-modules-<span class="number">5</span>.<span class="number">4</span>.<span class="number">0</span>-<span class="number">144</span>-generic/focal-updates,focal-security,now <span class="number">5</span>.<span class="number">4</span>.<span class="number">0</span>-<span class="number">144</span>.<span class="number">161</span> amd64<span class="meta"> [installed,automatic]</span></span><br><span class="line"><span class="attribute">linux</span>-modules-extra-<span class="number">5</span>.<span class="number">4</span>.<span class="number">0</span>-<span class="number">139</span>-generic/focal-updates,focal-security,now <span class="number">5</span>.<span class="number">4</span>.<span class="number">0</span>-<span class="number">139</span>.<span class="number">156</span> amd64<span class="meta"> [installed,automatic]</span></span><br></pre></td></tr></table></figure>
+
+<p>可看到除了144内核外，系统中还有139旧内核。现在我们将其卸载掉：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sudo</span> apt purge linux-headers-<span class="number">5</span>.<span class="number">4</span>.<span class="number">0</span>-<span class="number">139</span>-generic linux-headers-<span class="number">5</span>.<span class="number">4</span>.<span class="number">0</span>-<span class="number">139</span> linux-image-<span class="number">5</span>.<span class="number">4</span>.<span class="number">0</span>-<span class="number">139</span>-generic linux-modules-<span class="number">5</span>.<span class="number">4</span>.<span class="number">0</span>-<span class="number">139</span>-generic linux-modules-extra-<span class="number">5</span>.<span class="number">4</span>.<span class="number">0</span>-<span class="number">139</span>-generic</span><br></pre></td></tr></table></figure>
+
+<p>然后更新一下grub：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> update-grub</span><br></pre></td></tr></table></figure>
+
+<p>查看一下内存：</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Filesystem Size Used Avail Use% Mounted on</span><br><span class="line">udev <span class="number">445</span>M <span class="number">0</span> <span class="number">445</span>M <span class="number">0</span>% <span class="regexp">/dev</span></span><br><span class="line"><span class="regexp">tmpfs 98M 1.1M 97M 2% /run</span></span><br><span class="line"><span class="regexp">/dev/sda</span>3 <span class="number">20</span>G <span class="number">5.4</span>G <span class="number">13</span>G <span class="number">30</span>% <span class="regexp">/</span></span><br><span class="line"><span class="regexp">tmpfs 490M 0 490M 0% /dev</span><span class="regexp">/shm</span></span><br><span class="line"><span class="regexp">tmpfs 5.0M 0 5.0M 0% /run</span><span class="regexp">/lock</span></span><br><span class="line"><span class="regexp">tmpfs 490M 0 490M 0% /sys</span><span class="regexp">/fs/cgroup</span></span><br><span class="line"><span class="regexp">/dev/sda</span>2 <span class="number">371</span>M <span class="number">209</span>M <span class="number">135</span>M <span class="number">61</span>% <span class="regexp">/boot</span></span><br><span class="line"><span class="regexp">/dev</span><span class="regexp">/loop1 56M 56M 0 100% /snap</span><span class="regexp">/core18/</span><span class="number">2751</span></span><br><span class="line"><span class="regexp">/dev/loop</span>2 <span class="number">56</span>M <span class="number">56</span>M <span class="number">0</span> <span class="number">100</span>% <span class="regexp">/snap/core</span>18/<span class="number">2785</span></span><br><span class="line"><span class="regexp">/dev/loop</span>3 <span class="number">64</span>M <span class="number">64</span>M <span class="number">0</span> <span class="number">100</span>% <span class="regexp">/snap/core</span>20/<span class="number">1891</span></span><br><span class="line"><span class="regexp">/dev/loop</span>0 <span class="number">45</span>M <span class="number">45</span>M <span class="number">0</span> <span class="number">100</span>% <span class="regexp">/snap/certbot</span><span class="regexp">/3024</span></span><br><span class="line"><span class="regexp">/dev</span><span class="regexp">/loop4 74M 74M 0 100% /snap</span><span class="regexp">/core22/</span><span class="number">750</span></span><br><span class="line"><span class="regexp">/dev/loop</span>6 <span class="number">45</span>M <span class="number">45</span>M <span class="number">0</span> <span class="number">100</span>% <span class="regexp">/snap/certbot</span><span class="regexp">/2913</span></span><br><span class="line"><span class="regexp">/dev</span><span class="regexp">/loop5 74M 74M 0 100% /snap</span><span class="regexp">/core22/</span><span class="number">766</span></span><br><span class="line"><span class="regexp">/dev/loop</span>7 <span class="number">54</span>M <span class="number">54</span>M <span class="number">0</span> <span class="number">100</span>% <span class="regexp">/snap/snapd</span><span class="regexp">/19457</span></span><br><span class="line"><span class="regexp">/dev</span><span class="regexp">/loop8 174M 174M 0 100% /snap</span><span class="regexp">/lxd/</span><span class="number">25086</span></span><br><span class="line"><span class="regexp">/dev/loop</span>9 <span class="number">171</span>M <span class="number">171</span>M <span class="number">0</span> <span class="number">100</span>% <span class="regexp">/snap/lxd</span><span class="regexp">/24918</span></span><br><span class="line"><span class="regexp">/dev</span><span class="regexp">/loop10 54M 54M 0 100% /snap</span><span class="regexp">/snapd/</span><span class="number">19361</span></span><br><span class="line"><span class="regexp">/dev/loop</span>11 <span class="number">64</span>M <span class="number">64</span>M <span class="number">0</span> <span class="number">100</span>% <span class="regexp">/snap/core</span>20/<span class="number">1950</span></span><br><span class="line">tmpfs <span class="number">98</span>M <span class="number">0</span> <span class="number">98</span>M <span class="number">0</span>% <span class="regexp">/run/user</span><span class="regexp">/1000</span></span><br></pre></td></tr></table></figure>
+
+<p>可看到boot空间腾出来了。</p>
+<p>接下来升级就好了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt upgrage</span><br></pre></td></tr></table></figure>
+
+<p>现在不报错了，顺利完成升级。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Passerby
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://passerby.net/4330.html" title="Linux内核升级失败原因找到">https://passerby.net/4330.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/4323.html" rel="prev" title="保险配置笔记：重疾、医疗、意外、人寿">
+                  <i class="fa fa-angle-left"></i> 保险配置笔记：重疾、医疗、意外、人寿
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/4454.html" rel="next" title="对讲机信道总结">
+                  对讲机信道总结 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2016 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Passerby</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

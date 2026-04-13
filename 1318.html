@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"passerby.net","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="翻抽屉找到一张闲置的AR5B22网卡，网上资料说可以刷Killer驱动，不太了解到底有啥区别，索性就今天了解了一下。 Killer（杀手）网卡是Bigfoot Networks专门针对游戏推出的系列网卡，其中有独立的NPU处理器，可以在网卡上使用自己优化过的网络传输算法完成数据的处理，绕过了Windows系统的网络处理模块，从而降低对CPU的压力。对于游戏玩家，优化过的算法可以提高游戏数据包的优先">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AR5B22 刷了Killer驱动">
+<meta property="og:url" content="https://passerby.net/1318.html">
+<meta property="og:site_name" content="矛盾体">
+<meta property="og:description" content="翻抽屉找到一张闲置的AR5B22网卡，网上资料说可以刷Killer驱动，不太了解到底有啥区别，索性就今天了解了一下。 Killer（杀手）网卡是Bigfoot Networks专门针对游戏推出的系列网卡，其中有独立的NPU处理器，可以在网卡上使用自己优化过的网络传输算法完成数据的处理，绕过了Windows系统的网络处理模块，从而降低对CPU的压力。对于游戏玩家，优化过的算法可以提高游戏数据包的优先">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://shuspieler.com/blog/wp-content/uploads/2019/03/2019030617500952.png">
+<meta property="og:image" content="https://shuspieler.com/blog/wp-content/uploads/2019/03/2019030617475913.png">
+<meta property="og:image" content="https://shuspieler.com/blog/wp-content/uploads/2019/03/2019030618370742.png">
+<meta property="og:image" content="https://shuspieler.com/blog/wp-content/uploads/2019/03/2019030619385580.png">
+<meta property="og:image" content="https://shuspieler.com/blog/wp-content/uploads/2019/03/2019030619421274.png">
+<meta property="og:image" content="https://shuspieler.com/blog/wp-content/uploads/2019/03/2019030619485212.png">
+<meta property="og:image" content="https://i2.wp.com/shuspieler.com/blog/wp-content/uploads/2019/03/2019030619490196.png">
+<meta property="og:image" content="https://i1.wp.com/shuspieler.com/blog/wp-content/uploads/2019/03/2019030619491931.png">
+<meta property="article:published_time" content="2019-03-05T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-13T13:47:33.662Z">
+<meta property="article:author" content="Passerby">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://shuspieler.com/blog/wp-content/uploads/2019/03/2019030617500952.png">
+
+
+<link rel="canonical" href="https://passerby.net/1318">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://passerby.net/1318.html","path":"/1318.html","title":"AR5B22 刷了Killer驱动"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>AR5B22 刷了Killer驱动 | 矛盾体</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@7.2.0/dist/browser/pangu.umd.js" integrity="sha256-JnmRRnJK7DC6RQJbAJb6AXOM9OmWzS6z8eYultk/48Y=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/pjax.js" defer></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.5.0/dist/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.3.1/pdfobject.min.js","integrity":"sha256-jI72I8ZLVflVOisZIOaLvRew3tyvzeu6aZXFm7P7dEo="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">矛盾体</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-about"><a href="/about.html" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-contact"><a href="/contact.html" rel="section"><i class="fa fa-heartbeat fa-fw"></i>Contact</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="Searching..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Passerby</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">226</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://passerby.net/1318.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Passerby">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="矛盾体">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="AR5B22 刷了Killer驱动 | 矛盾体">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AR5B22 刷了Killer驱动
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-03-06 00:00:00" itemprop="dateCreated datePublished" datetime="2019-03-06T00:00:00+08:00">2019-03-06</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>翻抽屉找到一张闲置的AR5B22网卡，网上资料说可以刷Killer驱动，不太了解到底有啥区别，索性就今天了解了一下。</p>
+<p>Killer（杀手）网卡是Bigfoot Networks专门针对游戏推出的系列网卡，其中有独立的NPU处理器，可以在网卡上使用自己优化过的网络传输算法完成数据的处理，绕过了Windows系统的网络处理模块，从而降低对CPU的压力。对于游戏玩家，优化过的算法可以提高游戏数据包的优先级，从而加快游戏的速率，降低ping值。CPU运算的减负，也可以间接提高电脑的流畅性。一般这样高端的网卡只有在外星人系列电脑才会配置，这从另外一方面来讲这些电脑贵也是贵的有道理。</p>
+<span id="more"></span>
+
+<p>对多数人来讲可能更关注对于游戏的优化，而一般CPU过剩，这么一点减压多数人并不在乎。可是对于我却很看重这一点，我10年出的y460到现在已经服役9年，双核CPU在现在的应用强度下越来越吃力，平时电脑开一个Chrome浏览器下的负载就能达到百分之五十多，稍微下载点东西马上CPU就百分之百了。</p>
+<p><img data-src="https://shuspieler.com/blog/wp-content/uploads/2019/03/2019030617500952.png"></p>
+<p><img data-src="https://shuspieler.com/blog/wp-content/uploads/2019/03/2019030617475913.png"></p>
+<p>同时另外一个优势是这个卡是WiFi和蓝牙的二合一，我电脑原机本来配有蓝牙模块，可惜被我搞坏了到现在我也懒得修。通过换上这个网卡就可以恢复了我的蓝牙功能，可以连接我的蓝牙音响了。</p>
+<p>主要步骤在<a target="_blank" rel="noopener" href="http://tieba.baidu.com/p/4774297627?pn=1">http://tieba.baidu.com/p/4774297627?pn=1</a> 中已经写的超级详细，我也是参考这个完成的。我这里补充一下怎样升级最新的固件。</p>
+<p>安装这个教程的固件后，如果点击更新驱动程序，会回到普通的AR5B22驱动。同时尝试了驱动精灵和驱动人生也是类似的现象，强刷的固件被消掉了了。</p>
+<p>通过尝试，在微软官方下载最新版1202驱动：<a target="_blank" rel="noopener" href="https://drivers.windows10download.com/w10-killer-wireless-n-1202-network-adapter-atheros-driver-10-0-0-344-for-windows-10-64-bit-ipaph/">https://drivers.windows10download.com/w10-killer-wireless-n-1202-network-adapter-atheros-driver-10-0-0-344-for-windows-10-64-bit-ipaph/</a></p>
+<p>下载好是个cab文件，就像上边帖子讲的用解压工具打开，就找到了熟悉的<br>athw10.inf 文件了，然后步骤类似，手动更新固件，然后选择Killer1202网卡强行安装。我途中蓝屏了一次，可是第二次成功。</p>
+<p><img data-src="https://shuspieler.com/blog/wp-content/uploads/2019/03/2019030618370742.png"></p>
+<p>之后要安装Killer Suite配合使用才可以。刚才那个帖子中的网盘已经提供了1.1版本的安装程序。我想追时髦下载最新2.0版本，可惜被打脸安装了很多次都不成功，最后我退而求其次从官网下载18年的1.5 old version安装成功。</p>
+<p>官网在这里：<a target="_blank" rel="noopener" href="http://support.killernetworking.com/">http://support.killernetworking.com/</a></p>
+<p>下载链接是这个 （可能会过期，推荐从上边网址点击）：<a target="_blank" rel="noopener" href="http://support.killernetworking.com/download/killer-control-center-64-bit-for-windows-7-8-1-older-windows-10-versions/?wpdmdl=425&refresh=5c7fb1c17f2e21551872449">http://support.killernetworking.com/download/killer-control-center-64-bit-for-windows-7-8-1-older-windows-10-versions/?wpdmdl=425&amp;refresh=5c7fb1c17f2e21551872449</a></p>
+<p>其中用到了帖子中提到的新的静默安装参数：<br>&#x2F;S &#x2F;v&#x2F;qr&#x2F;norestart</p>
+<p>这次很顺利。可是有一个问题，我猜测是由于我安装Killer Suite引发的。我的网卡又被升级到最新版17年的驱动，如下图显示的是AR946x型号。并且安装好的套件也检测不到Killer网卡的存在。并且回退驱动版本第一次出现，所以我猜测软件也自带了全系列驱动，而网卡并没有被自动强刷成新版的killer。</p>
+<p><img data-src="https://shuspieler.com/blog/wp-content/uploads/2019/03/2019030619385580.png"></p>
+<p>重装驱动很简单了，点击回退驱动版本，填写一个理由，基本上十秒完成。</p>
+<p><img data-src="https://shuspieler.com/blog/wp-content/uploads/2019/03/2019030619421274.png"></p>
+<p>好了现在Killer Suite也正常检测到了Killer网卡，现在可以开始体验只有外星人等高端系列才配置的杀手网卡吧，其中优先级的配置，可以在高于硬件级别进行网络配置，从而得到对一些应用的最大力度优化。由于我不玩游戏，我用电脑百分之九十九的时间是用浏览器，所以我将浏览器的优先级设置成1。</p>
+<p><img data-src="https://shuspieler.com/blog/wp-content/uploads/2019/03/2019030619485212.png"></p>
+<p><img data-src="https://i2.wp.com/shuspieler.com/blog/wp-content/uploads/2019/03/2019030619490196.png"></p>
+<p><img data-src="https://i1.wp.com/shuspieler.com/blog/wp-content/uploads/2019/03/2019030619491931.png"></p>
+<p>Reference:</p>
+<p><a target="_blank" rel="noopener" href="http://tieba.baidu.com/p/4774297627?pn=1">http://tieba.baidu.com/p/4774297627?pn=1</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.chiphell.com/thread-1607126-1-1.html">https://www.chiphell.com/thread-1607126-1-1.html</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.killernetworking.com/support/help/KillerCC/KillerHelp_zh.html#Overview">http://www.killernetworking.com/support/help/KillerCC/KillerHelp_zh.html#Overview</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Passerby
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://passerby.net/1318.html" title="AR5B22 刷了Killer驱动">https://passerby.net/1318.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/1333.html" rel="prev" title="新版有风险，尝鲜需谨慎">
+                  <i class="fa fa-angle-left"></i> 新版有风险，尝鲜需谨慎
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/1341.html" rel="next" title="双显卡笔记本Ubuntu安装NVIDIA显卡驱动">
+                  双显卡笔记本Ubuntu安装NVIDIA显卡驱动 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2016 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Passerby</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

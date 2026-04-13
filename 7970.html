@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"passerby.net","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="最近在学习大模型在机器人上边的应用，想着通过一个能够自己设备训练的模型以及Jetson来体验一遍整个模型从训练到部署的全流程。前期都是在一台高性能工作站上边学习的，X86下对于配置环境以及解决依赖等问题相对还是好解决的，毕竟用户基数大。多数情况遇到的一些运行问题，结合大模型以及Github的评论区，很快就有解决方案的。之前了解到Jetson是英伟达自己出的产品，CUDA环境方面应该不是啥大问题，可">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jetson Orin Nano安装Pytorch CUDA环境">
+<meta property="og:url" content="https://passerby.net/7970.html">
+<meta property="og:site_name" content="矛盾体">
+<meta property="og:description" content="最近在学习大模型在机器人上边的应用，想着通过一个能够自己设备训练的模型以及Jetson来体验一遍整个模型从训练到部署的全流程。前期都是在一台高性能工作站上边学习的，X86下对于配置环境以及解决依赖等问题相对还是好解决的，毕竟用户基数大。多数情况遇到的一些运行问题，结合大模型以及Github的评论区，很快就有解决方案的。之前了解到Jetson是英伟达自己出的产品，CUDA环境方面应该不是啥大问题，可">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-03-31T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-13T13:44:12.600Z">
+<meta property="article:author" content="Passerby">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://passerby.net/7970">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://passerby.net/7970.html","path":"/7970.html","title":"Jetson Orin Nano安装Pytorch CUDA环境"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Jetson Orin Nano安装Pytorch CUDA环境 | 矛盾体</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@7.2.0/dist/browser/pangu.umd.js" integrity="sha256-JnmRRnJK7DC6RQJbAJb6AXOM9OmWzS6z8eYultk/48Y=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/pjax.js" defer></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.5.0/dist/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.3.1/pdfobject.min.js","integrity":"sha256-jI72I8ZLVflVOisZIOaLvRew3tyvzeu6aZXFm7P7dEo="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">矛盾体</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-about"><a href="/about.html" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-contact"><a href="/contact.html" rel="section"><i class="fa fa-heartbeat fa-fw"></i>Contact</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="Searching..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Passerby</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">226</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://passerby.net/7970.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Passerby">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="矛盾体">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Jetson Orin Nano安装Pytorch CUDA环境 | 矛盾体">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Jetson Orin Nano安装Pytorch CUDA环境
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2026-04-01 00:00:00" itemprop="dateCreated datePublished" datetime="2026-04-01T00:00:00+08:00">2026-04-01</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>最近在学习大模型在机器人上边的应用，想着通过一个能够自己设备训练的模型以及Jetson来体验一遍整个模型从训练到部署的全流程。前期都是在一台高性能工作站上边学习的，X86下对于配置环境以及解决依赖等问题相对还是好解决的，毕竟用户基数大。多数情况遇到的一些运行问题，结合大模型以及Github的评论区，很快就有解决方案的。之前了解到Jetson是英伟达自己出的产品，CUDA环境方面应该不是啥大问题，可事实真的很打脸，在我将模型训练摸索差不多，在服务器可以稳定运行后，打算挪到Jetson上边运行过程中真的费了好大的劲。于是我记录一下，说不定有其他朋友遇到同样的问题。</p>
+<span id="more"></span>
+
+<p>我拿来学习的是SmolVLA这个机器人大模型，使用的是最最常用的Pytorch框架，这个在Jetson上安装CPU版本很顺利，基本上从pip或者conda直接安装都OK，关键在对于Jetson的CUDA加速版本的Pytorch，由于是ARM架构而不是常见的X86, pip及conda库默认是没有的。想完全按照大模型指导推荐的版本安装几乎是不可能，我摸索了几天终于是找到了行得通的解决方案。</p>
+<p>首先安装Jetson 平台专用的软件开发套件（SDK），通过这个过程可以装上绝大多的依赖库：</p>
+<p>sudo apt install nvidia-jetpack</p>
+<p>然后通过命令检查当下的CUDA版本：</p>
+<p>nvidia-smi</p>
+<p>最后在半官方的论坛安装编译好的适配Jetson ARM架构的Pytorch以及Torchvision包：</p>
+<p>pip install torch torchvision –index-url <a target="_blank" rel="noopener" href="https://pypi.jetson-ai-lab.io/jp6/cu126">https://pypi.jetson-ai-lab.io/jp6/cu126</a></p>
+<p>在上边步骤完成后，Python导入torch会提示有一个cuDSS相关的动态链接库找不到，从Nvidia官方论坛下载：</p>
+<p><a target="_blank" rel="noopener" href="https://developer.nvidia.com/cudss-downloads">https://developer.nvidia.com/cudss-downloads</a></p>
+<p>至此已经可以在Jetson上使用CUDA加速版本的Torch来运行模型了。总结下来简单的几步，但是卡了我好几天，反思下来就说对大模型太过于依赖，甚至是过于信任大模型实时网页搜索的能力。可能是由于Jetson资源相对较少，被多数X86环境配置帖子稀释的原因，大模型给的绝大多数链接都是不能用的，要不货不对板好不失效。并且解决方向也有问题，遇到Pytorch 2.6找不到就推荐降级，而低版本的ARM版本CUDA Torch Torchvision也全网很难找到资源。可能Torch还好，对于Torchvision编译好的wheel包真的很少很少。在我找到<a target="_blank" rel="noopener" href="https://pypi.jetson-ai-lab.io/jp6/">https://pypi.jetson-ai-lab.io/jp6/</a> 半官方的资源站后，提供的是最新版Pytorch 2.10版本，安装后提示缺cuDSS相关的包，此时大模型给出的强烈建议是不要用最新的2.10版本torch，说唯一可行的就说用旧版本，因为2.10太新了缺乏的包绝大多数情况需要自己编译，这个在jetson本身条件下几乎不可能。我被说服了用了一整天时间找旧版本的包，真是找不到。没辙我去到了Nvidia官网看论坛，想着是这么常见的问题，不应该只有我遇到。果然翻了几个帖子就看到Nvidia官网已经提供了最新的cuDSS编译好的安装包。</p>
+<p>想在这里感慨以下就是大模型用多了对于搜索引擎的使用能力都快倒退了。很多时候大模型对于网络资源搜索很有限，搜出来结果很肤浅，并且一些论坛似乎对于大模型也不友好，很多搜不到或者说需要登陆才能查看。对于一些相对小众的领域，感觉逛论坛寻找解决方案还是必不可少的，大模型并不是每个细枝末节都是专家，尤其涉及软硬件结合的，感觉coding工具发挥能力就被很大限制了。</p>
+<p>Reference:</p>
+<p><a target="_blank" rel="noopener" href="https://pypi.jetson-ai-lab.io/">https://pypi.jetson-ai-lab.io/</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.nvidia.com/deeplearning/frameworks/install-pytorch-jetson-platform/index.html">https://docs.nvidia.com/deeplearning/frameworks/install-pytorch-jetson-platform/index.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://forums.developer.nvidia.com/t/jp-6-1-torchvision-error-when-built-from-source/314940">https://forums.developer.nvidia.com/t/jp-6-1-torchvision-error-when-built-from-source/314940</a></p>
+<p><a target="_blank" rel="noopener" href="https://forums.developer.nvidia.com/t/problem-with-installing-torchvision-on-jetson-orin-nano/312860">https://forums.developer.nvidia.com/t/problem-with-installing-torchvision-on-jetson-orin-nano/312860</a></p>
+<p><a target="_blank" rel="noopener" href="https://forums.developer.nvidia.com/t/https-forums-developer-nvidia-com-t-installing-torch-and-torchvision-on-orin-nano-335317-u-joel-alejandro11366/346925/2">https://forums.developer.nvidia.com/t/https-forums-developer-nvidia-com-t-installing-torch-and-torchvision-on-orin-nano-335317-u-joel-alejandro11366/346925/2</a></p>
+<p><a target="_blank" rel="noopener" href="https://pypi.jetson-ai-lab.io/jp6/cu126">https://pypi.jetson-ai-lab.io/jp6/cu126</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.nvidia.com/cudss-downloads?target_os=Linux&target_arch=aarch64-jetson&Compilation=Native&Distribution=Ubuntu&target_version=22.04&target_type=deb_local">https://developer.nvidia.com/cudss-downloads?target_os&#x3D;Linux&amp;target_arch&#x3D;aarch64-jetson&amp;Compilation&#x3D;Native&amp;Distribution&#x3D;Ubuntu&amp;target_version&#x3D;22.04&amp;target_type&#x3D;deb_local</a></p>
+<p><a target="_blank" rel="noopener" href="https://forums.developer.nvidia.com/t/help-me-with-correct-pytorch-and-torchvision-versions-requirement-for-jetpack-6-2-1-orin-super/343688/15">https://forums.developer.nvidia.com/t/help-me-with-correct-pytorch-and-torchvision-versions-requirement-for-jetpack-6-2-1-orin-super/343688/15</a></p>
+<p><a target="_blank" rel="noopener" href="https://forums.developer.nvidia.com/t/pytorch-and-torvision-version-issue-runtimeerror-operator-torchvision-nms-does-not-exist/312446">https://forums.developer.nvidia.com/t/pytorch-and-torvision-version-issue-runtimeerror-operator-torchvision-nms-does-not-exist/312446</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Passerby
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://passerby.net/7970.html" title="Jetson Orin Nano安装Pytorch CUDA环境">https://passerby.net/7970.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/7873.html" rel="prev" title="OpenClaw一周体验">
+                  <i class="fa fa-angle-left"></i> OpenClaw一周体验
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/cuidsIqXW1qq1ijWDw9wzc09u/" rel="next" title="Claude Code 测试">
+                  Claude Code 测试 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2016 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Passerby</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

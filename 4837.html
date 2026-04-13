@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"passerby.net","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="家里上一代的监控摄像头还是十几年前部署的，当时储存方案是本地microSD卡和远程FTP，限制于当时的技术，摄像头分辨率比较低，同时远程控制功能也比较基础，虽然厂家提供了DDNS动态域名解析，但是也需要家庭宽带有公网IP并同时设置了端口映射才能远程访问到。相比于现在产品，最大的欠缺是实时预警，老款做不到在第一时间觉察家中有异样。在旧设备平稳运行了十几年后，最近发现设备不工作了，电源灯不亮，拆开看到">
+<meta property="og:type" content="article">
+<meta property="og:title" content="低成本监控私有云解决方案：小米摄像头+路由器+U盘">
+<meta property="og:url" content="https://passerby.net/4837.html">
+<meta property="og:site_name" content="矛盾体">
+<meta property="og:description" content="家里上一代的监控摄像头还是十几年前部署的，当时储存方案是本地microSD卡和远程FTP，限制于当时的技术，摄像头分辨率比较低，同时远程控制功能也比较基础，虽然厂家提供了DDNS动态域名解析，但是也需要家庭宽带有公网IP并同时设置了端口映射才能远程访问到。相比于现在产品，最大的欠缺是实时预警，老款做不到在第一时间觉察家中有异样。在旧设备平稳运行了十几年后，最近发现设备不工作了，电源灯不亮，拆开看到">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.passerby.net/2024/03/0260947282653601-scaled.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2024/03/5796830174815454.png">
+<meta property="og:image" content="https://cdn.passerby.net/2024/03/7926579304594053.png">
+<meta property="og:image" content="https://cdn.passerby.net/2024/03/5175979057505963.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2024/03/4899729273527081-scaled.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2024/03/4328279556642457.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2024/03/9528473241396615.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2024/03/3757980647959474.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2024/03/5872217061812492.png">
+<meta property="og:image" content="https://cdn.passerby.net/2024/03/1160422025115274.png">
+<meta property="og:image" content="https://cdn.passerby.net/2024/03/2486617300125642.png">
+<meta property="og:image" content="https://cdn.passerby.net/2024/03/9852224373024354.png">
+<meta property="og:image" content="https://cdn.passerby.net/2024/03/7459036440049382.png">
+<meta property="og:image" content="https://cdn.passerby.net/2024/03/7209225801608140.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2024/03/9458999995788416.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2024/03/4476775334354527.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2024/03/3097060382515804.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2024/03/1065037796334843.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2024/03/7180881671346999.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2024/03/7964622761931497-scaled.jpg">
+<meta property="article:published_time" content="2024-02-29T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-13T13:44:50.757Z">
+<meta property="article:author" content="Passerby">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.passerby.net/2024/03/0260947282653601-scaled.jpg">
+
+
+<link rel="canonical" href="https://passerby.net/4837">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://passerby.net/4837.html","path":"/4837.html","title":"低成本监控私有云解决方案：小米摄像头+路由器+U盘"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>低成本监控私有云解决方案：小米摄像头+路由器+U盘 | 矛盾体</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@7.2.0/dist/browser/pangu.umd.js" integrity="sha256-JnmRRnJK7DC6RQJbAJb6AXOM9OmWzS6z8eYultk/48Y=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/pjax.js" defer></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.5.0/dist/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.3.1/pdfobject.min.js","integrity":"sha256-jI72I8ZLVflVOisZIOaLvRew3tyvzeu6aZXFm7P7dEo="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">矛盾体</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-about"><a href="/about.html" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-contact"><a href="/contact.html" rel="section"><i class="fa fa-heartbeat fa-fw"></i>Contact</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="Searching..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Passerby</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">226</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://passerby.net/4837.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Passerby">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="矛盾体">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="低成本监控私有云解决方案：小米摄像头+路由器+U盘 | 矛盾体">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          低成本监控私有云解决方案：小米摄像头+路由器+U盘
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-03-01 00:00:00" itemprop="dateCreated datePublished" datetime="2024-03-01T00:00:00+08:00">2024-03-01</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>家里上一代的监控摄像头还是十几年前部署的，当时储存方案是本地microSD卡和远程FTP，限制于当时的技术，摄像头分辨率比较低，同时远程控制功能也比较基础，虽然厂家提供了DDNS动态域名解析，但是也需要家庭宽带有公网IP并同时设置了端口映射才能远程访问到。相比于现在产品，最大的欠缺是实时预警，老款做不到在第一时间觉察家中有异样。在旧设备平稳运行了十几年后，最近发现设备不工作了，电源灯不亮，拆开看到电容都鼓包了，感觉是真到了设计寿命终止的时刻了，于是着手调研更换一批新的设备。</p>
+<span id="more"></span>
+
+<p><img data-src="https://cdn.passerby.net/2024/03/0260947282653601-scaled.jpg"></p>
+<p>研究了一圈目前市面上比较有名的家用监控摄像头，最终锁定在小米和萤石这两个品牌上。前者入围是由于小米在物联网家用智能设备做的确实很不错，米家生态真的非常完整且成熟；后者入围是看到萤石是海康威视旗下针对家庭用途推出的产品，信赖海康在公共安全监控领域的技术积淀。这两个品牌的产品我都亲自体验了，总体给人的感觉是基础功能都差不多且基本够用，对我来说比较关注手机远程控制，云存储，画面变动检测，远程报警功能，这两个品牌解决方案都能满足。我还挺关注在本地SD卡存储之余还需要云存储，主要是不太放心本地SD卡储存稳定性，以及怕在极端情况下有人闯入家中损坏摄像头，造成储存介质丢失，这样就失去了监控的意义。</p>
+<p>两个品牌云存储费用有一些区别，小米7天滚动存储是188一年，萤石是对于活动录像139（160原价）一年，可以理解成只存储带事件的那一段，如果是全部存储价格高达了799（原价999）元。</p>
+<p><img data-src="https://cdn.passerby.net/2024/03/5796830174815454.png"></p>
+<p><img data-src="https://cdn.passerby.net/2024/03/7926579304594053.png"></p>
+<p><img data-src="https://cdn.passerby.net/2024/03/5175979057505963.jpg"></p>
+<p>最终我给家里大批量部署选择了小米品牌，但是原因不是上边提到的云存储价格，是因为我连188都嫌贵😂。每台设备每年188，而我至少是有4台设备，将来可能有需要还会继续增加，加一块这费用就可太高了。我想自己实现云存储这个效果，这就是我标题提到的：低成本监控私有云解决方案：小米摄像头+路由器+U盘。</p>
+<p>经过查询以及亲自体验知道小米摄像头支持Samba协议将视频转存到局域网中的NAS服务器里，而NAS只是个代称，只要是Wifi同一个网络中支持Samba储存协议的设备都可以，最直接的就是路由器本身了。现在绝大多数的家用路由器都有USB接口，支持Samba协议将U盘设置成共享网盘。我的路由器AC86U其中的一款，在硬件设备上，把U盘插到这里，如下图。</p>
+<p><img data-src="https://cdn.passerby.net/2024/03/4899729273527081-scaled.jpg"></p>
+<p>这里有个点需要注意下，若路由器中提供了USB3.0（蓝色）和USB2.0（白色）两种接口，最好使用USB2.0，因为USB3.0会和2.4G Wifi造成干扰，影响Wifi无线连接的稳定性。一些路由器会提供一个选项，大意是降低USB3.0的干扰，原理是主动降低两者的性能，这终究不是我们想要的效果，对于我们的需求，USB2.0足够了，就像我上图，U盘插到了左边白色的槽中。</p>
+<p><img data-src="https://cdn.passerby.net/2024/03/4328279556642457.jpg"></p>
+<p>在路由器设置页面，已经可以看到USB2.0高亮代表识别到挂载了一个设备，点击然后格式化一下，建议使用NTFS格式，带日志，对于文档安全性好一些。在右侧信息一栏可以看到容量用掉了多是还剩多少，在中间那个长条也是显示已用容量，如下图。</p>
+<p><img data-src="https://cdn.passerby.net/2024/03/9528473241396615.jpg"></p>
+<p>我所用的华硕路由器还可以执行健康度检查，隔一段时间可以运行一下，看看这个U盘有没有出现什么问题。当设置好后，点击左边“USB相关应用”，二级菜单选择“服务器中心”，三级打开“网络共享（Samba）&#x2F;云端硬盘”，在这里就可以设置Samba共享网盘的信息了。在这里建议将允许访客登入关掉，以防止知道你家Wifi后直接就可以看到网上邻居共享文件家中存放的监控视频。在下方红框内可以设置共享网盘的用户名密码，以及开放的文件夹权限了。建议新建一个文件夹而不是存在U盘根目录，然后将权限设置成读写（R&#x2F;W）。</p>
+<p><img data-src="https://cdn.passerby.net/2024/03/3757980647959474.jpg"></p>
+<p>当我们设置好后，在米家应用小米摄像头设置页面，我们已经能够看到存储设置下，NAS已经不在是灰色，变成了黑色可用状态了，点击进入输入一些基本用户名密码信息，然后选择要存到的对应文件夹，这里可以看到识别到的文件夹名字，就是我们在路由器中设置的名字。一切设置好后就可以看到小米摄像头可以正常转存视频到路由器下的U盘了，这里还有一些设置比如说视频储存时常设置，这个可以理解成滚动存储，根据自己U盘大小按需设置。上传时间间隔建议选择实时，这样才能达到我们的目的，及时转存摄像头拍下的数据到云端。</p>
+<p><img data-src="https://cdn.passerby.net/2024/03/5872217061812492.png"></p>
+<p><img data-src="https://cdn.passerby.net/2024/03/1160422025115274.png"></p>
+<p><img data-src="https://cdn.passerby.net/2024/03/2486617300125642.png"></p>
+<p><img data-src="https://cdn.passerby.net/2024/03/9852224373024354.png"></p>
+<p><img data-src="https://cdn.passerby.net/2024/03/7459036440049382.png"></p>
+<p>到目前为止基本上我们的私有云滚动存储就设置完了，在这里有两个可以优化的点，可以进一步加强储存设备的稳定性，首先是若无特别需求的话，在存储卡设置中将录制模式设定成录制移动画面，这样可以大幅降低SD卡可U盘的负担。另外如果条件允许的话，强烈建议将U盘换成移动硬盘，或者SSD U盘，提高硬件的可靠性。</p>
+<p><img data-src="https://cdn.passerby.net/2024/03/7209225801608140.jpg"></p>
+<p>之后可以在电脑端查看共享网盘的内容，在同一网络下的话，在Network中大概率自动就可以识别到共享网盘。注意Mac客户端需要切换一下smb登录用户名为路由器中设置的值，因为Mac默认会用自己用户名登录；Windows下的话，一些电脑可能默认没有打开smb服务，表现是网络中没自动识别共享网盘，或者点击\192.168.50.1提示缺APP。网络上找一下教程开启一下Windows smb服务即可。</p>
+<p><img data-src="https://cdn.passerby.net/2024/03/9458999995788416.jpg"></p>
+<p><img data-src="https://cdn.passerby.net/2024/03/4476775334354527.jpg"></p>
+<p>试用了一段时间，效果还是很不错的。这样设置后，相当于监控摄像头拍摄到的画面存储了两份，一份在摄像头中的SD卡中，另外一份存储在了私有云我们U盘中，实现了双保险。在极端情况下假设不法分子进入室内后破坏掉我们的摄像头，损坏了其中的SD储存卡，那么在物理损坏摄像头前最后的视频，还会留存在我们私有云U盘中一份的，达到了和官方云服务相同的目标。并且可以同一存储空间挂多个摄像头，比如说我目前设置好了两个，一个安装在客厅，一个安装在地下室，由于在同一个网络，都二次备份到我路由器同一个U盘里，通过不同文件夹来区分。</p>
+<p>下边说一下另一个品牌：萤石。之所以没有选择这个，是因为这个品牌不支持SMB或者FTP这两个常见较容易搭建的网络存储空间。若想搭建自己私有云远程备份，就需要用到萤石官方的电脑上位机软件，或者在NAS中运行Surveillance Station通过萤石支持的RSTP协议进行管理。这样子一下子成本就高了起来，要不就用一台24小时开机的电脑，要不就是买一个NAS。虽然我自己有NAS，但是我不愿意长期运行一个软件，这对我NAS的寿命也有影响，萤石的解决方案远不如SMB&#x2F;FTP轻巧方便。但是萤石有几个功能非常实用，而这部分小米是做不到的，就像下图的“设备下线提醒”，“电话提醒服务”，“在线值守”如下图。对于家庭来说，设备下线提醒很有必要的，有时候设备由于一些原因已经离线很久了，但是用户并没有及时察觉。另外两项对于商家感觉很有必要，当出现异常情况，APP通知可能不能及时看到，但是打来一个电话这优先级还是很高的，将异常及时送达的效果也高很多。在线值守的话，更像是用AI的能力在检测一切可能出现的异常。总之感觉下来，可能也与萤石是海康产品的原因，很多的功能有很重的商用设备的味道，就比如远程管理的模式和这几个额外服务，像是一个商用摄像头的简化版拿过来民用。总之是各有各的好处和特点，如果他们俩能够相互学习借鉴一下，那就更好了。</p>
+<p><img data-src="https://cdn.passerby.net/2024/03/3097060382515804.jpg"></p>
+<p><img data-src="https://cdn.passerby.net/2024/03/1065037796334843.jpg"></p>
+<p><img data-src="https://cdn.passerby.net/2024/03/7180881671346999.jpg"></p>
+<p>至此小米摄像头+私有云搭建就结束了，最后放一张我的摄像头照片吧，房顶射灯不怎么用，将一个射灯电源去掉，然后将小米摄像头底座用强力双面胶粘到那个灯上，大小刚刚好，美观程度也还行，喜欢。</p>
+<p><img data-src="https://cdn.passerby.net/2024/03/7964622761931497-scaled.jpg"></p>
+<p>觉得有用的话，点赞评论告诉我一下吧。^_^</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Passerby
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://passerby.net/4837.html" title="低成本监控私有云解决方案：小米摄像头+路由器+U盘">https://passerby.net/4837.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/4537.html" rel="prev" title="华硕AC86U路由器改装散热">
+                  <i class="fa fa-angle-left"></i> 华硕AC86U路由器改装散热
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/4948.html" rel="next" title="Ubuntu 开启SSH连接">
+                  Ubuntu 开启SSH连接 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2016 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Passerby</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

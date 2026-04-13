@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"passerby.net","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="V2X是什么参与V2X量产相关的项目于有一段时间了，终于终于现在对这个领域有了一个轮廓性的了解，真是不容易，功能虽小，但是将其用到量产，涉及到的知识却非常的广泛，趁着现在还没忘掉，打算沉淀成一篇笔记。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="车联网C-V2X学习笔记">
+<meta property="og:url" content="https://passerby.net/5880.html">
+<meta property="og:site_name" content="矛盾体">
+<meta property="og:description" content="V2X是什么参与V2X量产相关的项目于有一段时间了，终于终于现在对这个领域有了一个轮廓性的了解，真是不容易，功能虽小，但是将其用到量产，涉及到的知识却非常的广泛，趁着现在还没忘掉，打算沉淀成一篇笔记。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.passerby.net/2025/03/4442606611216989.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/03/8346813311468852.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/03/8963856355063345.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/03/8423663300795430.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/03/4413328962731186.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/03/2931142967279410.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/03/1301356936646413.png">
+<meta property="og:image" content="https://cdn.passerby.net/2025/03/7198626893085640.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/03/8478534131457557.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/03/5218058022617103.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/03/2646476249666909.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/03/3227797328412936.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/03/5259111815095882.jpg">
+<meta property="article:published_time" content="2025-03-01T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-13T13:44:42.229Z">
+<meta property="article:author" content="Passerby">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.passerby.net/2025/03/4442606611216989.jpg">
+
+
+<link rel="canonical" href="https://passerby.net/5880">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://passerby.net/5880.html","path":"/5880.html","title":"车联网C-V2X学习笔记"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>车联网C-V2X学习笔记 | 矛盾体</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@7.2.0/dist/browser/pangu.umd.js" integrity="sha256-JnmRRnJK7DC6RQJbAJb6AXOM9OmWzS6z8eYultk/48Y=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/pjax.js" defer></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.5.0/dist/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.3.1/pdfobject.min.js","integrity":"sha256-jI72I8ZLVflVOisZIOaLvRew3tyvzeu6aZXFm7P7dEo="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">矛盾体</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-about"><a href="/about.html" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-contact"><a href="/contact.html" rel="section"><i class="fa fa-heartbeat fa-fw"></i>Contact</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="Searching..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#V2X%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.</span> <span class="nav-text">V2X是什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#V2X%E6%8A%80%E6%9C%AF%E8%B7%AF%E7%BA%BF"><span class="nav-number">2.</span> <span class="nav-text">V2X技术路线</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%82%E7%94%A8%E8%8C%83%E5%9B%B4%E5%92%8C%E8%B6%8B%E5%8A%BF"><span class="nav-number">2.1.</span> <span class="nav-text">适用范围和趋势</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E6%8A%80%E6%9C%AF%E6%A0%87%E5%87%86"><span class="nav-number">3.</span> <span class="nav-text">关键技术标准</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%A9%E7%90%86%E5%B1%82"><span class="nav-number">3.1.</span> <span class="nav-text">物理层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="nav-number">3.2.</span> <span class="nav-text">网络层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%B1%82"><span class="nav-number">3.3.</span> <span class="nav-text">消息层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%B1%82"><span class="nav-number">3.4.</span> <span class="nav-text">应用层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E4%BF%A1%E5%AE%89%E5%85%A8"><span class="nav-number">3.5.</span> <span class="nav-text">通信安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">3.6.</span> <span class="nav-text">其他</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ASN-1%E7%BC%96%E8%A7%A3%E7%A0%81"><span class="nav-number">4.</span> <span class="nav-text">ASN.1编解码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ASN-1"><span class="nav-number">4.1.</span> <span class="nav-text">ASN.1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%A7%A3%E7%A0%81%E5%B7%A5%E5%85%B7"><span class="nav-number">4.2.</span> <span class="nav-text">编解码工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E5%BC%80%E6%BA%90%E5%BA%93"><span class="nav-number">4.2.1.</span> <span class="nav-text">常见开源库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A0%E5%AE%89%E5%85%A8%E8%AF%81%E4%B9%A6%E7%AD%BE%E5%90%8D"><span class="nav-number">4.3.</span> <span class="nav-text">无安全证书签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%89%E5%AE%89%E5%85%A8%E8%AF%81%E4%B9%A6%E7%AD%BE%E5%90%8D"><span class="nav-number">4.4.</span> <span class="nav-text">有安全证书签名</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%E3%80%81%E8%A1%8C%E4%B8%9A%E7%8A%B6%E6%80%81"><span class="nav-number">5.</span> <span class="nav-text">应用场景、行业状态</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#C-NCAP"><span class="nav-number">5.1.</span> <span class="nav-text">C-NCAP</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2025-02-28%E6%9B%B4%E6%96%B0"><span class="nav-number">7.</span> <span class="nav-text">2025.02.28更新</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95"><span class="nav-number">7.1.</span> <span class="nav-text">附录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CANoe%E8%A7%A3%E6%9E%90%E4%B8%8D%E5%B8%A6%E8%AF%81%E4%B9%A6%E7%AD%BE%E5%90%8D%E7%9A%84%E6%95%B0%E6%8D%AE%E6%98%8E%E6%96%87"><span class="nav-number">7.2.</span> <span class="nav-text">CANoe解析不带证书签名的数据明文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CANoe%E8%A7%A3%E6%9E%90%E5%B8%A6%E8%AF%81%E4%B9%A6%E7%AD%BE%E5%90%8D%E7%9A%84%E6%95%B0%E6%8D%AE%E6%98%8E%E6%96%87"><span class="nav-number">7.3.</span> <span class="nav-text">CANoe解析带证书签名的数据明文</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Passerby</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">226</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://passerby.net/5880.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Passerby">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="矛盾体">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="车联网C-V2X学习笔记 | 矛盾体">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          车联网C-V2X学习笔记
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-03-02 00:00:00" itemprop="dateCreated datePublished" datetime="2025-03-02T00:00:00+08:00">2025-03-02</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="V2X是什么"><a href="#V2X是什么" class="headerlink" title="V2X是什么"></a>V2X是什么</h1><p>参与V2X量产相关的项目于有一段时间了，终于终于现在对这个领域有了一个轮廓性的了解，真是不容易，功能虽小，但是将其用到量产，涉及到的知识却非常的广泛，趁着现在还没忘掉，打算沉淀成一篇笔记。</p>
+<span id="more"></span>
+
+<p>V2X，全称Vehicle-to-Everything，中文意思是“车对一切”。它是一种让车辆能够与周围环境中的各种实体进行数据交换的通信技术，是万物互联在汽车出行领域的拓展。这些实体包括：</p>
+<ul>
+<li>其他车辆（V2V）：车辆之间可以互相通信，共享速度、位置、转向等信息，提前预警潜在的碰撞风险，提前做行驶规划，让车与车有了直接的交互。</li>
+<li>行人（V2P）：车辆可以通过感知到附近的行人，尤其是盲区的行人非机动车，并采取相应的避让措施。</li>
+<li>道路设施（V2I）：车辆可以直接与周边交通信号灯、路标等基础设施进行通信，获取实时准确的交通信息。</li>
+<li>网络（V2N）：车辆可以连接到互联网，获取天气、路况以及更远处交通事故等信息等信息。</li>
+</ul>
+<p>形象地说，常规的ADAS是给车辆装上了眼睛，让车辆自己可以观察周边环境进行一定程度的自动驾驶。而V2X就像给车辆装上了一张嘴巴和一对耳朵，可以说出自己的情况，以及听到周边车辆他们遇到的事情，这让更高级级别的自动驾驶成为可能。</p>
+<h1 id="V2X技术路线"><a href="#V2X技术路线" class="headerlink" title="V2X技术路线"></a>V2X技术路线</h1><p>目前，V2X主要有两大技术路线：DSRC和C-V2X：</p>
+<ul>
+<li>DSRC(IEEE 802.11p)技术：由IEEE主导标准制定，提供短距离无线传输技术，以车车和车路通信为主要方式。</li>
+<li>C-V2X技术：包括LTE-V2X和NR-V2X，由3GPP主导标准制定。C-V2X是将蜂窝通信技术和直通通信技术有机结合得车联网无线通信技术，同时支持车-车直通通信和蜂窝通信两种方式，支持车车、车路、车人以及车网等各类应用。</li>
+</ul>
+<p>简单的说，对于车联网这个新的需求，尤其直通技术上，DSRC是将WiFi协议魔改过来得技术，而C-V2X是将无线通信LTE以及4G魔改来的技术。虽技术严谨路线有所区别，但是要解决的遇到的问题是大致一致的，IEEE 802.11p和C-V2X以及NR-V2X主要体现在无线接入技术的不同上。在协议其中C-V2X尽量重用蜂窝系统已有的上层协议，将研究重点聚焦于接入层的物理层和媒体接入技术。DSRC包括两类，用于ETC的DSRC和基于802.11pde DSRC，两者是不同的技术。两种技术路线相似的网络层可支持IP协议栈，同时考虑IP协议栈的开销以及低时延传输要求，，也可采用非IP传输支持上层应用。在《蜂窝车联网（C-V2X）》一书中有一个图表，很清晰对比出DSRC、LTE-V2X以及NR-V2X协议层的区别和联系。</p>
+<p><img data-src="https://cdn.passerby.net/2025/03/4442606611216989.jpg"></p>
+<h2 id="适用范围和趋势"><a href="#适用范围和趋势" class="headerlink" title="适用范围和趋势"></a>适用范围和趋势</h2><p>DSRC仅在部分早期部署国家（如日本、欧洲）保留残余应用，而LTE-V2X在中、美、韩等国已成主导技术。C-V2X（尤其是LTE&#x2F;NR-V2X）凭借技术演进、政策支持和商业成熟度，将在不久的将来全面取代DSRC，成为智能交通和自动驾驶的核心通信标准。</p>
+<h1 id="关键技术标准"><a href="#关键技术标准" class="headerlink" title="关键技术标准"></a>关键技术标准</h1><p>对于LTE-V2X有一个标准对其做出了总体技术要求：《YD_T 3400-2018 基于LTE的车联网无线通信技术 总体技术要求》，从很大范围的对其总体业务、系统架构以及功能需求做了一些规范性要求。比如说：有效通信距离、移动速度、通信时延、传输可靠性、覆盖要求、消息发送频率要求、消息大小要求、架构模型、接口、功能实体、高层功能、无线功能、标识以及功能描述和消息流等。</p>
+<p>附录还有基于LTE车联网应用场景及需求部分，对于一些常见场景，可以了解其场景描述、预期效果和需求分析等内容。主要包含这些场景：</p>
+<ul>
+<li><p>安全应用：</p>
+</li>
+<li><p>前方静止车辆告警</p>
+</li>
+<li><p>前方慢速车辆告警</p>
+</li>
+<li><p>紧急电子刹车灯告警</p>
+</li>
+<li><p>逆向超车提示</p>
+</li>
+<li><p>逆向行驶告警</p>
+</li>
+<li><p>换道决策辅助提示</p>
+</li>
+<li><p>交叉口防撞提示</p>
+</li>
+<li><p>异常车辆提示</p>
+</li>
+<li><p>道路危险状况提示</p>
+</li>
+<li><p>道路施工告警指示</p>
+</li>
+<li><p>协作式自动巡航控制</p>
+</li>
+<li><p>协作式高速公路车辆自动系统（直线）</p>
+</li>
+<li><p>前向碰撞预警</p>
+</li>
+<li><p>汇入主路辅助&#x2F;碰撞告警</p>
+</li>
+<li><p>紧急车辆提示</p>
+</li>
+<li><p>非机动车横穿预警&#x2F;行人横穿预警</p>
+</li>
+<li><p>道路湿滑&#x2F;危险路段提醒</p>
+</li>
+<li><p>左转辅助&#x2F;告警</p>
+</li>
+<li><p>闯红灯（&#x2F;黄灯）告警</p>
+</li>
+<li><p>交通效率提升</p>
+</li>
+<li><p>道路限速提示</p>
+</li>
+<li><p>交通信号灯提醒</p>
+</li>
+<li><p>交通信息及路线推荐</p>
+</li>
+<li><p>增强得路线指引和导航</p>
+</li>
+<li><p>专用道路管理</p>
+</li>
+<li><p>限行管理</p>
+</li>
+<li><p>车载标识</p>
+</li>
+<li><p>车速引导</p>
+</li>
+<li><p>信息娱乐服务</p>
+</li>
+<li><p>服务信息公告</p>
+</li>
+<li><p>自动停车场入口</p>
+</li>
+<li><p>本地电子支付</p>
+</li>
+<li><p>SOS&#x2F;eCall业务</p>
+</li>
+<li><p>车辆被盗&#x2F;损坏警报</p>
+</li>
+<li><p>车辆远程诊断，维修保养提示</p>
+</li>
+</ul>
+<h2 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h2><p>LTE-V2X物理层主要参考的标准是《YD_T 3340-2018 基于LTE的车联网无线通信技术 空中接口技术要求》，主要包括PC5接口技术要求和Uu接口技术要求两部分。工作中没有用到太多这一层级的知识，故我也没做太过深入的研究。</p>
+<h2 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h2><p>LTE-V2X网络层主要参考的标准是《YD_T 3707-2020 基于LTE的车联网无线通信技术 网络层技术要求》，其框架如下图，支持Uu接口和PC5接口的接入层传输技术：</p>
+<p><img data-src="https://cdn.passerby.net/2025/03/8346813311468852.jpg"></p>
+<p>基于LTE的车联网无线通信技术网络层的数字子层包括TCP&#x2F;UDP，IP， DSMP和适配层。适配层用于区分DSMP、IP、以及DME数据包，从而调用不同的接入层接口发送数据，以及将收到的数据传递给上层协议栈。适配层帧结构如下，包含帧头和Payload两部分。IP数据传输时无适配层帧头，适配层有效载荷用于封装上层数据包。适配层帧格式中的比特顺序为高位在前。目前标准中Protocol Type 为4表示DSMP，其余值为保留值。</p>
+<p><img data-src="https://cdn.passerby.net/2025/03/8963856355063345.jpg"></p>
+<p>在车联网C-V2X应用中我们更关注DSMP协议，下边截图时DSM逐层打包流程：</p>
+<p><img data-src="https://cdn.passerby.net/2025/03/8423663300795430.jpg"></p>
+<p>其中DSM的数据帧格式如下图，比特顺序为高位在前：</p>
+<p><img data-src="https://cdn.passerby.net/2025/03/4413328962731186.jpg"></p>
+<p>对于V2X应用开发来说，这决定了我们收到的数据对应的应用类型，以及选用哪一份ASN.1来解析数据段。AID采用变长字节表示，目前最多支持2个字节的表示，最少采用1个字节表示。目前标准中AID采用p-encoding的编码方式，其中具体的值，需要参考标准《YD&#x2F;T 4008-2022引用基于LTE的车联网无线通信技术 应用标识分配及映射》。</p>
+<p>字节0的最高位（x表示不关心）b7  b6 | AID 长度（字节） | AID 取值范围（采用p-encoding的十六进制） | AID取值范围（十进制） | AID 取值范围（未采用p-encoding的十六进制）<br>0   x | 1 | 0p00 到0p7F | 0到127 | 0x00 到0x7F<br>1   0 | 2 | 0p80-00 到0pBF-FF | 128到16511 | 0x80 到0x40-7F<br>1   1 | 长度≥3保留 | 保留 | 保留 | 保留</p>
+<p>应用标识取值（十进制） | 应用标识取值（p-encoding的十六进制） | 字节长度 | 应用领域或其他描述 | 消息 | 映射的目标层二标识（十六进制）<br>3616 | 0p8d.a0 | 2 | DSA发送 | DSA | 0x000000<br>111 | 0p6f | 1 | 车车基本安全应用-普通车辆状态 | BSM，常规 | 0x000001<br>112 | 0p70 | 1 | 车车基本安全应用-普通车辆关键事件提醒 | BSM，事件 | 0x000002<br>113 | 0p71 | 1 | 车车基本安全应用-紧急车辆状态 | BSM，常规 | 0x000003<br>114 | 0p72 | 1 | 车车基本安全应用-紧急车辆关键事件提醒 | BSM，事件 | 0x000004<br>3617 | 0p8d.a1 | 2 | 车车基本安全应用-后装车载终端 | BSM | 0x000005<br>3618 | 0p8d.a2 | 2 | 地图类应用 | MAP | 0x000006<br>3619 | 0p8d.a3 | 2 | 信号灯类应用 | SPAT | 0x000007<br>3620 | 0p8d.a4 | 2 | 道路信息-静态类应用 | RSI | 0x000008<br>3621 | 0p8d.a5 | 2 | 道路信息-半静态类应用 | RSI | 0x000009<br>3622 | 0p8d.a6 | 2 | 道路信息-动态类应用 | RSI | 0x00000A<br>3623 | 0p8d.a7 | 2 | 道路提醒类应用 | RSM | 0x00000B<br>3624 | 0p8d.a8 | 2 | 测试车辆发送 |  | 0x00000C<br>3625 | 0p8d.a9 | 2 | 测试路侧发送#1 |  | 0x00000D<br>3626 | 0p8d.aa | 2 | 测试路侧发送#2 |  | 0x00000E</p>
+<p>网络层中的Payload部分，即为应用层编码后的数据，其中与应用层数据是否签名是否加密会有些许区别，在介绍完下边几个层之后，我们来看一个编解码例子。</p>
+<h2 id="消息层"><a href="#消息层" class="headerlink" title="消息层"></a>消息层</h2><p>LTE-V2X消息层最基础的参考标准是《YD_T 3709-2020 基于LTE的车联网无线通信技术 消息层技术要求》,其标准化了消息层数据集的架构以及具体的数据定义和编码方式等。基于LTE的车联网无线通信技术消息层框架如下图：</p>
+<p><img data-src="https://cdn.passerby.net/2025/03/2931142967279410.jpg"></p>
+<p>消息层的标准主要目的是规范各家厂商在对于上一章节网络层中Payload（数据Data）的编码方式和编码内容，所有参与者使用同一规则编解码具体数据才能实现互联互通。其中在编码标准上，消息层数据集用ASN.1标准进行定义，遵循“消息帧-消息体-数据帧-数据元素”层层嵌套的逻辑进行指定。数据集交互的编解码方式遵循非对齐压缩码规则UPER。通常来讲各厂家使用同样内容的.asn文本文件，其定义了下文消息类型，然后使用成熟的ASN编解码库，就可以实现各自软件应用中数据的互联互通。</p>
+<p>再具体一些，下文中提到的标准定义好的消息类型可以理解成程序中的数据结构体，这个结构体和.asn文件定义好的数据是一一对应的，然后ASN编解码库结合asn文件可以将数据结构体的内容编码成十六进制，然后通过C-V2X信道发送。接收端网络层接收到十六进制ASN编码后的数据口，通过ASN编解码库再解析成程序中的数据结构体，此时即回到了数据的明文形式，可以用于接下来的具体功能使用。当引入了证书签名，Payload部分需要进行一步额外的签名验签步骤，整体Payload会有所不同，后边有个例子。</p>
+<p>对于C-V2X功能应用第一阶段场景（Day 1）开发来说，这个是最最需要经常翻阅以及了解的标准。其中详细描述了最经典的车车直连、这与路测单元直连所用消息类型：</p>
+<p><img data-src="https://cdn.passerby.net/2025/03/1301356936646413.png"></p>
+<ul>
+<li>BSM (Basic Safety Message)： 基本安全消息，是最核心的消息类型，用于车辆广播自身的状态信息，如位置、速度、加速度、航向角等。其他车辆接收到BSM后，可以了解周围车辆的动态信息，从而实现安全预警和协作式驾驶。</li>
+<li>SPAT (Signal Phase and Timing Message)： 信号灯相位与定时消息，由路侧设备（RSU）发送，包含交通信号灯的相位信息和剩余时间。车辆接收到SPAT后，可以了解信号灯的状态，从而进行闯红灯预警、绿灯提前告知等应用。</li>
+<li>MAP (Map Data)： 地图数据消息，由路侧设备或云平台提供，包含道路的几何信息、车道线、交通标志等。车辆接收到MAP后，可以进行高精度定位、路径规划等应用。</li>
+<li>RSI (Roadside Safety Message)： 路侧安全消息，由路侧设备发送，用于广播道路安全事件信息，如交通事故、拥堵、施工等。车辆接收到RSI后，可以及时了解前方道路的交通状况，从而进行安全预警和路径调整。</li>
+<li>RSM (Road Safety Message)： 道路安全消息，用于车辆之间或车辆与路侧设备之间共享道路安全信息，例如车辆故障、紧急制动等。接收到RSM的车辆可以及时了解周围车辆的状况，从而进行安全预警。</li>
+<li>msgFrameExt：多用于第二阶段。</li>
+</ul>
+<p>功能应用第二阶段场景（Day 2）开发来说，在《T_CSAE 157-2020合作式智能运输系统 车用通信系统应用层及应用数据交互标准（第二阶段）》标准中定义了一些新的消息类型：</p>
+<p><img data-src="https://cdn.passerby.net/2025/03/7198626893085640.jpg"></p>
+<ul>
+<li>TEST： 该消息类型通常用于测试和调试C-V2X系统。它可以包含各种测试数据，以验证系统的功能和性能。</li>
+<li>RTCM (Radio Technical Commission for Maritime Services)： RTCM 消息主要用于提供高精度的定位信息，例如差分全球导航卫星系统 (DGNSS) 数据。这对于需要精确位置信息的应用非常重要，例如自动驾驶和车道级导航。</li>
+<li>RSC (Road Side Coordination)： RSC 消息用于路侧设备 (RSU) 之间的信息交换和协调。这有助于实现更智能的交通管理和控制，例如交通信号优化和道路事件通知。</li>
+<li>SSM (Station Status Message)： SSM 消息用于广播车辆或路侧设备的状态信息，例如位置、速度、方向等。这对于其他车辆和路侧设备了解周围环境非常重要，从而实现协作式驾驶和安全预警。</li>
+<li>VIR (Vehicle Information Request)： VIR 消息用于车辆之间请求和共享信息。例如，车辆可以请求其他车辆的位置、速度、加速度等信息，以支持协作式驾驶和安全应用。</li>
+<li>PAM (Platoon Announcement Message)： PAM 消息用于车辆编队 (platoon) 的创建和管理。它可以包含编队信息、车辆成员列表等。这对于实现车辆编队行驶和提高道路通行效率非常重要。</li>
+<li>PSM (Platoon Synchronization Message)： PSM 消息用于车辆编队中的车辆同步。它可以包含时间戳、位置信息等，以确保编队中的车辆保持同步行驶。</li>
+<li>CLPMM (Cooperative Lane Change Proposal Message)： CLPMM 消息用于车辆之间的协作式变道。车辆可以发送 CLPMM 消息，向其他车辆提议变道，并协调变道过程，以确保安全和效率。</li>
+<li>VPM (Vulnerable Pedestrian Message)： VPM 消息用于向车辆提供弱势交通参与者 (如行人、自行车) 的信息。这有助于提高道路安全，减少交通事故。</li>
+</ul>
+<p>我将这些消息制作成了Mindmap，更加直观可以看数据结构的拓扑：</p>
+<p>Pending</p>
+<h2 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h2><p>通常到了这一层，程序已经可以拿到具体的物理值形式的数据了，不同的厂商不同的车型，可以根据具体的需要，选择不同的数据处理方式以及将数据用于需要的场合。比如可以选择传统基于规则的方式，或者使用机器学期算法来进行安全预警或者辅助驾驶。甚至通过V2X采集来的数据，可以和ADAS相结合，将V2X技术当作一个传感器来使用，与其他数据源结合在一起来提供自动驾驶决策，也是非常有研究价值的课题。</p>
+<p>为了给行业提供一个参考方向，中国汽车工程学会发布《T_CSAE 53-2020 合作式智能运输系统 车用通信系统 应用层及应用数据交互标准（第一阶段）》和《T_CSAE 157-2020合作式智能运输系统 车用通信系统应用层及应用数据交互标准（第二阶段）》两项标准，主要目的是推动智能网联汽车与车路协同技术的标准化发展，解决协同感知与安全应用中的关键问题，并促进产业生态的互联互通。两项标准作为团体标准，逐步向行业标准和国家标准过渡，为智能网联汽车测试、示范运营及法规制定提供技术依据。</p>
+<p>第一阶段（T&#x2F;CSAE 53-2020）定义了17个基础应用（或者说16个场景，部分业内人士对汽车进场支付场景认可度欠佳），通常行业中称之为Day 1 场景。第二阶段（T&#x2F;CSAE 157-2020）扩展至12个高阶应用，行业中通常称之为Day 2 场景。</p>
+<p>Day 1场景列表如下，标准中对于每个应用图文的形式介绍了应用定义和预期效果、主要场景、系统基本原理、通信方式、基本性能要求、数据交互需求等信息。其中主要用到的是BSM、MAP、SPaT、RSI、RSM信息，在标准的后半部分也又介绍了一遍对应的ASN.1定义，与YD_T 3709-2020中的消息类型定义一致。</p>
+<p>序号 | 类别 | 主要通信方式 | 应用名称<br>1 | 安全 | V2V | 前向碰撞预警（FCW: Forward Collision Warning）<br>2 | V2V&#x2F; V2I | 交叉路口碰撞预警（ICW: Intersection Collision Warning）<br>3 | V2V&#x2F; V2I | 左转辅助（LTA: Left Turn Assist）<br>4 | V2V | 盲区预警&#x2F;变道预警（BSW&#x2F;LCW：Blind Spot Warning&#x2F;Lane Change Warning）<br>5 | V2V | 逆向超车预警（DNPW: Do Not Pass Warning）<br>6 | V2V-Event | 紧急制动预警（EBW: Emergency Brake Warning）<br>7 | V2V-Event | 异常车辆提醒（AVW: Abnormal Vehicle Warning）<br>8 | V2V-Event | 车辆失控预警（CLW：Control Loss Warning）<br>9 | V2I | 道路危险状况提示（HLW: Hazardous Location Warning）<br>10 | V2I | 限速预警（SLW: Speed Limit Warning）<br>11 | V2I | 闯红灯预警（RLVW: Red Light Violation Warning）<br>12 | V2P&#x2F; V2I | 弱势交通参与者碰撞预警（VRUCW: Vulnerable Road User Collision Warning）<br>13 | 效率 | V2I | 绿波车速引导（GLOSA: Green Light Optimal Speed Advisory）<br>14 | V2I | 车内标牌（IVS: In-Vehicle Signage）<br>15 | V2I | 前方拥堵提醒（TJW: Traffic Jam Warning）<br>16 | V2V | 紧急车辆提醒（EVW: Emergency Vehicle Warning）<br>17 | 信息服务 | V2I | 汽车近场支付（VNFP, Vehicle Near-Field Payment）</p>
+<p>Day2场景列表如下，标准对每个场景从应用定义、预期效果、主要场景、系统基本原理、通信方式、基本性能要求、数据交换需求等方面做了介绍。同样，在这份标准的后半部分也介绍了一遍对应的ASN.1定义，在第一阶段消息集之外，主要介绍了对于MAP、RSI的拓展，以及9个msgFrameExt新的消息体。</p>
+<p>序号 | DAY-II | 通信模式 | 触发方式 | 场景分类 | 主要消息<br>1 | 感知数据共享（SDS: Sensor Data Sharing） | V2V&#x2F;V2I | Event | 安全 | Msg_SSM<br>2 | 协作式变道（CLC: Cooperative Lane Change） | V2V&#x2F; V2I | Event | 安全 | Msg_VIR<br>3 | 协作式车辆汇入（CVM: Cooperative Vehicle Merge） | V2I | Event | 安全&#x2F;效率 | Msg_RSCMsg_VIR<br>4 | 协作式交叉口通行（CIP: Cooperative Intersection Passing） | V2I | Event&#x2F;Period | 安全&#x2F;效率 | Msg_RSC<br>5 | 差分数据服务（DDS: Differential Data Service） | V2I | Period | 信息服务 | Msg_RTCM<br>6 | 动态车道管理（DLM: Dynamic Lane Management） | V2I | Event&#x2F;Period | 效率&#x2F;交通管理 | Msg_RSC<br>7 | 协作式优先车辆通行（CHPVP: Cooperative High Priority Vehicle Passing） | V2I | Event | 效率 | Msg_VIRMsg_RSC<br>8 | 场站路径引导服务（GSPA: Guidance Service in Parking Area） | V2I | Event&#x2F;Period | 信息服务 | Msg_PAMMsg_VIR<br>9 | 浮动车数据采集（PDC: Probe Data Collection） | V2I | Period&#x2F;Event | 交通管理 | Msg_BSMMsg_VIRMsg_SSM<br>10 | 弱势交通参与者安全通行（VRUSP: Vulnerable Road User Safe Passing） | P2X | Period | 安全 | Msg_PSM<br>11 | 协作式车辆编队管理（CPM: Cooperative Platooning Management） | V2V | Event&#x2F;Period | 高级智能驾驶 | Msg_CLPMM<br>12 | 道路收费服务（RTS: Road Tolling Service） | V2I | Event&#x2F;Period | 效率&#x2F;信息服务 | Msg_VPM</p>
+<h2 id="通信安全"><a href="#通信安全" class="headerlink" title="通信安全"></a>通信安全</h2><p>知乎有两篇文章非常细致清晰的讲解了签名、加密、证书的基本原理以及在C-C2X中的应用：</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/59999022">https://zhuanlan.zhihu.com/p/59999022</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/391581956">https://zhuanlan.zhihu.com/p/391581956</a></p>
+<p>总的来看，C-V2X技术遵循《YD_T 3957-2021 基于LTE的车联网无线通信技术 安全证书管理系统技术要求》标准使用证书对原始ASN编码后数据进行签名和验签，目前不涉及内容加密的环节，所以原始的ASN编码后的V2X数据是在证书签名后的数据中的一项，即unsecuredData。这里有一点需要注意的是原始V2X数据使用的是UPER编码协议进行的ASN.1编码，若需要安全签名，根据标准使用的是OER编码格式使用证书将前边UPER编码后的数据再次编码，然后整体作为DSMP层的Payload进行使用。</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>还有很多其他的标准需要在V2X开发中需要去研读，比如说《基于LTE-V2X直连通信的车载信息交互系统技术要求及试验方法》，《GB_T 31024.1-2014 合作式智能运输系统 专用短程通信 第1部分：总体技术要求》，《GB_T 31024.2-2014 合作式智能运输系统 专用短程通信 第2部分：媒体访问控制层和物理层规范》，《GB_T 31024.3-2019合作式智能运输系统 专用短程通信 第3部分：网络层和应用层规范》，《GB_T 31024.4-2019合作式智能运输系统 专用短程通信 第4部分：设备应用规范》，《YD_T 3592-2019 基于LTE的车联网无线通信技术 基站设备技术要求》，《YD_T 3593-2019 基于LTE的车联网无线通信技术 核心网设备技术要求》，《YD_T 3594-2019 基于LTE的车联网通信安全技术要求》，《YD_T 3629-2020 基于LTE的车联网无线通信技术 基站设备测试方法》，《YD_T 3708-2020 基于LTE的车联网无线通信技术 网络层测试方法》，《YD_T 3710-2020 基于LTE的车联网无线通信技术 消息层测试方法》，《YD_T 3755-2020 基于LTE的车联网无线通信技术 支持直连通信的路侧设备技术要求》，《YD_T 3756-2020 基于LTE的车联网无线通信技术 支持直连通信的车载终端设备技术要求》，《YD_T 3847-2021 基于LTE的车联网无线通信技术 支持直连通信的路侧设备测试方法》，《YD_T 3848-2021 基于LTE的车联网无线通信技术 支持直连通信的车载终端设备测试方法》</p>
+<h1 id="ASN-1编解码"><a href="#ASN-1编解码" class="headerlink" title="ASN.1编解码"></a>ASN.1编解码</h1><h2 id="ASN-1"><a href="#ASN-1" class="headerlink" title="ASN.1"></a>ASN.1</h2><p>ASN.1 是 Abstract Syntax Notation One（抽象语法标记一）的缩写。ASN.1 允许描述复杂的数据结构，且独立于任何特定的编程语言。ASN.1 编译器会接收这些 ASN.1 规范，并生成一组目标语言（如 C、C++、Java）文件，这些文件包含这些抽象指定结构的原生类型定义，同时还会生成代码，用于将这些结构转换为字节序列（序列化）或从字节序列转换回结构（反序列化）。（通常，如果这些结构需要通过网络传输或写入外部介质，这些例程会非常有用。）</p>
+<p>ASN.1 有多种数据编码方式，其中最广泛使用的包括：</p>
+<ul>
+<li>BER（基本编码规则，Basic Encoding Rules）</li>
+<li>CER（规范编码规则，Canonical Encoding Rules）</li>
+<li>DER（可辨别编码规则，Distinguished Encoding Rules）</li>
+<li>PER（压缩编码规则，Packed Encoding Rules）</li>
+<li>XER（XML 编码规则，XML Encoding Rules）</li>
+</ul>
+<p>在中国，根据 YDT 3709-2020 标准，V2X 消息数据集遵循 非对齐压缩编码规则（UPER，Unaligned Packed Encoding Rules）。</p>
+<h2 id="编解码工具"><a href="#编解码工具" class="headerlink" title="编解码工具"></a>编解码工具</h2><h3 id="常见开源库"><a href="#常见开源库" class="headerlink" title="常见开源库"></a>常见开源库</h3><p>asn1tools 和 asn1c 是用于 UPER 编码和解码的最广泛使用的开源库。</p>
+<p>asn1c:                  <a target="_blank" rel="noopener" href="https://lionet.info/asn1c/blog/">https://lionet.info/asn1c/blog/</a></p>
+<p>asn1tools:           <a target="_blank" rel="noopener" href="https://asn1tools.readthedocs.io/en/latest/">https://asn1tools.readthedocs.io/en/latest/</a></p>
+<p>这两个工具分别由自己的优缺点：</p>
+<p>asn1tools:</p>
+<ul>
+<li><p>优点</p>
+</li>
+<li><p>生成的代码量较少。</p>
+</li>
+<li><p>仅生成 UPER 解码代码。</p>
+</li>
+<li><p>可执行文件体积较小。</p>
+</li>
+<li><p>计算速度更快。</p>
+</li>
+<li><p>缺点</p>
+</li>
+<li><p>不支持 ASN.1 符号中的所有类型。</p>
+</li>
+</ul>
+<p>asn1c</p>
+<ul>
+<li><p>优点</p>
+</li>
+<li><p>支持 ASN.1 符号中的所有类型。</p>
+</li>
+<li><p>缺点</p>
+</li>
+<li><p>会生成所有编码规则的代码，因此代码量较大。</p>
+</li>
+<li><p>使用动态内存。</p>
+</li>
+<li><p>内存消耗会随时间增加，且无法立即释放内存。</p>
+</li>
+</ul>
+<p>进行编解码第一步是需要有定义好的ASN.1文件，如上边章节提到的，这些在C-V2X所涉及到的标准中，主要是在下列三项中定义的：</p>
+<ul>
+<li>YD_T 3709-2020 基于LTE的车联网无线通信技术 消息层技术要求</li>
+<li>T_CSAE 53-2020 合作式智能运输系统 车用通信系统 应用层及应用数据交互标准（第一阶段）</li>
+<li>T_CSAE 157-2020合作式智能运输系统 车用通信系统应用层及应用数据交互标准（第二阶段）</li>
+</ul>
+<p>以BSM为例，我们将其中ASN.1代码以及所涉及到的所有层层应用，复制到一个文本文件，并定义成以asn结尾，再加上ASN标准需要用到的头部和尾部，即得到我们所需要的ASN编解码源文件。</p>
+<p><img data-src="https://cdn.passerby.net/2025/03/8478534131457557.jpg"></p>
+<p>我将使用Vector CANoe 配合Car2X插件以及Autotalks硬件来尝试编解码收发。Vector自己有个小工具可以将ASN.1数据转换成CANoe可以使用的数据库。</p>
+<p><img data-src="https://cdn.passerby.net/2025/03/5218058022617103.jpg"></p>
+<p>生成出来的数据库在应用层已经很完善了，可是在协议层可配置的数据不完整，我正在问Vector的客服，看看是怎么回事。在这儿我暂时先用了CANoe 17 示例工程里边的数据库，做一些学习。</p>
+<h2 id="无安全证书签名"><a href="#无安全证书签名" class="headerlink" title="无安全证书签名"></a>无安全证书签名</h2><p>通过CANoe with Car2X 插件发送了一个空的BSM消息，CANoe分层截图如下图：</p>
+<p><img data-src="https://cdn.passerby.net/2025/03/2646476249666909.jpg"></p>
+<p>从中可以看到，</p>
+<p>完整收到的数据包时64 bytes原始数据是：</p>
+<p>00 00 05 FF FF FF 04 04 00 6F 00 34 07 EF C0 00 00 00 00 00 00 00 BC 30 B3 E6 BD 02 96 58 5C AF 84 88 F0 80 80 80 00 FF D0 00 80 00 7E FF CF A1 FA 14 D7 FF FF E4 00 01 90 32 00 50 9F FF C0 00</p>
+<p>C-V2X 数据链路层Payload：</p>
+<p>04 04 00 6F 00 34 07 EF C0 00 00 00 00 00 00 00 BC 30 B3 E6 BD 02 96 58 5C AF 84 88 F0 80 00 FF D0 00 80 00 7E FF CF A1 FA 14 D7 FF FF E4 00 01 90 32 00 50 9F FF C0 00</p>
+<p>C-V2X 层Payload：</p>
+<p>04 00 6F 00 34 07 EF C0 00 00 00 00 00 00 00 BC 30 B3 E6 BD 02 96 58 5C AF 84 88 F0 80 80 80 00 FF D0 00 80 00 7E FF CF A1 FA 14 D7 FF FF E4 00 01 90 32 00 50 9F FF C0 00</p>
+<p>适配层Payload：</p>
+<p>00 6F 00 34 07 EF C0 00 00 00 00 00 00 00 BC 30 B3 E6 BD 02 96 58 5C AF 84 88 F0 80 80 80  D0 00 80 00 7E FF CF A1 FA 14 D7 FF FF E4 00 01 90 32 00 50 9F FF C0 00</p>
+<p>DSMP 层Payload：</p>
+<p>07 EF C0 00 00 00 00 00 00 00 BC 30 B3 E6 BD 02 96 58 5C AF 84 88 F0 80 80 80 00 FF D0 00 80 00 7E FF CF A1 FA 14 D7 FF FF E4 00 01 90 32 00 50 9F FF C0 00</p>
+<p>我们着重于后边几层的解析，从中可以看到，适配层头部04代表DSMP协议，然后DSMP的头部00 6F 00 34代表DSMP使用版本为0的协议，消息类型是6F即 BSM（111），数据长度是00 34即52个字节。之后的52个字节即为BSM的ASN.1编码后数据，可以使用标准的ASN.1解码。可惜我使用我自己从标准中摘选出来的ASN.1并没有解析成功，不知道是否是因为和CANoe数据库有哪里不一致。有待查证。</p>
+<h2 id="有安全证书签名"><a href="#有安全证书签名" class="headerlink" title="有安全证书签名"></a>有安全证书签名</h2><p>然后我们用CANoe生成一个C-V2X证书，然后给给这个节点加上证书签名，证书信息如下图：</p>
+<p><img data-src="https://cdn.passerby.net/2025/03/3227797328412936.jpg"></p>
+<p>完整收到的数据包时原始数据是：</p>
+<p>00 00 05 FF FF FF 04 04 00 6F 00 91 03 81 02 40 03 80 34 07 E8 80 00 00 00 00 00 00 00 B5 A9 F3 E6 BD 03 80 58 5C B0 07 88 DD 00 80 80 00 FF D0 01 40 00 7E FF CF A1 FA 14 D7 FF FF E4 00 01 90 32 00 50 9F FF C0 00 40 01 6F 00 02 5F 39 35 89 00 D8 80 E0 68 10 49 13 DC C5 97 84 40 35 62 E0 A3 6A C9 46 25 83 13 93 45 F2 88 51 2F 3F 4F 3A 38 53 F7 15 1E D3 C8 35 99 F9 B7 77 0C E1 FF E9 E7 8B C1 9F 7A 40 F6 C4 F2 AD 7D 69 BA 02 06 A9 F0 58 DC 23 3E 1E 27 EC 07 7F 7F 7C 92</p>
+<p>C-V2X 数据链路层Payload:</p>
+<p>04 04 00 6F 00 91 03 81 02 40 03 80 34 07 E8 80 00 00 00 00 00 00 00 B5 A9 F3 E6 BD 03 80 58 B0 07 88 DD 00 80 80 00 FF D0 01 40 00 7E FF CF A1 FA 14 D7 FF FF E4 00 01 90 32 00 50 9F FF C0 00 40 01 6F 00 02 5F 39 35 89 00 D8 80 E0 68 10 49 13 DC C5 97 84 40 35 62 E0 A3 6A C9 46 25 83 13 93 45 F2 88 51 2F 3F 4F 3A 38 53 F7 15 1E D3 C8 35 99 F9 B7 77 0C E1 FF E9 E7 8B C1 9F 7A 40 F6 C4 F2 AD 7D 69 BA 02 06 A9 F0 58 DC 23 3E 1E 27 EC 07 7F 7F 7C 92</p>
+<p>C-V2X 层Payload ：</p>
+<p>04 00 6F 00 91 03 81 02 40 03 80 34 07 E8 80 00 00 00 00 00 00 00 B5 A9 F3 E6 BD 03 80 58 5C B0 07 88 DD 00 80 80 00 FF D0 01 40 00 7E FF CF A1 FA 14 D7 FF FF E4 00 01 90 32 00 50 9F FF C0 00 40 01 6F 00 02 5F 39 35 89 00 D8 80 E0 68 10 49 13 DC C5 97 84 40 35 62 E0 A3 6A C9 46 25 83 13 93 45 F2 88 51 2F 3F 4F 3A 38 53 F7 15 1E D3 C8 35 99 F9 B7 77 0C E1 FF E9 E7 8B C1 9F 7A 40 F6 C4 F2 AD 7D 69 BA 02 06 A9 F0 58 DC 23 3E 1E 27 EC 07 7F 7F 7C 92</p>
+<p>适配层Payload ：</p>
+<p>00 6F 00 91 03 81 02 40 03 80 34 07 E8 80 00 00 00 00 00 00 00 B5 A9 F3 E6 BD 03 80 58 5C B0 07 88 DD 00 80 80 00 FF D0 01 40 00 7E FF CF A1 FA 14 D7 FF FF E4 00 01 90 32 00 50 9F FF C0 00 40 01 6F 00 02 5F 39 35 89 00 D8 80 E0 68 10 49 13 DC C5 97 84 40 35 62 E0 A3 6A C9 46 25 83 13 93 45 F2 88 51 2F 3F 4F 3A 38 53 F7 15 1E D3 C8 35 99 F9 B7 77 0C E1 FF E9 E7 8B C1 9F 7A 40 F6 C4 F2 AD 7D 69 BA 02 06 A9 F0 58 DC 23 3E 1E 27 EC 07 7F 7F 7C 92</p>
+<p>DSMP 层Payload ：</p>
+<p>03 81 02 40 03 80 34 07 E8 80 00 00 00 00 00 00 00 B5 A9 F3 E6 BD 03 80 58 5C B0 07 88 DD 00 80 80 00 FF D0 01 40 00 7E FF CF A1 FA 14 D7 FF FF E4 00 01 90 32 00 50 9F FF C0 00 40 01 6F 00 02 5F 39 35 89 00 D8 80 E0 68 10 49 13 DC C5 97 84 40 35 62 E0 A3 6A C9 46 25 83 13 93 45 F2 88 51 2F 3F 4F 3A 38 53 F7 15 1E D3 C8 35 99 F9 B7 77 0C E1 FF E9 E7 8B C1 9F 7A 40 F6 C4 F2 AD 7D 69 BA 02 06 A9 F0 58 DC 23 3E 1E 27 EC 07 7F 7F 7C 92</p>
+<p>Unsecured data</p>
+<p>07 E8 80 00 00 00 00 00 00 00 B5 A9 F3 E6 BD 03 80 58 5C B0 07 88 DD 00 80 80 00 FF D0 01 40 00 7E FF CF A1 FA 14 D7 FF FF E4 00 01 90 32 00 50 9F FF C0 00</p>
+<p>我们着重于后边几层的解析，和没有证书签名的数据在应用层data之外的头部编码方式是类似的，从中可以看到，适配层头部04代表DSMP协议，然后DSMP的头部00 6F 00 91代表DSMP使用版本为0的协议，消息类型是6F即 BSM（111），数据长度是00 91即145个字节。之后的145个字节即为证书签名后的数据，签名流程按照《YD_T 3957-2021 基于LTE的车联网无线通信技术 安全证书管理系统技术要求》来进行，使用的OER编码格式。对于原始的BSM数据，是在签名后的数据中的一项：Unsecured data。可以使用网友的小工具解析这份前面数据：</p>
+<p><a target="_blank" rel="noopener" href="https://const.net.cn/tool/v2x/asn-decode/">https://const.net.cn/tool/v2x/asn-decode/</a></p>
+<p>我们将DSMP 层Payload填入工具输入框，得到解析后的数据：</p>
+<V2XSecData-EncryptedSigned>
+
+<p><protocolVersion>3</protocolVersion></p>
+<content>
+
+<signedData>
+
+<p><hashId><sm3/></hashId></p>
+<tbsData>
+
+<payload>
+
+<data>
+
+<p><protocolVersion>3</protocolVersion></p>
+<content>
+
+<unsecuredData>
+
+<p>07 E8 80 00 00 00 00 00 00 00 B5 A9 F3 E6 BD 03</p>
+<p>80 58 5C B0 07 88 DD 00 80 80 00 FF D0 01 40 00</p>
+<p>7E FF CF A1 FA 14 D7 FF FF E4 00 01 90 32 00 50</p>
+<p>9F FF C0 00</p>
+</unsecuredData>
+
+</content>
+
+</data>
+
+</payload>
+
+<headerInfo>
+
+<p><aid>111</aid></p>
+<p><generationTime>667649269367000</generationTime></p>
+</headerInfo>
+
+</tbsData>
+
+<signer>
+
+<p><digest>E0 68 10 49 13 DC C5 97</digest></p>
+</signer>
+
+<signature>
+
+<sm2Signature>
+
+<rSig>
+
+<p>35 62 E0 A3 6A C9 46 25 83 13 93 45 F2 88 51 2F</p>
+<p>3F 4F 3A 38 53 F7 15 1E D3 C8 35 99 F9 B7 77 0C</p>
+</rSig>
+
+<sSig>
+
+<p>E1 FF E9 E7 8B C1 9F 7A 40 F6 C4 F2 AD 7D 69 BA</p>
+<p>02 06 A9 F0 58 DC 23 3E 1E 27 EC 07 7F 7F 7C 92</p>
+</sSig>
+
+</sm2Signature>
+
+</signature>
+
+</signedData>
+
+</content>
+
+</V2XSecData-EncryptedSigned>
+
+<p>从中得到的unsecuredData再次使用ASN.1工具解码，即得到BSM明文。但是依旧我未成功通过自己的ASN.1解析出来，原因待分析。</p>
+<h1 id="应用场景、行业状态"><a href="#应用场景、行业状态" class="headerlink" title="应用场景、行业状态"></a>应用场景、行业状态</h1><h2 id="C-NCAP"><a href="#C-NCAP" class="headerlink" title="C-NCAP"></a>C-NCAP</h2><p>C-NCAP全称：China New Car Assessment Program（中国新车评价规程）和其他国家的NCAP（新车评价规程）是评估汽车安全性能的重要体系。C-NCAP由中国汽车技术研究中心（CATARC）制定，自2006年起实施，旨在通过标准化测试评估车辆的安全性能。测试内容包括正面碰撞、侧面碰撞、鞭打试验等，评估乘员保护、行人保护及安全辅助系统。评分体系采用五星制，五星为最高安全评级。C-NCAP每三年进行一次规程改版，当下有效是2024版本，2027正在制定中，多年来C-NCAP不断结合最新出现的技术和中国国情针对性地进行优化提升，走符合我国国情的汽车安全提升之路。</p>
+<p><img data-src="https://cdn.passerby.net/2025/03/5259111815095882.jpg"></p>
+<p>C-NCAP由中国汽车技术研究中心有限公司（CATARC）直接主导运营，是其核心业务之一，CATARC负责C-NCAP评价规程的制定和更新，结合中国道路实际需求调整测试项目，并通过C-NCAP与国际NCAP组织（如Global NCAP，E-NCAP）合作，促进标准接轨。C-V2X通过实时通信扩展了车辆的感知范围，可支持更复杂的主动安全功能，比如车辆高速直行与前方静止目标车辆测试场景CCRH（High Speed Car to Car Rear），车辆直行与前方被遮挡的横穿目标车辆测试场景C2C SCPO（Car-to-Car Straight Crossing Path with Obstruction）,交通信号识别系统TSR（Traffic Sign Recognition）以及弱势交通参与者保护VRU（Vulnerable Road User）。</p>
+<p>C-V2X在C-NCAP中的作用主要体现在以下几个方面：</p>
+<p>提高车辆感知能力： C-V2X技术可以通过V2V、V2I等通信，让车辆获取周围车辆、道路设施等信息，扩大车辆感知范围，提高感知精度。</p>
+<p>实现更精准的预警和控制： C-V2X技术可以为车辆提供更及时、准确的预警信息，帮助驾驶员或自动驾驶系统做出更合理的决策，避免碰撞事故的发生。</p>
+<p>提升复杂交通场景下的安全性： 在城市道路、高速公路等复杂交通场景下，C-V2X技术可以发挥重要作用，例如在盲区预警、变道辅助、交通拥堵预警等方面提供支持。</p>
+<p>总结而言，C-V2X技术对C-NCAP的作用是多方面的，它不仅提高了C-NCAP的评估标准，促进了汽车安全技术的发展，还有助于改善道路交通安全，推动智能网联汽车的发展。随着C-V2X技术的不断成熟和应用，它将在C-NCAP中发挥越来越重要的作用。</p>
+<p>详细的C-NCAP内容可以查阅官网：<a target="_blank" rel="noopener" href="https://www.c-ncap.org.cn/">https://www.c-ncap.org.cn/</a> 以及当前有效的C-NCAP 2024的具体内容：<a target="_blank" rel="noopener" href="https://www.c-ncap.org.cn/download">https://www.c-ncap.org.cn/download</a> 。目前2024版C-NCAP正式规程共有如下内容：</p>
+<ul>
+<li>C-NCAP管理规则（2024年版）</li>
+<li>附录A 正面100%重叠刚性壁障碰撞试验规程</li>
+<li>附录B 正面50%重叠移动渐进变形壁障（MPDB）碰撞试验规程</li>
+<li>附录C 可变形移动壁障侧面碰撞试验规程</li>
+<li>附录D 侧面柱碰撞试验规程</li>
+<li>附录E 低速后碰撞颈部保护试验规程</li>
+<li>附录F 儿童保护静态评价规程</li>
+<li>附录G KNEE-MAPPING试验规程</li>
+<li>附录H 侧面远端乘员保护规程</li>
+<li>附录I 主被动离位乘员保护虚拟测评规程</li>
+<li>附录J 乘员保护其他测评项</li>
+<li>附录K VRU保护–头型&amp;腿型试验规程</li>
+<li>附录L 主动安全ADAS试验规程</li>
+<li>附录M 整车灯光性能试验规程</li>
+<li>附录N 电动汽车刮底试验规程</li>
+<li>附录O VRU保护–AEB VRU测试规程</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>随着智能交通系统的发展和自动驾驶技术的进步，V2X（Vehicle-to-Everything）技术正在成为提升交通安全与效率的关键。它通过让车辆与其他车辆、行人、道路基础设施以及互联网进行通信，大大扩展了车辆的感知范围，实现了更高级别的安全预警和驾驶辅助功能。</p>
+<p>从技术路线来看，C-V2X凭借其优越的技术演进能力、政策支持和商业成熟度，已经逐渐取代DSRC，成为当前及未来车联网通信的主要标准。特别是LTE-V2X和NR-V2X，它们不仅支持车对车（V2V）、车对基础设施（V2I）、车对行人（V2P）的直接通信，还能够通过蜂窝网络实现车对网（V2N）的广泛连接，为用户提供更加丰富和实时的信息服务。</p>
+<p>在实际应用场景中，C-V2X技术极大地提升了道路交通的安全性和效率。例如，在避免碰撞方面，无论是前方静止车辆告警还是逆向行驶告警等功能，都显著降低了交通事故的发生概率；而在提高交通效率上，如道路限速提示、交通信号灯提醒等应用，则帮助优化了交通流，减少了拥堵现象。</p>
+<p>此外，C-V2X技术在推动智能网联汽车发展的同时，也促进了C-NCAP等汽车安全评估体系的进步。通过集成C-V2X技术，C-NCAP能够测试和评估车辆在复杂交通场景下的主动安全性能，从而推动整个汽车行业朝着更高的安全标准迈进。</p>
+<p>总之，V2X技术不仅是实现完全自动驾驶的重要组成部分，也是构建智慧城市交通系统不可或缺的一环。随着相关技术的不断成熟和普及，我们有理由相信，未来的交通将更加安全、高效、便捷。</p>
+<p>最后的最后，记录一下个人对于C-V2X技术栈的感受，在对C-V2X以及NR-V2X技术有了初步的了解够，感觉V2X技术中的V2N（Uu）想要真正利用起来应该是任重而又道远。当前基于传统的4G&#x2F;5G网络云服务车联网通道已经可以满足绝大多数网联场景对于带宽和网络的需求，尤其是5G NR后空口延迟大大降低，进一步压缩了V2X技术V2N(Uu)通道的优势。有点像NB-IoT技术一样，虽然有低功耗、低成本等优势，但是考虑到覆盖率和稳定性兼容性等问题，多少年过去了推广范围还是比较有限，倒是4G的CAT1以及5G的RedCap目前感觉发展势头不错，个人也比较看好RedCap。对于V2X技术中的V2N(Uu)由于需要车端以及基站端的硬件软件支持，在技术复杂性以及成本方面有特别大的挑战，个人认为要走的路还有很远。对于直连的技术(PC5)比如V2V，V2I，V2P等，多数解决的场景使用其他的传感器也能一定程度上解决，比如雷达摄像头等。所以对于L2++以及以下的车型来说，尤其考虑到当前搭载V2X直连模组车型的市场覆盖率，很多OEM将其归为锦上添花的特性，将其视为ADAS的增强，配备于中高端车型中。在入门车型多数会由于成本控制原因而取消配备。个人认为当前V2X在市场中还处于非常早期的阶段，真正爆发将发生于市面上L3等级自动驾驶达到一定的普及率，当普通传感器解决了99%的问题，对于一些棘手的corner case可能就需要C-V2X的出场了。想要发展到L4或者L5级别的自动驾驶，当前单车智能路线一定是有其局限性的，届时基于V2X技术的车联网了一定是必备技术之一，那个时候应该就是V2X技术爆发的时刻，让我们拭目以待。</p>
+<h1 id="2025-02-28更新"><a href="#2025-02-28更新" class="headerlink" title="2025.02.28更新"></a>2025.02.28更新</h1><p>国家市场监督管理总局和国家标准化管理委员会联合发布了首个直连通信国家标准：《GB&#x2F;T 45315-2025基于LTE-V2X直连通信的车载信息交互系统技术要求及试验方法》。其中很完整的介绍到了关于PC5直连用到的技术细节，包括了协议栈层应用层以及安全相关甚至测试验证方法等，很像是的对上文提到的几十个文档做了一个概括总结，易读性也比之前好很多。需要了解V2X的小伙伴强烈建议先看看这个国家标准。</p>
+<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><h2 id="CANoe解析不带证书签名的数据明文"><a href="#CANoe解析不带证书签名的数据明文" class="headerlink" title="CANoe解析不带证书签名的数据明文"></a>CANoe解析不带证书签名的数据明文</h2><p>Detail View</p>
+<p>[-] Time</p>
+<p>|  8.109317</p>
+<p>|  0:00:00:08.109</p>
+<p>[-] General</p>
+<p>|  Type:                   C-V2X Packet</p>
+<p>|  Radio Channel:          183</p>
+<p>|  Signal Strength:        40 dBm</p>
+<p>|  Signal Quality (SNR):   —</p>
+<p>|  Packet Length:          64 bytes       40</p>
+<p>|  Direction:              Tx</p>
+<p>[-] Data</p>
+<p>|  Length   64 bytes</p>
+<p>|  000h     00 00 05 FF FF FF 04 04 00 6F 00 34 07 EF C0 00 00 00 00 00 00 00 BC 30 B3 E6 BD 02 96 58 5C AF   …ÿÿÿ…o.4.ïÀ…….¼0³æ½.–X\¯</p>
+<p>|  020h     84 88 F0 80 80 80 00 FF D0 00 80 00 7E FF CF A1 FA 14 D7 FF FF E4 00 01 90 32 00 50 9F FF C0 00   „ˆð€€€.ÿÐ.€.~ÿÏ¡ú.×ÿÿä..2.PŸÿÀ.</p>
+<p>[-] C-V2X Data Link Layer</p>
+<p>|  Source L2ID:                    000005</p>
+<p>|  Destination L2ID:   broadcast   FFFFFF</p>
+<p>[-] Payload</p>
+<p>|  Length   58 bytes</p>
+<p>|  000h     04 04 00 6F 00 34 07 EF C0 00 00 00 00 00 00 00 BC 30 B3 E6 BD 02 96 58 5C AF 84 88 F0 80 80 80   …o.4.ïÀ…….¼0³æ½.–X\¯„ˆð€€€</p>
+<p>|  020h     00 FF D0 00 80 00 7E FF CF A1 FA 14 D7 FF FF E4 00 01 90 32 00 50 9F FF C0 00                     .ÿÐ.€.~ÿÏ¡ú.×ÿÿä..2.PŸÿÀ.</p>
+<p>[-] C-V2X Layer</p>
+<p>|  Message Family:   GB&#x2F;T 31024.3 – Adaption Layer   04</p>
+<p>[-] Payload</p>
+<p>|  Length   57 bytes</p>
+<p>|  000h     04 00 6F 00 34 07 EF C0 00 00 00 00 00 00 00 BC 30 B3 E6 BD 02 96 58 5C AF 84 88 F0 80 80 80 00   ..o.4.ïÀ…….¼0³æ½.–X\¯„ˆð€€€.</p>
+<p>|  020h     FF D0 00 80 00 7E FF CF A1 FA 14 D7 FF FF E4 00 01 90 32 00 50 9F FF C0 00                        ÿÐ.€.~ÿÏ¡ú.×ÿÿä..2.PŸÿÀ.</p>
+<p>[-] Adaption Layer</p>
+<p>|  Protocol Type:   DSMP   04</p>
+<p>[-] Payload</p>
+<p>|  Length   56 bytes</p>
+<p>|  000h     00 6F 00 34 07 EF C0 00 00 00 00 00 00 00 BC 30 B3 E6 BD 02 96 58 5C AF 84 88 F0 80 80 80 00 FF   .o.4.ïÀ…….¼0³æ½.–X\¯„ˆð€€€.ÿ</p>
+<p>|  020h     D0 00 80 00 7E FF CF A1 FA 14 D7 FF FF E4 00 01 90 32 00 50 9F FF C0 00                           Ð.€.~ÿÏ¡ú.×ÿÿä..2.PŸÿÀ.</p>
+<p>[-] DSMP – DSRC Short Message Protocol</p>
+<p>|  Version:                             0          00</p>
+<p>|  Option Indicator:                    0          00</p>
+<p>|  Reserved:                            0          00</p>
+<p>[-] Application Identifier    111   6F</p>
+<p>|  Length:                   1 bytes   0. . .  . . . .</p>
+<p>|  Application Identifier:   111       . 110 1111</p>
+<p>|  Length:                              52 bytes   0034</p>
+<p>[-] Payload</p>
+<p>|  Length   52 bytes</p>
+<p>|  000h     07 EF C0 00 00 00 00 00 00 00 BC 30 B3 E6 BD 02 96 58 5C AF 84 88 F0 80 80 80 00 FF D0 00 80 00   .ïÀ…….¼0³æ½.–X\¯„ˆð€€€.ÿÐ.€.</p>
+<p>|  020h     7E FF CF A1 FA 14 D7 FF FF E4 00 01 90 32 00 50 9F FF C0 00                                       ~ÿÏ¡ú.×ÿÿä..2.PŸÿÀ.</p>
+<p>[-] CSAE0053_MsgSet::BasicSafetyMessage</p>
+<p>|  frameType:        bsmFrame   0</p>
+<p>[-] bsmFrame</p>
+<p>|  msgCnt:                126                       7E</p>
+<p>|  id:                          00 00 00 00 00 00 00 05</p>
+<p>|  secMark:               57.733 s                  E185</p>
+<p>|  timeConfidence:        time_000_000_000_000_01    27</p>
+<p>[-] pos</p>
+<p>|  lat:         39.9842348 °    17D51C2C</p>
+<p>|  lon:         116.4938506 °   456F8D0A</p>
+<p>|  elevation:   48.1 m          1E1</p>
+<p>[-] posAccuracy</p>
+<p>|  semiMajor:     0.05 m           1</p>
+<p>|  semiMinor:     0.05 m           1</p>
+<p>|  orientation:   0.0054932479 °   1</p>
+<p>[-] posConfidence</p>
+<p>|  pos:         a1cm           f</p>
+<p>|  elevation:   elev_000_01    f</p>
+<p>|  transmission:          forwardGears               2</p>
+<p>|  speed:                 0.04 m&#x2F;s                  2</p>
+<p>|  heading:               0.0000 °                  0</p>
+<p>|  angle:                 127                       7F</p>
+<p>[-] motionCfd</p>
+<p>|  speedCfd:     prec0_01ms       7</p>
+<p>|  headingCfd:   prec0_0125deg    7</p>
+<p>|  steerCfd:     unavailable      0</p>
+<p>[-] accelSet</p>
+<p>|  lon:    2001       7D1</p>
+<p>|  lat:    2001       7D1</p>
+<p>|  vert:   -1.00 g    CE</p>
+<p>|  yaw:    0.00 °&#x2F;s   0</p>
+<p>[-] brakes</p>
+<p>|  brakePadel:                           unavailable    0</p>
+<p>[-] wheelBrakes    unavailable   1000 0</p>
+<p>|  unavailable:   1   1 . . .  .</p>
+<p>|  leftFront:     0   . 0 . .  .</p>
+<p>|  leftRear:      0   . . 0 .  .</p>
+<p>|  rightFront:    0   . . . 0  .</p>
+<p>|  rightRear:     0   . . . .  0</p>
+<p>|  traction:                             unavailable    0</p>
+<p>|  abs:                                  unavailable    0</p>
+<p>|  scs:                                  unavailable    0</p>
+<p>|  brakeBoost:                           unavailable    0</p>
+<p>|  auxBrakes:                            unavailable    0</p>
+<p>[-] size</p>
+<p>|  width:    2.00 m   C8</p>
+<p>|  length:   4.00 m   190</p>
+<p>[-] vehicleClass</p>
+<p>|  classification:   passenger_Vehicle_TypeUnknown   A</p>
+<p>[-] safetyExt</p>
+<p>[-] pathPrediction</p>
+<p>|  radiusOfCurve:   32767   7FFF</p>
+<p>|  confidence:      0.0 %   0</p>
+<h2 id="CANoe解析带证书签名的数据明文"><a href="#CANoe解析带证书签名的数据明文" class="headerlink" title="CANoe解析带证书签名的数据明文"></a>CANoe解析带证书签名的数据明文</h2><p>Detail View</p>
+<p>[-] Time</p>
+<p>|  12.513965</p>
+<p>|  0:00:00:12.513</p>
+<p>[-] General</p>
+<p>|  Type:                   C-V2X Packet</p>
+<p>|  Radio Channel:          183</p>
+<p>|  Signal Strength:        40 dBm</p>
+<p>|  Signal Quality (SNR):   —</p>
+<p>|  Packet Length:          157 bytes      9D</p>
+<p>|  Direction:              Tx</p>
+<p>[-] Data</p>
+<p>|  Length   157 bytes</p>
+<p>|  000h     00 00 05 FF FF FF 04 04 00 6F 00 91 03 81 02 40 03 80 34 07 E8 80 00 00 00 00 00 00 00 B5 A9 F3   …ÿÿÿ…o.‘..@.€4.è€…….µ©ó</p>
+<p>|  020h     E6 BD 03 80 58 5C B0 07 88 DD 00 80 80 00 FF D0 01 40 00 7E FF CF A1 FA 14 D7 FF FF E4 00 01 90   æ½.€X\°.ˆÝ.€€.ÿÐ.@.~ÿÏ¡ú.×ÿÿä..</p>
+<p>|  040h     32 00 50 9F FF C0 00 40 01 6F 00 02 5F 39 35 89 00 D8 80 E0 68 10 49 13 DC C5 97 84 40 35 62 E0   2.PŸÿÀ<a href="/cdn-cgi/l/email-protection">[email protected]</a>.._95‰.Ø€àh.I.ÜÅ—„@5bà</p>
+<p>|  060h     A3 6A C9 46 25 83 13 93 45 F2 88 51 2F 3F 4F 3A 38 53 F7 15 1E D3 C8 35 99 F9 B7 77 0C E1 FF E9   £jÉF%ƒ.“EòˆQ&#x2F;?O:8S÷..ÓÈ5™ù·w.áÿé</p>
+<p>|  080h     E7 8B C1 9F 7A 40 F6 C4 F2 AD 7D 69 BA 02 06 A9 F0 58 DC 23 3E 1E 27 EC 07 7F 7F 7C 92            ç‹ÁŸz@öÄò­}iº..©ðXÜ#&gt;.’ì.|’</p>
+<p>[-] C-V2X Data Link Layer</p>
+<p>|  Source L2ID:                    000005</p>
+<p>|  Destination L2ID:   broadcast   FFFFFF</p>
+<p>[-] Payload</p>
+<p>|  Length   151 bytes</p>
+<p>|  000h     04 04 00 6F 00 91 03 81 02 40 03 80 34 07 E8 80 00 00 00 00 00 00 00 B5 A9 F3 E6 BD 03 80 58 5C   …o.‘..@.€4.è€…….µ©óæ½.€X\</p>
+<p>|  020h     B0 07 88 DD 00 80 80 00 FF D0 01 40 00 7E FF CF A1 FA 14 D7 FF FF E4 00 01 90 32 00 50 9F FF C0   °.ˆÝ.€€.ÿÐ.@.~ÿÏ¡ú.×ÿÿä..2.PŸÿÀ</p>
+<p>|  040h     00 40 01 6F 00 02 5F 39 35 89 00 D8 80 E0 68 10 49 13 DC C5 97 84 40 35 62 E0 A3 6A C9 46 25 83   <a href="/cdn-cgi/l/email-protection">[email protected]</a>.._95‰.Ø€àh.I.ÜÅ—„@5bà£jÉF%ƒ</p>
+<p>|  060h     13 93 45 F2 88 51 2F 3F 4F 3A 38 53 F7 15 1E D3 C8 35 99 F9 B7 77 0C E1 FF E9 E7 8B C1 9F 7A 40   .“EòˆQ&#x2F;?O:8S÷..ÓÈ5™ù·w.áÿéç‹ÁŸz@</p>
+<p>|  080h     F6 C4 F2 AD 7D 69 BA 02 06 A9 F0 58 DC 23 3E 1E 27 EC 07 7F 7F 7C 92                              öÄò­}iº..©ðXÜ#&gt;.’ì.|’</p>
+<p>[-] C-V2X Layer</p>
+<p>|  Message Family:   GB&#x2F;T 31024.3 – Adaption Layer   04</p>
+<p>[-] Payload</p>
+<p>|  Length   150 bytes</p>
+<p>|  000h     04 00 6F 00 91 03 81 02 40 03 80 34 07 E8 80 00 00 00 00 00 00 00 B5 A9 F3 E6 BD 03 80 58 5C B0   ..o.‘..@.€4.è€…….µ©óæ½.€X\°</p>
+<p>|  020h     07 88 DD 00 80 80 00 FF D0 01 40 00 7E FF CF A1 FA 14 D7 FF FF E4 00 01 90 32 00 50 9F FF C0 00   .ˆÝ.€€.ÿÐ.@.~ÿÏ¡ú.×ÿÿä..2.PŸÿÀ.</p>
+<p>|  040h     40 01 6F 00 02 5F 39 35 89 00 D8 80 E0 68 10 49 13 DC C5 97 84 40 35 62 E0 A3 6A C9 46 25 83 13   @.o.._95‰.Ø€àh.I.ÜÅ—„@5bà£jÉF%ƒ.</p>
+<p>|  060h     93 45 F2 88 51 2F 3F 4F 3A 38 53 F7 15 1E D3 C8 35 99 F9 B7 77 0C E1 FF E9 E7 8B C1 9F 7A 40 F6   “EòˆQ&#x2F;?O:8S÷..ÓÈ5™ù·w.áÿéç‹ÁŸz@ö</p>
+<p>|  080h     C4 F2 AD 7D 69 BA 02 06 A9 F0 58 DC 23 3E 1E 27 EC 07 7F 7F 7C 92                                 Äò­}iº..©ðXÜ#&gt;.’ì.|’</p>
+<p>[-] Adaption Layer</p>
+<p>|  Protocol Type:   DSMP   04</p>
+<p>[-] Payload</p>
+<p>|  Length   149 bytes</p>
+<p>|  000h     00 6F 00 91 03 81 02 40 03 80 34 07 E8 80 00 00 00 00 00 00 00 B5 A9 F3 E6 BD 03 80 58 5C B0 07   .o.‘..@.€4.è€…….µ©óæ½.€X\°.</p>
+<p>|  020h     88 DD 00 80 80 00 FF D0 01 40 00 7E FF CF A1 FA 14 D7 FF FF E4 00 01 90 32 00 50 9F FF C0 00 40   ˆÝ.€€.ÿÐ.@.~ÿÏ¡ú.×ÿÿä..2.PŸÿÀ.@</p>
+<p>|  040h     01 6F 00 02 5F 39 35 89 00 D8 80 E0 68 10 49 13 DC C5 97 84 40 35 62 E0 A3 6A C9 46 25 83 13 93   .o.._95‰.Ø€àh.I.ÜÅ—„@5bà£jÉF%ƒ.“</p>
+<p>|  060h     45 F2 88 51 2F 3F 4F 3A 38 53 F7 15 1E D3 C8 35 99 F9 B7 77 0C E1 FF E9 E7 8B C1 9F 7A 40 F6 C4   EòˆQ&#x2F;?O:8S÷..ÓÈ5™ù·w.áÿéç‹ÁŸz@öÄ</p>
+<p>|  080h     F2 AD 7D 69 BA 02 06 A9 F0 58 DC 23 3E 1E 27 EC 07 7F 7F 7C 92                                    ò­}iº..©ðXÜ#&gt;.’ì.|’</p>
+<p>[-] DSMP – DSRC Short Message Protocol</p>
+<p>|  Version:                             0           00</p>
+<p>|  Option Indicator:                    0           00</p>
+<p>|  Reserved:                            0           00</p>
+<p>[-] Application Identifier    111   6F</p>
+<p>|  Length:                   1 bytes   0. . .  . . . .</p>
+<p>|  Application Identifier:   111       . 110 1111</p>
+<p>|  Length:                              145 bytes   0091</p>
+<p>[-] Payload</p>
+<p>|  Length   145 bytes</p>
+<p>|  000h     03 81 02 40 03 80 34 07 E8 80 00 00 00 00 00 00 00 B5 A9 F3 E6 BD 03 80 58 5C B0 07 88 DD 00 80   ..@.€4.è€…….µ©óæ½.€X\°.ˆÝ.€</p>
+<p>|  020h     80 00 FF D0 01 40 00 7E FF CF A1 FA 14 D7 FF FF E4 00 01 90 32 00 50 9F FF C0 00 40 01 6F 00 02   €.ÿÐ.@.~ÿÏ¡ú.×ÿÿä..2.PŸÿÀ<a href="/cdn-cgi/l/email-protection">[email protected]</a>..</p>
+<p>|  040h     5F 39 35 89 00 D8 80 E0 68 10 49 13 DC C5 97 84 40 35 62 E0 A3 6A C9 46 25 83 13 93 45 F2 88 51   _95‰.Ø€àh.I.ÜÅ—„@5bà£jÉF%ƒ.“EòˆQ</p>
+<p>|  060h     2F 3F 4F 3A 38 53 F7 15 1E D3 C8 35 99 F9 B7 77 0C E1 FF E9 E7 8B C1 9F 7A 40 F6 C4 F2 AD 7D 69   &#x2F;?O:8S÷..ÓÈ5™ù·w.áÿéç‹ÁŸz@öÄò­}i</p>
+<p>|  080h     BA 02 06 A9 F0 58 DC 23 3E 1E 27 EC 07 7F 7F 7C 92                                                º..©ðXÜ#&gt;.’ì.|’</p>
+<p>[-] V2X Sec – China V2X Security 2020</p>
+<p>[-] Summary</p>
+<p>|  Protocol Version:   3</p>
+<p>|  Type:               Signed data</p>
+<p>|  Generation Time:    UTC+0 2025-02-26 10:07:44.367000</p>
+<p>|  AID:                111</p>
+<p>|  Signer Type:        Digest (HashedId8)</p>
+<p>|  Signer Name:        myCertificate</p>
+<p>|  Signer HashedId8:   E0 68 10 49 13 DC C5 97</p>
+<p>|  Signature Status:   Valid (Pseudonym Certificate trusted)</p>
+<p>[-] Message Tree</p>
+<p>|  protocolVersion:   3   3</p>
+<p>[-] content</p>
+<p>[-] signedData</p>
+<p>|  hashId:            sm3    2</p>
+<p>[-] tbsData</p>
+<p>[-] payload</p>
+<p>[-] data</p>
+<p>|  protocolVersion:   3   3</p>
+<p>[-] content</p>
+<p>[-] unsecuredData</p>
+<p>|  Length   52 bytes</p>
+<p>|  000h     07 E8 80 00 00 00 00 00 00 00 B5 A9 F3 E6 BD 03 80 58 5C B0 07 88 DD 00 80 80 00 FF D0 01 40 00   .è€…….µ©óæ½.€X\°.ˆÝ.€€.ÿÐ.@.</p>
+<p>|  020h     7E FF CF A1 FA 14 D7 FF FF E4 00 01 90 32 00 50 9F FF C0 00                                       ~ÿÏ¡ú.×ÿÿä..2.PŸÿÀ.</p>
+<p>[-] headerInfo</p>
+<p>|  aid:              111                                6F</p>
+<p>|  generationTime:   UTC+0 2025-02-26 10:07:44.367000   25F39358900D8</p>
+<p>[-] signer</p>
+<p>|  digest:   E0 68 10 49 13 DC C5 97   E0 68 10 49 13 DC C5 97</p>
+<p>[-] signature</p>
+<p>[-] sm2Signature</p>
+<p>|  rSig:   35 62 E0 A3 6A C9 46 25 83 13 93 45 F2 88 51 2F 3F 4F 3A 38 53 F7 15 1E D3 C8 35 99 F9 B7 77 0C   35 62 E0 A3 6A C9 46 25 83 13 93 45 F2 88 51 2F 3F 4F 3A 38 53 F7 15 1E D3 C8 35 99 F9 B7 77 0C</p>
+<p>|  sSig:   E1 FF E9 E7 8B C1 9F 7A 40 F6 C4 F2 AD 7D 69 BA 02 06 A9 F0 58 DC 23 3E 1E 27 EC 07 7F 7F 7C 92   E1 FF E9 E7 8B C1 9F 7A 40 F6 C4 F2 AD 7D 69 BA 02 06 A9 F0 58 DC 23 3E 1E 27 EC 07 7F 7F 7C 92</p>
+<p>[-] CSAE0053_MsgSet::BasicSafetyMessage</p>
+<p>|  frameType:        bsmFrame   0</p>
+<p>[-] bsmFrame</p>
+<p>|  msgCnt:                68                        44</p>
+<p>|  id:                    00 00 00 00 00 00 00 05   00 00 00 00 00 00 00 05</p>
+<p>|  secMark:               44.367 s                  AD4F</p>
+<p>|  timeConfidence:        time_000_000_000_000_01    27</p>
+<p>[-] pos</p>
+<p>|  lat:         39.9842816 °    17D51E00</p>
+<p>|  lon:         116.4938768 °   456F8E10</p>
+<p>|  elevation:   44.2 m          1BA</p>
+<p>[-] posAccuracy</p>
+<p>|  semiMajor:     0.05 m           1</p>
+<p>|  semiMinor:     0.05 m           1</p>
+<p>|  orientation:   0.0054932479 °   1</p>
+<p>[-] posConfidence</p>
+<p>|  pos:         a1cm           f</p>
+<p>|  elevation:   elev_000_01    f</p>
+<p>|  transmission:          forwardGears               2</p>
+<p>|  speed:                 0.10 m&#x2F;s                  5</p>
+<p>|  heading:               0.0000 °                  0</p>
+<p>|  angle:                 127                       7F</p>
+<p>[-] motionCfd</p>
+<p>|  speedCfd:     prec0_01ms       7</p>
+<p>|  headingCfd:   prec0_0125deg    7</p>
+<p>|  steerCfd:     unavailable      0</p>
+<p>[-] accelSet</p>
+<p>|  lon:    2001       7D1</p>
+<p>|  lat:    2001       7D1</p>
+<p>|  vert:   -1.00 g    CE</p>
+<p>|  yaw:    0.00 °&#x2F;s   0</p>
+<p>[-] brakes</p>
+<p>|  brakePadel:                           unavailable    0</p>
+<p>[-] wheelBrakes    unavailable   1000 0</p>
+<p>|  unavailable:   1   1 . . .  .</p>
+<p>|  leftFront:     0   . 0 . .  .</p>
+<p>|  leftRear:      0   . . 0 .  .</p>
+<p>|  rightFront:    0   . . . 0  .</p>
+<p>|  rightRear:     0   . . . .  0</p>
+<p>|  traction:                             unavailable    0</p>
+<p>|  abs:                                  unavailable    0</p>
+<p>|  scs:                                  unavailable    0</p>
+<p>|  brakeBoost:                           unavailable    0</p>
+<p>|  auxBrakes:                            unavailable    0</p>
+<p>[-] size</p>
+<p>|  width:    2.00 m   C8</p>
+<p>|  length:   4.00 m   190</p>
+<p>[-] vehicleClass</p>
+<p>|  classification:   passenger_Vehicle_TypeUnknown   A</p>
+<p>[-] safetyExt</p>
+<p>[-] pathPrediction</p>
+<p>|  radiusOfCurve:   32767   7FFF</p>
+<p>|  confidence:      0.0 %   0</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Passerby
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://passerby.net/5880.html" title="车联网C-V2X学习笔记">https://passerby.net/5880.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/5049.html" rel="prev" title="OpenWrt路由器通过CLI命令修改Wifi无线设置">
+                  <i class="fa fa-angle-left"></i> OpenWrt路由器通过CLI命令修改Wifi无线设置
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/6142.html" rel="next" title="华硕路由器梅林固件设置IPv6防火墙">
+                  华硕路由器梅林固件设置IPv6防火墙 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2016 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Passerby</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

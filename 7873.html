@@ -22,12 +22,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"passerby.net","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="作者将OpenClaw部署在服务器上，实测五款大模型处理联网查询与定时推送的能力。Claude Opus 4.6一次成功、灵活应变；GPT-4o频繁失败且编造信息；Gemini聪明但马虎；Kimi居中。顶尖模型Token消耗极高，两天即超出月度配额。作者认为优秀模型已到实用临界点，差的反而帮倒忙。">
+    <meta name="description" content="最近一只大龙虾在科技圈好火，甚至说早已出圈了，各种平时不是科技内容的公众号，也开始说这只无所不能，甚至“成了精的”了的龙虾。我初步用了一周时间，现在记录一下自己的体验。 我对于OpenClaw的理解是赋予了大模型本地电脑的命令执行能力，尤其通过Terminal这个接口，能做很多事情了，而不仅仅是之前聊聊天只是给用户一个建议，真正执行还需要用户自己去做。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="OpenClaw一周体验">
 <meta property="og:url" content="https://passerby.net/7873.html">
 <meta property="og:site_name" content="矛盾体">
-<meta property="og:description" content="作者将OpenClaw部署在服务器上，实测五款大模型处理联网查询与定时推送的能力。Claude Opus 4.6一次成功、灵活应变；GPT-4o频繁失败且编造信息；Gemini聪明但马虎；Kimi居中。顶尖模型Token消耗极高，两天即超出月度配额。作者认为优秀模型已到实用临界点，差的反而帮倒忙。">
+<meta property="og:description" content="最近一只大龙虾在科技圈好火，甚至说早已出圈了，各种平时不是科技内容的公众号，也开始说这只无所不能，甚至“成了精的”了的龙虾。我初步用了一周时间，现在记录一下自己的体验。 我对于OpenClaw的理解是赋予了大模型本地电脑的命令执行能力，尤其通过Terminal这个接口，能做很多事情了，而不仅仅是之前聊聊天只是给用户一个建议，真正执行还需要用户自己去做。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://cdn.passerby.net/2026/03/3181264578492675-scaled.jpg">
 <meta property="og:image" content="https://cdn.passerby.net/2026/03/3045314594958295-scaled.jpg">
@@ -38,7 +38,7 @@
 <meta property="og:image" content="https://cdn.passerby.net/2026/03/4788584997691753.jpg">
 <meta property="og:image" content="https://cdn.passerby.net/2026/03/2048567188027715.jpg">
 <meta property="article:published_time" content="2026-02-28T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-04-07T03:02:18.315Z">
+<meta property="article:modified_time" content="2026-04-13T13:44:14.336Z">
 <meta property="article:author" content="Passerby">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cdn.passerby.net/2026/03/3181264578492675-scaled.jpg">
@@ -186,7 +186,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">226</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -235,7 +235,7 @@
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
       <meta itemprop="name" content="OpenClaw一周体验 | 矛盾体">
-      <meta itemprop="description" content="作者将OpenClaw部署在服务器上，实测五款大模型处理联网查询与定时推送的能力。Claude Opus 4.6一次成功、灵活应变；GPT-4o频繁失败且编造信息；Gemini聪明但马虎；Kimi居中。顶尖模型Token消耗极高，两天即超出月度配额。作者认为优秀模型已到实用临界点，差的反而帮倒忙。">
+      <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -256,7 +256,6 @@
   
 </div>
 
-            <div class="post-description">作者将OpenClaw部署在服务器上，实测五款大模型处理联网查询与定时推送的能力。Claude Opus 4.6一次成功、灵活应变；GPT-4o频繁失败且编造信息；Gemini聪明但马虎；Kimi居中。顶尖模型Token消耗极高，两天即超出月度配额。作者认为优秀模型已到实用临界点，差的反而帮倒忙。</div>
         </div>
       </header>
 
@@ -265,6 +264,8 @@
     
     <div class="post-body" itemprop="articleBody"><p>最近一只大龙虾在科技圈好火，甚至说早已出圈了，各种平时不是科技内容的公众号，也开始说这只无所不能，甚至“成了精的”了的龙虾。我初步用了一周时间，现在记录一下自己的体验。</p>
 <p>我对于OpenClaw的理解是赋予了大模型本地电脑的命令执行能力，尤其通过Terminal这个接口，能做很多事情了，而不仅仅是之前聊聊天只是给用户一个建议，真正执行还需要用户自己去做。</p>
+<span id="more"></span>
+
 <p>首先是安装步骤，这个工具目前还远达不到常见软件的使用便利度，在终端安装并且通过命令行配置真会劝退很多人，后边还涉及模型接入和Skills补充，如果不是工科背景，真挺有挑战的。现在网上安装指导已经多如牛毛了，不是我要记录的重点，我想分享的，是这期间对多个模型不同能力的感受，并且我还是不是完全敢赋予它我本地电脑全部权限，现在我是将其部署在我的服务器上的，主要尝试其一些远程能协助我的功能。</p>
 <p>从一开始到现在我相对深入尝试过5个模型：GPT-40, Claude Opus 4.6, Kimi 2.5， Kimi 2.5 Coding, Gemini-3-pro-preview，我在这几个模型中都尝试了这几个问题：</p>
 <ul>
@@ -318,13 +319,13 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/7625.html" rel="prev" title="沉浸式体验“五星航空”：我在国泰和香港机场感受到的细节魔力">
-                  <i class="fa fa-angle-left"></i> 沉浸式体验“五星航空”：我在国泰和香港机场感受到的细节魔力
+                <a href="/7703.html" rel="prev" title="我在中国银行的负面体验">
+                  <i class="fa fa-angle-left"></i> 我在中国银行的负面体验
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/cuid0mbfu0LEGCSfWCKW1B6O1/" rel="next" title="Claude Code 测试">
-                  Claude Code 测试 <i class="fa fa-angle-right"></i>
+                <a href="/7970.html" rel="next" title="Jetson Orin Nano安装Pytorch CUDA环境">
+                  Jetson Orin Nano安装Pytorch CUDA环境 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"passerby.net","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="大约一年前，我想尝试自己搭建一个XXX服务器，一方面自己可能偶尔有使用的需求，另外一方面是亲自做一遍熟悉一下并且记录搭建步骤，之后再有需要到话拿出之前到笔记迅速就能完成。 记得当时搭建时候费了很大到劲，命令不熟，各种包找不到，以及亚马逊防火墙的各种坑。看了很多帖子，踩了不少坑，用了很久时间终于把L2TP搞定了，苹果Android都可以连接，当时还是超级开心的，并且特别详细到把每一步骤都记录了下来，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="专业的事情，交给专业的人去做">
+<meta property="og:url" content="https://passerby.net/729.html">
+<meta property="og:site_name" content="矛盾体">
+<meta property="og:description" content="大约一年前，我想尝试自己搭建一个XXX服务器，一方面自己可能偶尔有使用的需求，另外一方面是亲自做一遍熟悉一下并且记录搭建步骤，之后再有需要到话拿出之前到笔记迅速就能完成。 记得当时搭建时候费了很大到劲，命令不熟，各种包找不到，以及亚马逊防火墙的各种坑。看了很多帖子，踩了不少坑，用了很久时间终于把L2TP搞定了，苹果Android都可以连接，当时还是超级开心的，并且特别详细到把每一步骤都记录了下来，">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-06-07T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-13T13:48:55.929Z">
+<meta property="article:author" content="Passerby">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://passerby.net/729">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://passerby.net/729.html","path":"/729.html","title":"专业的事情，交给专业的人去做"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>专业的事情，交给专业的人去做 | 矛盾体</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@7.2.0/dist/browser/pangu.umd.js" integrity="sha256-JnmRRnJK7DC6RQJbAJb6AXOM9OmWzS6z8eYultk/48Y=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/pjax.js" defer></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.5.0/dist/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.3.1/pdfobject.min.js","integrity":"sha256-jI72I8ZLVflVOisZIOaLvRew3tyvzeu6aZXFm7P7dEo="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">矛盾体</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-about"><a href="/about.html" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-contact"><a href="/contact.html" rel="section"><i class="fa fa-heartbeat fa-fw"></i>Contact</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="Searching..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Passerby</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">226</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://passerby.net/729.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Passerby">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="矛盾体">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="专业的事情，交给专业的人去做 | 矛盾体">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          专业的事情，交给专业的人去做
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-06-08 00:00:00" itemprop="dateCreated datePublished" datetime="2018-06-08T00:00:00+08:00">2018-06-08</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>大约一年前，我想尝试自己搭建一个XXX服务器，一方面自己可能偶尔有使用的需求，另外一方面是亲自做一遍熟悉一下并且记录搭建步骤，之后再有需要到话拿出之前到笔记迅速就能完成。</p>
+<p>记得当时搭建时候费了很大到劲，命令不熟，各种包找不到，以及亚马逊防火墙的各种坑。看了很多帖子，踩了不少坑，用了很久时间终于把L2TP搞定了，苹果Android都可以连接，当时还是超级开心的，并且特别详细到把每一步骤都记录了下来，一方面为自己留存，一方面觉得其他的教程帖都是垃圾，按照我的这个一步一步来肯定能作成。</p>
+<span id="more"></span>
+
+<p>最近就到了翻笔记到时候。国内同学有这个需要，我法兰克福服务器在国内连接有点慢，所以打算搬到东京，然后特别欢喜的打开我的帖子一步一步照着配置我的新服务器。</p>
+<p>然而噩梦就此开始了。时隔一年，用到了各种软件都有升级，有些甚至安装方法都不一样，本以为半小时说有事情完成，可是光安装包就用了很久。其中一个包由于亚马逊Linux内核升级还报错，虽然找到了解决方案但是我还是不清楚到底有没有正常运行。安装包还好，更折磨人到是一些包到配置文档发生了结构改变，我直接复制之前到内容到新服务器，软件根本不能识别我的配置语句，也就算说，我得重新读一遍新的文档，并且按照新的结构结合我的需求再写一遍。这和我第一次配置有啥区别，并且我沾沾自喜的笔记也毫无作用。</p>
+<p>以为半小时到工作量，至少做了有5小时还没搞定。所遇到的问题我也有头绪知道该怎样解决，报出的错误我也差不多能找到原因在那儿，可是我就是想配置个XXX服务器啊，我每天工作重点不是搞这个，我不想将我的大量时间投入在这个一次性工作，因为可能现在学会了可是一段时间后又有了新的问题。突然间也特别理解网上写教程到博主，之前一直好奇为何这么多人写一些错误到教程，有效的却少之又少，现在逐渐明白，那些并不是错误的，只是博主写作当时可以运行可是后边由于某种关系不好使了。就像我到那篇事无巨细的流程贴，现在即使是让我看来，也是一篇行不通的方案。</p>
+<p>后来我用了github的安装脚本，星星和分叉都很高，上边还写着在不同的系统都测试通过，我尝试着安装，确实太好用了，随便点几下就同时配置好了L2TP和PPTP，让我自己搞到话估计还需要好久，而这个脚本时间大约只用了十分钟。并且这个repository是开源的，也不用担心有病毒，这只是一些脚本文件，每一个我都能看懂它在干什么，只是我自己做到话，这么多句命令我不能保证全部一次性正确，所以需要搞很久。并且这个开源的代码是随时更新的，像我遇到的软件升级配置文件语法不一样到情形，这个脚本的用户会很快察觉到，并且提交issue快速做出更改。这也是开源共同协作到力量。</p>
+<p>这个经历让我特别感慨，感慨到内容就是题目这句话：专业的事情，交给专业到人去做，每个人就尽力把自己到任务做到最好。像刚才配置XXX，我自己再扣下去的话也肯定能搞成，因为第一次我就是这样一步一步弄好的，可是特别的费时费力，并且是一次性的我的成绩用不了多久就被淘汰了。所以这么多时间，我把我的事情做好该多好，将机器学习自动驾驶往前推动那么一丢丢，这样其他人直接用我的成果而给他们方便很多事情。我搭建XXX就直接用他们专业人士到脚本，心情也舒畅，多好。</p>
+<p>未来是个协作的社会，我之前所有事总要自己亲自亲为的想法似乎需要多元化一些了。大家各司其职，努力将这个社会推动向更美好。多好啊。</p>
+<p>但是同时也是这个经历给自己到感悟，由于配置服务器我曾经全部都弄过一次，所以用网上这个脚本我能根据我的需求做很多自定义的事情，而不是像个黑盒只看这工作了而对其中到流程一无所知。在自动配置完成后我觉得有些地方默认的设置不太好，我直接就能找到它配置文件所在的地儿，并且做出我喜欢的更改，仍然特别的开心。</p>
+<p>我所所用到脚本是这个：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/bedefaced/vpn-install">https://github.com/bedefaced/vpn-install</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Passerby
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://passerby.net/729.html" title="专业的事情，交给专业的人去做">https://passerby.net/729.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/738.html" rel="prev" title="">
+                  <i class="fa fa-angle-left"></i> 
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/799.html" rel="next" title="关于高质量睡眠">
+                  关于高质量睡眠 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2016 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Passerby</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

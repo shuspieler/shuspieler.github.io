@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"passerby.net","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="从上一篇文章（SomeIP学习笔记：基础知识）的介绍可看出SOME&#x2F;IP标准预先定义了很多很实用的数据类型，可在实际项目中可能处于兼容性的需求，不完全依照上边数据类型原始定义使用，可能会结合着信号矩阵有进一步的定义，比如说有Offset和Scale的设置等。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SomeIP学习笔记：使用CANoe调试&#x2F;仿真SomeIP服务">
+<meta property="og:url" content="https://passerby.net/6220.html">
+<meta property="og:site_name" content="矛盾体">
+<meta property="og:description" content="从上一篇文章（SomeIP学习笔记：基础知识）的介绍可看出SOME&#x2F;IP标准预先定义了很多很实用的数据类型，可在实际项目中可能处于兼容性的需求，不完全依照上边数据类型原始定义使用，可能会结合着信号矩阵有进一步的定义，比如说有Offset和Scale的设置等。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/0076879860198304.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/6608452763165812.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/3888115072013644.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/4038851218594573.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/8021254195044124.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/2630438650715198.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/4412641562871443.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/5313845447491325.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/5894679737123126.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/9099367775264176.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/1867425205942711.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/5317851700058485.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/6559591018249680.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/1876753638001668.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/8432656677035762.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/5622325204484079.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/3319572974772157.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/0327489944888698.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/0837973239431677.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/7579063029773995.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/8438471466052215.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/8659454598632985.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/0390984652664431.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/2067421738042135.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/5146072459724523.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/1574662834533659.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/5277467515509387.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/7410826158794406.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/4076323349914076.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/2961131055645275.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/3484393229802599.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/2628776837991460.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/9741027950420404.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/0998012767737146.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/8657797885312491.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/1356810601722490.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/9720233647217730.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/1443323017947277.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/6765123249049897.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/6054967073251190.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/1517083501771504.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/3038260376667721.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/0126056696016833.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/1739546149188748.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/8504946812790032.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/2675957888331519.jpg">
+<meta property="article:published_time" content="2025-05-15T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-13T13:44:36.941Z">
+<meta property="article:author" content="Passerby">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.passerby.net/2025/05/0076879860198304.jpg">
+
+
+<link rel="canonical" href="https://passerby.net/6220">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://passerby.net/6220.html","path":"/6220.html","title":"SomeIP学习笔记：使用CANoe调试/仿真SomeIP服务"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>SomeIP学习笔记：使用CANoe调试/仿真SomeIP服务 | 矛盾体</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@7.2.0/dist/browser/pangu.umd.js" integrity="sha256-JnmRRnJK7DC6RQJbAJb6AXOM9OmWzS6z8eYultk/48Y=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/pjax.js" defer></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.5.0/dist/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.3.1/pdfobject.min.js","integrity":"sha256-jI72I8ZLVflVOisZIOaLvRew3tyvzeu6aZXFm7P7dEo="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">矛盾体</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-about"><a href="/about.html" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-contact"><a href="/contact.html" rel="section"><i class="fa fa-heartbeat fa-fw"></i>Contact</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="Searching..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">总结：</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Passerby</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">226</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://passerby.net/6220.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Passerby">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="矛盾体">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="SomeIP学习笔记：使用CANoe调试&#x2F;仿真SomeIP服务 | 矛盾体">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SomeIP学习笔记：使用CANoe调试/仿真SomeIP服务
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-05-16 00:00:00" itemprop="dateCreated datePublished" datetime="2025-05-16T00:00:00+08:00">2025-05-16</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>从上一篇文章（<a href="https://passerby.net/6207.html">SomeIP学习笔记：基础知识</a>）的介绍可看出SOME&#x2F;IP标准预先定义了很多很实用的数据类型，可在实际项目中可能处于兼容性的需求，不完全依照上边数据类型原始定义使用，可能会结合着信号矩阵有进一步的定义，比如说有Offset和Scale的设置等。</p>
+<span id="more"></span>
+
+<p>接下来记录一下用CANoe怎样调试或者模拟AUTOSAR环境下的SOME&#x2F;IP通信，在这里我使用的是CANoe SP5的一个SOME&#x2F;IP例程：Basic AUTOSAR SOME&#x2F;IP Event，如下图。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/0076879860198304.jpg"></p>
+<p>这个样例是使用Simulation Setup模式结合了一个ARXML创建的，已经有了很好的Pannel，对于我们学习Simulation消息订阅很方便。在下边两个框CAMF和ADAS，我们可以点击Enable Service或者Subscribe Service， 从上边的Trace窗口可以看到对应的服务端、客户端相应的Offer Service、Find Service、Subscribe Event group以及Stop Subscribe Event group的报文。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/6608452763165812.jpg"></p>
+<p>这个报文其实现原理主要依赖了三大块：CANoe的SOME&#x2F;IP协议栈、示例ARXML数据库以及几个节点的CAPL代码。</p>
+<p>其中示例ARXML数据库定义了一个服务端（Provider: CAMF）和一个客户端（Consumer: ADAS）,规定了其支持的服务类型：即一个名叫ADASDisplayInfo的Event 事件通知，然后这个事件传输的变量叫做DetectedTrafficSign，类似于一个结构体，里边有SignType、DistanceToSign以及Realiabiliy变量，以及每个变量的更加细致的定义。</p>
+<p>然后CAPL代码一方面实现了对于变量的填充，另一方面调用CANoe的SOME&#x2F;IP协议栈进行Event Notification的发送以及SD服务发现事件订阅的过程。</p>
+<p>最后SOME&#x2F;IP协议栈提供了底层的交互支持，以及对CAPL的API调用的支持，从而非常简单实现服务发现订阅以及发送接收。</p>
+<p>在这个例程默认的界面下，可以尝试点击那些按钮来从trace看服务端怎样发送报文Offer一个Service，以及客户端怎样发送报文Find 一个Service，以及服务订阅上后ACK是什么样，还有到了真正Event Notification的报文是什么样。这对于基础的SOME&#x2F;IP报文熟悉还是非常有帮助的。</p>
+<p>而截至目前所能模拟的通信都很依赖ARXML对于Service的定义，我想记录的更多的是对于自定义SOME&#x2F;IP的学习以及调试方法。以这个ARXML中的服务为例，首先我们需要将其转换成CANoe可编辑的模式，使用CANoe自带的小工具将其转换成可编辑的数据库格式vCODM。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/3888115072013644.jpg"></p>
+<p><img data-src="https://cdn.passerby.net/2025/05/4038851218594573.jpg"></p>
+<p>接下来就用不到这个例程了，我们把刚刚转换号的vCODM数据库存到某个文件夹，然后以此为例记录一下怎样使用CANoe的SOME&#x2F;IP协议栈来自定义数据库模拟一个服务。</p>
+<p>我们新建一个空的工程，使用Communication Setup模式，然后在红框1 和红框2处倒入刚才我们转换完成的数据。红框3我们下一步再点击，接下来将两个节点设置成仿真模式，以及将Real Bus换成Simulated Bus模式，现在运行一下看看效果。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/8021254195044124.jpg"></p>
+<p><img data-src="https://cdn.passerby.net/2025/05/2630438650715198.jpg"></p>
+<p>点击运行后到Trace窗口看到，并没有像Simulation Setup 的例程那样有Service Offer、Service Find 以及Subscribe信息。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/4412641562871443.jpg"></p>
+<p>这个区别的主要原因是例程中数据库并没有开启服务发现SD协议，而例程中通过CAPL命令实现了Service Offer以及Service Subscribe。由于我们新建的没有这些脚本，所以从Trace来看并没有任何SOME&#x2F;IP相关的数据。</p>
+<p>在一开始我们了解到SOME&#x2F;IP有一个SD服务发现的协议，在这儿没有起作用，是因为在数据库中，示例数据库这个设置处于关闭状态。我们在刚才按钮3的地方进入数据库编辑页面，然后将Discovery Technology协议从None 改成SOME&#x2F;IP Service Discovery，这样子协议栈就会自动执行服务发现过程，保存运行然后我们再观察Trace窗口，有时候需要重新加载一下数据库才能生效。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/5313845447491325.jpg"></p>
+<p>现在看到已经有了Service Offer、Service Find、Subscribe Event group 以及Subscribe Event group Acknowledgment的报文了。这些步骤是CANoe的SOME&#x2F;IP协议栈自动完成的，由于没有具体业务逻辑，目前没有具体的数据发送的Trace。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/5894679737123126.jpg"></p>
+<p>我们尝试一下加一些具体数值，在CANoe原始示例工程我们可以使用模板制作好的Pannel，现在我们新生成的空白工程没有了，那么我们就用CANoe自带的在Communication Setup下的Application Panel做一个简单的信号触发。首先点击下图1，打开两个panel，在Server端即CAMF我们填入一些信息，比如说如下图在框2填入一个交通标志的信息，点击框3的Trigger，这样Provider就会发送出一个Notification，我们从框4中可以看到相应的Trace，经过了CANoe对Trace的解析后可以看到我们触发的内容，同时在框5可以看到Consumer中更新了最新的值了。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/9099367775264176.jpg"></p>
+<p>刚才的例子通过配置自动SD服务发现，这样开始仿真即实现了服务订阅，然后通过CANoe的功能，即解析了数据库后自动帮我们生成了Application Panel，从而我们手动触发了一个Notification，实现了最简单的一个SOME&#x2F;IP通信例程。接下来我们看下我们刚才到底是仿真了一个什么服务。在最上边Communication Setup框3 按下Edit按钮，即我们配置自动SD服务发现的地方，我们看下这个示例数据库详细的数据配置：</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/1867425205942711.jpg"></p>
+<p>首先这个截图的页面停留在的是SOME&#x2F;IP的Global Settings，这里的配置是对于SOME&#x2F;IP协议的一些基础数据进行配置的，其中有一些是关于SD服务发现，一些是关于数据结构以及序列化相关的配置。这些内容应该是软件架构系统架构层面来定义，到达功能层面基本上用不到在这里有设置。除非是对于自己在这里的更改非常清楚在做什么，其他情况我们一般不需要改动这里的内容。</p>
+<p>在这个Vector Model Editor中，可以配置绝大部分的AUTOSAR数据在车载以太网传输的内容定义。上图中蓝色框是PDU方式传输所用到的定义配置地方，这样的传输方式和CAN总线报文非常非常的形似，只不过将报文封装如以太网UDP的Payload中，按照UDP方式在以太网中传输。其中Signals可以理解成CAN总线的Signal，PDUs理解成CAN总线中的Message。在此将传输层将CAN总线换成UDP&#x2F;IP，上层的数据格式内容等没有任何区别。</p>
+<p>上图红框是SOME&#x2F;IP协议所涉及到的数据定义地方，即在TCP&#x2F;UDP层之上又加了SOME&#x2F;IP通信协议。紫框是PDU形式以及SOME&#x2F;IP形式共同用到的了AUTOSAR对于数据格式定义，这里的定义很多会体现在信号矩阵中。</p>
+<p>我们来从通信协议的下层到上层来看下数据库都定义了什么，目前是什么样的一个设置。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/5317851700058485.jpg"></p>
+<p><img data-src="https://cdn.passerby.net/2025/05/6559591018249680.jpg"></p>
+<p>目前这个数据库编辑器的排版，也是根据通信协议从下层到上层设计的，最下边是TCP&#x2F;UDP&#x2F;IP的配置，中间是一些SOME&#x2F;IP的配置，最上边是AUTOSAR相关的数据类型的定义。如上边图中框1，在这里我们可以增删改查相关得节点，目前示例数据库中ADAS&#x2F;CAMF最初就是在这里定义的。然后给每个节点可以配置多个Network Interface，有点像一个硬件有多个网卡，然后每个Interface可以配置多个VLAN、多个IP，以及每个IP可以配置多个端口Port，每个Port还可以指定是UDP还是TCP，非常的灵活，如上边的图，在这里配置的内容是限定了通信协议上层所能调用的配置。</p>
+<p>在框2中是配置安全相关的，一部分与传统以太网安全相关的方法很类似比如TLS，一部分是AUTOSAR定义的安全验证方式比如E2E。这一块相对来说是在其他部分都完善了最后需要考虑的点，在CANoe例程数据库也没有考虑安全相关的配置，我暂时在这里也就略去了，建议是在实际项目中，根据实际需求学习这部分。</p>
+<p>框3 是真正给SOME&#x2F;IP节点配置下层依赖协议的地儿了，如上边截图的4和5，在这里可以添加要用到的IP协议，以及端口，通过小三角下拉框的形式，选择在框1中配置过的数据，实现给上层SOME&#x2F;IP节点配置下层依赖。</p>
+<p>到目前终于一起看完了传输层的配置，终于开始看SOME&#x2F;IP自己特有的协议配置了。在SOME&#x2F;IP 下Service页面，下图中框1中终于可以看到，我们在这个示例数据库中，一直在用的Service的名称是ADASDisplayInfo，Service ID是2001，从框2看到这是一个Event类型，Event ID是100。右边的框3、4、5设定了SOME&#x2F;IP Service 的Major version, Minor Version，以及Instance ID 和Client ID，这些对应的Some&#x2F;IP在头部数据的位置，从前边的介绍中都能找到。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/1876753638001668.jpg"></p>
+<p>前边也提到Event是不能单独订阅的，必须以Event Group的形式。在这个例程中也不例外，我们切到下图中框 1的Event Groups这一栏，看到我们有一个叫做adas_channel_adas_adas_display_info_ceg的Event Group，其ID为1，右边框3可看到包含了刚才我们看到的TrafficSignDetection这个Event。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/8432656677035762.jpg"></p>
+<p>这个例程没有演示Fields、Methods以及PDU相关的交互样例，示例数据库中这几个里边是空的，我也暂时跳过解释。但是其中Methods相对有点复杂，在后边解释Type Definitions中的Function Types会再提到一点。</p>
+<p>再网上看，到了Application Layer 的Services这一栏，我们的正式Service的名字（ADASDisplayInfo），以及用到的Service模板（ADASDisplayInfo，模板是可以复用的），以及其义了相关节点的名字，还有对应额角色，是Consumer还是Provider。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/5622325204484079.jpg"></p>
+<p>目前定义好的Service以及Event类型，那么Event内到底发送什么内容，就是接下来要介绍的部分了。前边介绍过SOME&#x2F;IP协议定义了Boolean、Uint8、Uint16、Uint32、Uint64、Sint8、Sint16、Sint32、Sint64、Float32、Float64、Struct、String、Array、Enumeration、Bitfield、Union等数据格式，在结合AUTOSAR使用的过程中，还要结合AUTOSAR所常用的数据定义模式，并且在实际使用过程中，是层层嵌套，以及同时使用的。这些嵌套理解起来有点像常见的结构体嵌套其他结构体，我们来具体看下这个示例数据库的数据结构定义。</p>
+<p>以刚刚我们用Panel模拟发送的SignType: HazardSign, DistanceToSign: 400以及Reliability 80为例，由于是层层嵌套，我先介绍一下最基础的数据类型定义，在Type Definitions 中的Encodings这一栏中，可以看到SignType_cm使用了SomeIP协议的UInit32数据类型，然后结合了AUTOSAR支持的数据结构，使用了Textual模式使用其中的0到13并赋予的一个名字，在工具结合数据库解析后，我们就可以知道对应的是哪个交通标识了。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/3319572974772157.jpg"></p>
+<p>同样的道理，Distance这个值使用了SOME&#x2F;IP的Uint32数据类型，又结合了AUTOSAR支持的Linear数据结构，设置了Offset和Factor分别为-1000000和0.1，单位为m，从而实现总线数值到物理值的转换。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/0327489944888698.jpg"></p>
+<p>接下来切到Type Definitions下的Data Types，这里是Event真正用到的数据类型。可以看到Struct结构体形式的TrafficSignDetection嵌套了Array形式的DetectedTrafficSigns,然后再次嵌套了DetectedTrafficSign，并且一共有三个，然后每一个又嵌套了SignType、DistanceToSign以及Realiablity个Autosar定义后的数据类型。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/0837973239431677.jpg"></p>
+<p><img data-src="https://cdn.passerby.net/2025/05/7579063029773995.jpg"></p>
+<p>对于最后一层嵌套的SignType类型，右边定义了使用signType_cm数据类型，并且规定了最大值是13最小值是0。</p>
+<p>关于DistanceToSign的引用，使用了我们刚才看到的Distance_Linear的Autosar数据类型，也用到了另外一个Distance_Texual的默认0值。在下边定义了其物理值，可以看到是double类型的，并且有最大值和最小值的限制，个人认为这里最大值的设置有问题，不应该是负值。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/8438471466052215.jpg"></p>
+<p>关于Reliability，数据库中直接使用了Uint8类型，没有再用AUTOSAR数据结构再细分。这里并没有限制最大值最小值，对于Uint8类型数据空间理论上从0可到255，大于100的似乎没有实际意义但是从数据库这里看并没有相应的限制，我们尝试一下看大于100的值在实际中能不能发送。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/8659454598632985.jpg"></p>
+<p>可以看到我填入的205点击trigger成功发送了，可靠性百分之205有点扯，从总线数据是看到这一位十六进制是0xCD。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/0390984652664431.jpg"></p>
+<p>关于Service用到的数据类型还有一个Function Types，这个可以理解成定义了很多基础的Function功能调用，包括传入传出参数什么的。然后在SOME&#x2F;IP的Method方法可以选择使用那个基础Function功能，从而实现远程调用。在目前的这个示例数据中没有用到，如果想了解的话可以使用CANoe另外一个名为SOABasicAsrAdaptive的例程数据库，很清晰明了的，如下图。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/2067421738042135.jpg"></p>
+<p><img data-src="https://cdn.passerby.net/2025/05/5146072459724523.jpg"></p>
+<p>在AUTOSAR的SOA功能调用实现中，函数的返回值通常是Void即没有返回值，然后需要输出处理后的数据通常是通过函数指针类型的参数来实现结果返回。在这个例程中也可以看到，对于一个add的函数返回值Void，但是参数有3个，其中两个in就是指的要相加的两个数，另外一个out即为相加后的值，在具体代码实现的时候通过指针参数的形式实现从函数调用中输出。</p>
+<p>现在Service用到的数据结构我们都看完了，也能通过系统生成的Panel来修改一个要发送的数据。接下来我们看下怎样像之前Simulation  Setup的节点那样使用CAPL控制数据发送接收和处理。</p>
+<p>在Communication Setup 窗口点击添加一个.can文件，然后点击右侧的Edit进入编辑器。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/1574662834533659.jpg"></p>
+<p><img data-src="https://cdn.passerby.net/2025/05/5277467515509387.jpg"></p>
+<p>然后我们设置一个最简单的参数修改，仿照之前我们修改DetectedTrafficSign的第二个Item，首先下图按钮1切换到Application Layer Objects，这里列出的所有Provider和Consumer的结构体数据，但是通常情况下对于Consumer是只读的，我们能更改的是Provider的数据。我们在这里做一个最简单的演示，即在Provider将DistanceToSign设置成500，然后检测Consumer有无收到，若收到则打印到调试窗口，如下图代码。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/7410826158794406.jpg"></p>
+<p>代码：</p>
+<p>&#x2F;<em>@!Encoding:1252</em>&#x2F;</p>
+<p>on key ‘a’</p>
+<p>{</p>
+<p>$CommunicationObjects::ADASDisplayInfo.providerSide[CAMF].TrafficSignDetection.DetectedTrafficSign[1].SignType.phys &#x3D; 5;</p>
+<p>$CommunicationObjects::ADASDisplayInfo.providerSide[CAMF].TrafficSignDetection.DetectedTrafficSign[1].DistanceToSign.phys &#x3D; 500;</p>
+<p>$CommunicationObjects::ADASDisplayInfo.providerSide[CAMF].TrafficSignDetection.DetectedTrafficSign[1].Reliability.phys &#x3D; 50;</p>
+<p>write(“Button A.”);</p>
+<p>}</p>
+<p>on value_update CommunicationObjects::ADASDisplayInfo.consumerSide[ADAS,CAMF].TrafficSignDetection.DetectedTrafficSign[1].DistanceToSign</p>
+<p>{</p>
+<p>write(“DistanceToSign: %f. “, $CommunicationObjects::ADASDisplayInfo.consumerSide[ADAS,CAMF].TrafficSignDetection.DetectedTrafficSign[1].DistanceToSign.phys);</p>
+<p>}</p>
+<p>将CAPL代码保存，运行，然后我们看一看按下字母A前的截图：</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/4076323349914076.jpg"></p>
+<p>以及按下A后的效果：</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/2961131055645275.jpg"></p>
+<p>可以看到我们的数据500已经成功发出，总线上也能看到对应的总线数据，在Write窗口也能看到Consumer收到了值，并且已经改变成了500。</p>
+<p>通过这样一个简单的例子可以看到，我们目前既可以非常容易的通过CAPL来进行一个节点交互的仿真开发，利用CANoe对于SOME&#x2F;IP协议栈强大的支持，我们不需要考虑太多协议层的东西，对于服务发现链接过程，以及比较复杂的序列化过程我们都不需要太多关注，协议栈已经帮我们做好了，我们重点放在应用层的开发即可。</p>
+<p>在实际的应用中，通常我们需要CANoe来仿真Consumer或者Provider一端，我们看下假设只有一端节点的情况，先在Communication Setup将ADAS切成Real（Device）状态，开启运行我们看下Trace窗口。这时需要将Application Models中的CAPL禁用掉，因为其中的一些函数在真实节点下已经不能调用了。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/3484393229802599.jpg"></p>
+<p><img data-src="https://cdn.passerby.net/2025/05/2628776837991460.jpg"></p>
+<p>我们从Trace窗口可以看到只有Offer Service，和预期是一致的。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/9741027950420404.jpg"></p>
+<p>我们再看下将ADAS设置成On&#x2F;Simulated(CANoe)模式而CAMF设置成Real(Device)模式，可看到Trace窗口只有Find Service，和预期也是一致的。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/0998012767737146.jpg"></p>
+<p>接下来我们尝试一下与真正真实的设备链接的情况，我们用一台电脑运行CANoe的CAMF的Provider端，然后另外一台电脑使用vsomeip库运行一个Consumer端，两台电脑用路由器连接，为了更加贴近真实项目我们换用IPv6地址。首先看下本机的IPv6地址为2408:8806:41:3705:6b08:9188:eae4:268f，另外一台Linux主机的IPv6地址为：2408:8806:41:3705:7fc5:ba14:5a8f:9efe，本地尝试一下能正常ping通。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/8657797885312491.jpg"></p>
+<p><img data-src="https://cdn.passerby.net/2025/05/1356810601722490.jpg"></p>
+<p>首先我们将CANoe里边数据库中的IPv4替换成IPv6，同时将VLAN设置取消掉，因为我当前使用的真实网络没有用到VLAN，这里演示方便也就先不设VLAN了。另外后边我用到的真实ADAS端是使用了动态端口，所以这里我需要将ADAS的UDP Port改为0。在Ethernet Peer Setup配置如下：</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/9720233647217730.jpg"></p>
+<p>在Binding里边AUTOSAR配置如下，可以看到端口自动设置为Dynamic：</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/1443323017947277.jpg"></p>
+<p>保存修改后重新加载一下数据库，开启仿真，在Trace窗口可以看到Provider和Consumer已经使用了IPv6地址并且成功订阅。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/6765123249049897.jpg"></p>
+<p>接下来我们将准备Consumer端换成vsomeip实现。由于此份总结记录了好几天，期间路由器重启从而拿到的IPv6前缀以及给各个终端分发的地址有所变化，下边一些截图两端的IP与之前不再相同。此时要保证数据库中Consumer即ADAS端的节点IP地址与真实设备的IP地址一致，然后Provider端即CAMF的IP地址应该处于同样一个子段。下图中即CANoe仿真的CAMF端与真实的ADAS节点的成功订阅截图，此时运行ADAS的Linux电脑端IP地址为：2408:8806:53:3ae0:1042:6d3c:e8e0:6731，CANoe中的CAMF我将尾缀换成了2000即：2408:8806:53:3ae0:1042:6d3c:e8e0:2000。我使用Panel模拟发送了DistanceToSign 等于500和100两种情况，然后在Linux电脑中ADAS我们看看效果。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/6054967073251190.jpg"></p>
+<p>下边截图和上边相同时间，我在Consumer即ADAS端截取的Trace。前文提到了SomeIP定义了很多支持的数据类型以及序列化方式，以及AUTOSAR框架下会用到很多Autosar额外的表示方式，Distance这个值使用了SOME&#x2F;IP的UInt32数据类型，又结合了AUTOSAR支持的Linear数据结构，设置了Offset和Factor分别为-1000000和0.1，单位为m，这一块不适于SOME&#x2F;IP协议的部分而是AUTOSAR的部分，所以在vsomeip库中并不是直接支持，我手动写了一部分做了物理值和总线信号的转换，下方截图打印出了总线原始值和我转换后的物理值，可以看到我们刚才在CANoe中触发的Event Notification已经成功在另外一个设备中收到并解析成功。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/1517083501771504.jpg"></p>
+<p>上边的截图可能没截到， 在vsomeip里边Event ID填写为32868而CANoe数据库中填的是100，这个是我在调试vsomeip库的时候遇到的坑之一，这个在《AUTOSAR_PRS_SOMEIPProtocol》标准中是有解释的，在CANoe图形化编辑界面填入100但是在vCODM数据库中自动将其最高位置1即变成了32868。另外建议电脑只启用一张网卡，我一开始也遇到Consumer端发送的Find Service并没有从我用到的网卡发出广播，而是广播到另外一张网卡中。我没有深究其中原因，暂时先将另外一张网卡禁用了来做演示。还有很多其他的坑比如vsomeip.json配置等等等等，可以看我当时用到的源代码。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/3038260376667721.jpg"></p>
+<p>由于Vector 将于CANoe 19 取消对于本机网卡的支持，所以我也尝试了使用Vector硬件VN5620作为网络适配器来连接。在 Vector Hardware Manager中将CASC端口配置在Eth2中，然后硬件层面将VN5620盒子后端的CASC用RJ45网线与路由器相连。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/0126056696016833.jpg"></p>
+<p>然后在CANoe中的Network Hardware将Hardware Type选为VN Ethernet Hardware，Channel Mapping中的Hardware 选为Eth2。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/1739546149188748.jpg"></p>
+<p><img data-src="https://cdn.passerby.net/2025/05/8504946812790032.jpg"></p>
+<p>这样设置后即可以和之前一样实现CANoe仿真节点和通过以太网连接的另一台设备进行SOME&#x2F;IP通信，下图是我自己尝试成功的截图。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/2675957888331519.jpg"></p>
+<h1 id=""><a href="#" class="headerlink" title=""></a></h1><h1 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h1><p>至此我的经验记录就总结差不多了，在具体的项目中，需要结合实际用到的车辆信号矩阵数据库一定是比我在例程中介绍的要复杂的多得多，多数情况下还会涉及安全相关或者VLAN等特性，更是需要对整个通信过程有一个深入的了解。我在实际调试vsomeip和CANoe进行SOME&#x2F;IP通信时候，能够强烈感觉到vsomeip协议栈非常的自由而CANoe却异常的严格，两者几乎是两个极端。举个例子vsomeip即使订阅不成功或者不订阅Provider也能Trigger Event Notification，而Consumer端竟然也是可以收到。或者说订阅了A但是Provider发送了B，这样Consumer也是可以收到。以及比如说Event要和Method区别开来，在标准中建议Event的最高位置1，但是在vsomeip不置1也是OK的，总之是给了开发非常大的自由空间。反过来CANoe协议栈是非常非常的严格的。我的示例中Consumer端稍微和数据库有一点出入就拒绝订阅。在订阅没有完全成功前也不能Trigger Event，总之是非常严格的按照SOME&#x2F;IP标准来执行。</p>
+<p>不同协议栈这些特性在实际的开发中有很多需要注意的地方，假设一个开发人员在测试自己的服务是否OK，如果他用同样的协议栈自己实现了一个简单的对端，而用一个协议栈对于自己的对端有非常强的兼容性，容易导致开发人员很顺利就建立了连接，认为自己的功能开发已经OK了。而当和真正的对端连到一起时，若对端是其他团队开发使用了不同的协议栈，非常有可能出现各种奇奇怪怪报错不能连接。</p>
+<p>CANoe作为一个非常严谨的SOME&#x2F;IP实现，我感觉对于很多角色都是非常有帮助的。对于软件开发人员，使用自己熟悉的协议栈，尤其在本机回环环境中很多问题暴露不出来，这样到了多个功能联调就会出问题。当在研发阶段功能开发能够使用CANoe作为对端做一些功能验证，将来在换成真实对端出问题的概率就小很多。</p>
+<p>对于测试开发或者工具链开发人员来说，使用CANoe对SOME&#x2F;IP对端仿真应该也是必备的技能。在整车开发前期很难做到所有组件瞬间全部齐备并且工作正常，经常情况是我们缺少其中的一部分，这就需要我们使用Rest Bus Simulation 来仿真。这种情况就需要简单在CANoe实现一部分对端的功能，包括了SOME&#x2F;IP服务的订阅，实现对于功能的验证。</p>
+<p>对于测试执行也是有对于这个技能的需求的，实际工作中遇到过整车数据库进行了升级，对于ARXML通信矩阵SOME&#x2F;IP接口和内容进行了细微的更新，然后Major&#x2F;Minor版本号也不一致了，而功能的适配需要时间，有的快有的慢，中间一段时间就会造成服务订阅不成功。实际工作中就遇到过接口升级，只修改了特别小的一个数据内容，但是无伤大雅。这时候可以在CANoe简单实现一个服务端和客户端，做一个透传，临时实现ECU订阅。</p>
+<p>对于架构师，尤其负责通信矩阵定义这块的人员，虽然有更专业的工具，但是在一些场合，可以用Vector Model Editor做一些数据库简单的查看和修改来用于快速验证，也是非常有帮助的。</p>
+<p>大致就记录这一些吧，希望能够对同行们对于SOME&#x2F;IP的学习以及开发等有所帮助。</p>
+<p>Reference：</p>
+<p><a target="_blank" rel="noopener" href="https://some-ip.com/details.shtml">https://some-ip.com/details.shtml</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Passerby
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://passerby.net/6220.html" title="SomeIP学习笔记：使用CANoe调试&#x2F;仿真SomeIP服务">https://passerby.net/6220.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/6142.html" rel="prev" title="华硕路由器梅林固件设置IPv6防火墙">
+                  <i class="fa fa-angle-left"></i> 华硕路由器梅林固件设置IPv6防火墙
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/6207.html" rel="next" title="SomeIP学习笔记：基础知识">
+                  SomeIP学习笔记：基础知识 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2016 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Passerby</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

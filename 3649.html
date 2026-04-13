@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"passerby.net","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="学习笔记系列之CAN总线。 基础知识已经学习过很多次了，可是时间久了对于一些细节的记忆就会模糊不清，每次资料看别人的总结还不如自己也总结一下，之后看自己的笔记就好了。 CAN (Controller Area Network) 在1980年由Bosch提出并于1994年进行了标准化（ISO 11891-1）。时至今日，CAN依旧在汽车动力总成，底盘等领域有着广泛的应用。CAN可以提供非常可靠的数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CAN总线基础">
+<meta property="og:url" content="https://passerby.net/3649.html">
+<meta property="og:site_name" content="矛盾体">
+<meta property="og:description" content="学习笔记系列之CAN总线。 基础知识已经学习过很多次了，可是时间久了对于一些细节的记忆就会模糊不清，每次资料看别人的总结还不如自己也总结一下，之后看自己的笔记就好了。 CAN (Controller Area Network) 在1980年由Bosch提出并于1994年进行了标准化（ISO 11891-1）。时至今日，CAN依旧在汽车动力总成，底盘等领域有着广泛的应用。CAN可以提供非常可靠的数据">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.passerby.net/2022/11/1649350659405136.png">
+<meta property="og:image" content="https://cdn.passerby.net/2022/11/8976414577602950.png">
+<meta property="og:image" content="https://cdn.passerby.net/2022/11/9444961070566292.png">
+<meta property="og:image" content="https://cdn.passerby.net/2022/11/7247155913281638.png">
+<meta property="og:image" content="https://cdn.passerby.net/2022/11/4909352377444095.png">
+<meta property="og:image" content="https://cdn.passerby.net/2022/11/5897662043035865.png">
+<meta property="og:image" content="https://cdn.passerby.net/2022/11/8368392723845709.png">
+<meta property="og:image" content="https://cdn.passerby.net/2022/11/6923106475506641.png">
+<meta property="og:image" content="https://cdn.passerby.net/2022/11/1461666883760238.png">
+<meta property="og:image" content="https://cdn.passerby.net/2022/11/3643340757234998.png">
+<meta property="og:image" content="https://cdn.passerby.net/2022/11/8584261607148143.png">
+<meta property="og:image" content="https://cdn.passerby.net/2022/11/1496214400151091.png">
+<meta property="og:image" content="https://cdn.passerby.net/2022/11/7759824228955962.png">
+<meta property="article:published_time" content="2022-11-17T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-13T13:45:12.762Z">
+<meta property="article:author" content="Passerby">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.passerby.net/2022/11/1649350659405136.png">
+
+
+<link rel="canonical" href="https://passerby.net/3649">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://passerby.net/3649.html","path":"/3649.html","title":"CAN总线基础"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CAN总线基础 | 矛盾体</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@7.2.0/dist/browser/pangu.umd.js" integrity="sha256-JnmRRnJK7DC6RQJbAJb6AXOM9OmWzS6z8eYultk/48Y=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/pjax.js" defer></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.5.0/dist/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.3.1/pdfobject.min.js","integrity":"sha256-jI72I8ZLVflVOisZIOaLvRew3tyvzeu6aZXFm7P7dEo="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">矛盾体</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-about"><a href="/about.html" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-contact"><a href="/contact.html" rel="section"><i class="fa fa-heartbeat fa-fw"></i>Contact</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="Searching..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Passerby</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">226</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://passerby.net/3649.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Passerby">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="矛盾体">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="CAN总线基础 | 矛盾体">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CAN总线基础
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-11-18 00:00:00" itemprop="dateCreated datePublished" datetime="2022-11-18T00:00:00+08:00">2022-11-18</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>学习笔记系列之CAN总线。</p>
+<p>基础知识已经学习过很多次了，可是时间久了对于一些细节的记忆就会模糊不清，每次资料看别人的总结还不如自己也总结一下，之后看自己的笔记就好了。</p>
+<p>CAN (Controller Area Network) 在1980年由Bosch提出并于1994年进行了标准化（ISO 11891-1）。时至今日，CAN依旧在汽车动力总成，底盘等领域有着广泛的应用。CAN可以提供非常可靠的数据传输，以及满足很多情况下对于实时性的要求。</p>
+<span id="more"></span>
+
+<p>CAN标准可以再细分为高速和低速两种不同的子协议，主要区别在于物理层的电压不同从而最大传输速率有区别，低速CAN（CAN Low Speed）遵循 ISO 11891-3 标准，最高传输速率为 125 kbit&#x2F;s. 高速CAN（CAN High Speed）遵循 ISO 11898-2 标准，最高传输速率为 1Mbit&#x2F;s。通常我们汽车领域用高速CAN并且设置速率为 500 kbit&#x2F;s，同时低速CAN也有特有的优势，比如说抗干扰能力强。</p>
+<p>下边这张图对比了我们熟知的OSI七层模型和CAN 模型的对比。</p>
+<p><img data-src="https://cdn.passerby.net/2022/11/1649350659405136.png"></p>
+<p>通常情况下，CAN协议通过硬件控制器（CAN controller）的形式实现，物理信号的收发通过CAN收发器（CAN Transceiver）进行。通常选择非屏蔽双绞线来连接CAN收发器，传输距离不超过40米，并且在两端需要连接两个120 欧姆的电阻（仅高速CAN，低速CAN不做要求），以防止信号反射造成干扰。协议还规定了，一条CAN总线最多连接32个节点。</p>
+<p><img data-src="https://cdn.passerby.net/2022/11/8976414577602950.png"></p>
+<p>由于不同信号有着不同的传输频率的需求比如有的传输周期是10毫秒有的是100毫秒，所以也就催生了CAN控制器（CAN Controller）分为带储存（缓存）型和不带缓存型两种。不过对于上层控制器来说，一致都是将CAN控制器当作一个“储存芯片”对待，从中读出和写入数据。</p>
+<p>双绞线可以有效地降低电磁干扰，在CAN总线（CAN Bus）中这两条线分别被称作 CAN high line (CANH) 和 CAN low line (CANL). 在网络物理层基于差分电压传输，这种模式可以有效消除电机，点火系统等开关造成干扰电压冲击带来的影响。</p>
+<p>对于高速CAN，协议定义差分电压0伏代表逻辑1，并被称为隐性； 差分电压2伏代表逻辑0，被称为显性。有点绕，但是一定要记清楚！</p>
+<p>关于高速CAN和低速CAN差分电压的规定如下图：</p>
+<p><img data-src="https://cdn.passerby.net/2022/11/9444961070566292.png"></p>
+<p><img data-src="https://cdn.passerby.net/2022/11/7247155913281638.png"></p>
+<p>以高速CAN为例子，理解为何差分为2逻辑为1，是显性；而差分为0逻辑为0，是隐性，可以结合下午CAN收发器(CAN Transceiver) 物理实现来理解：</p>
+<p><img data-src="https://cdn.passerby.net/2022/11/4909352377444095.png"></p>
+<p>同时显性会覆盖隐性，也就是说，当同一时刻不同的节点有发送显性也有发送隐性，那么在总线上会展示成为显性，只有当所有的节点都发送隐性的时候，总线才会展示成隐性。我是这样记忆的，假设我们有多个TxD，只有所有的Driver都发送逻辑1：隐性，也就是所有上边和下边的三极管都是断开状态（Driver输出0），那么对于Receiver才能测出差分电压为0，单反有一个TxD发送了逻辑0，就是有一对上下三极管是接通状态（Driver输出1），那么CANH和CANL就分别接到了VCC和GND，那么Receiver检测的差分电压就是2V。当然现实情况会有一定的误差，CAN协议规定当差分电压大于0.9伏才能被认为是显性（逻辑1），差分电压小于0.5V才能被认为是隐形（逻辑0）。</p>
+<p>对于低速CAN，协议规定差分信号是5V代表逻辑1，差分信号是2V代表逻辑0。根据CAN协议逻辑，可以看出显性和隐性是AND逻辑。就是说有一个发逻辑0（显性），结果就是逻辑0（显性）。</p>
+<p>在CAN通信中，节点是以广播的形式发出信息的，所有节点都可以接收，然后根据其中的ID号过滤来确定是否试自己需要的信息。在数据格式上，CAN的Frame共有三种形式：Data Frame， Remote frame以及Error frame。其中Data Frame是最常规来传输数据用的，Remote frame 通常用来请求一个数据；Error frame是一个节点指示自己收到了一个错误帧，用来告知其他节点用的。下边的图展示了一个Data Frame包的构成：</p>
+<p><img data-src="https://cdn.passerby.net/2022/11/5897662043035865.png"></p>
+<p>Bus idle时候，总线上是隐性电压，SOF（Start Of Frame）是一个数据帧的开始，发送端在总线空闲的时候，通过发送显性电压，即逻辑0，来表示该节点正准备发送数据。SOF另外一个作用是可以防止在总线长时间idle时候节点间节奏失步，为了试所有节点都在同一个步点，receiver会检测每一个从隐性到显性的电压变化从而保持一直在同步的状态。</p>
+<p>在SOF后试一个帧的ID，这个一方面是代表了数据帧的优先级，另一方面是在接收端用于区分是否是自己需要的数据。在标准格式中，ID后的RTR(Remote Transmission Request)是总线层面实现的请求一个节点数据的。一个显性的电压代表这是一个普通的传输数据帧，反过来如果是隐性的电平，那么就是一个请求数据帧。这个数据请求帧没有Data Field，其他的与数据帧组成相同。在汽车领域这个功能一般很少被用到。</p>
+<p>IDE(Identifier Extension Bit) 是用来区分是标准帧格式还是说扩展帧格式。当IDE是显性电平代表是标准格式，当IDE是隐性代表这是一个扩展帧格式。标准帧的话ID只有11个bit，而扩展帧的话ID有29个Bit，也就是说可以容纳更多的信号ID。在扩展帧格式中，多出来一个SRR(Substitute Remote Request)并且一直是隐性，用来格式兼容，意义并不大。后边的r1和r2可以理解为保留位，是恒定的显性电位。</p>
+<p>DLC(Data Length Code)是指的在Data Field中的数据长度，DLC共有4个Bit，这里DLC的范围为1到8，代表着Data Field的长度，最小1 Byte，最大8Bytes。</p>
+<p>CRC(Cyclic Redundancy Check) 是对总线数据的保护，DEL是Delimiter的意思，用来界定CRC和ACK。接收端然后根据CRC判断接收到的信息是否正确，根据ISO 11898-1标准中定义的多项式，计算从SOF到Data field断在多项式中计算的结果作为CRC，放在帧里边一起传输。接收端在收到信息后将SOF到Data field的数据带入同样多项式看算出CRC是否一致，若一致则大概率传输正确，不一致的话大概率传输错误。</p>
+<p>ACK(Acknowledgement)这一个位，所有的接收端都会发送，并不管这个数据帧ID是否是给自己的，发送端会监控这一位，从而得知是否至少一个节点正确接收到了这个信息。显性的ACK代表正确接收，隐性的代表没有正确接收。之后的delimiter是一致显性，这样下面两种组合代表了ACK的显性或者隐性。</p>
+<p><img data-src="https://cdn.passerby.net/2022/11/8368392723845709.png"></p>
+<p>EOF(End of Frame)是7个隐性位，代表传送完毕。</p>
+<p>在串行数据传输的过程中，所有节点保持时间同步是一个非常重要的前提。通常情况下各个节点通过SOF显性到隐性的转变，来进行初始同步，之后通过传输数据流中的隐性到显性的转变进行同步修正。这就有一个问题，当数据流长时间保持显性或者隐性很长时间的话，那么一些节点可能由于自身时钟的不准确，造成失步。于是根据 ISO 11898-1 标准，在CAN总线物理信号中， 当都一个点位持续够5个时钟单元，那么在总线信号中就会插入一个补偿Bit位，与之前连续5个电位保持不同。这个被插入的补偿位也会被计算到下一个连续5个同样点位从而判断是否需要补偿电位的检测中。这个补偿位从SOF到CRC最后一位都需要考虑，如果数据为按照最长8bytes算的话，那么极限情况会有24个补偿位，所以理论上，一个标准帧最长位132Bits。</p>
+<p><img data-src="https://cdn.passerby.net/2022/11/6923106475506641.png"></p>
+<p>总线由于同时供多个节点使用，减少线束的同时，会有多个节点同时发送造成冲突的风险。各个检点都在检测总线是否空闲，当总线空闲再开始传送，当最坏情况恰好两个节点都准备开始传输，从SOF开始发送数据，由于从最有效位到最低有效位传送，这个时候就会根据ID的优先级决定谁使用总线。ID数字越小，也就是显性会覆盖隐性，从而可以或者仲裁胜利，无损总线数据继续发送。当优先级低也就是ID大的节点检测到总线上数据与自己发送的不同（被其他高优先级的节点显性电位覆盖），即知道同时有高优先级节点在发，即会立即停止发送。</p>
+<p><img data-src="https://cdn.passerby.net/2022/11/1461666883760238.png"></p>
+<p>如果总线负载不太高，这种类型的随机、非破坏性和优先级控制的总线访问可提供公平和非常快速的总线访问。可也得考虑到总线负载的增加会导致低优先级CAN报文的传送延迟，极端情况下低优先级的报文根本无法发送，这就可能会损害CAN通信系统的实时能力。因此，在设计系统时，CAN报文的优先级应从它们将传输的信号的紧迫性合理设计。</p>
+<p><img data-src="https://cdn.passerby.net/2022/11/3643340757234998.png"></p>
+<p>CAN总现在物理层通常使用双绞线，抵抗电磁干扰的效果与双绞线的绞合密度有关系，通常情况每米30次以上的绞合就可以提供比较好的抗干扰效果。为了进一步提高稳定性，那两个两端用来防止信号干扰的电阻，也有优化的空间，改成两个60欧姆外加一个通常 4.7nF的电容，形成一个低通录波器，可以进一步提高稳定性。</p>
+<p><img data-src="https://cdn.passerby.net/2022/11/8584261607148143.png"></p>
+<p>即使这样依旧有数据传错的可能性，CAN协议数据层面总共还有五种检测错误的方法：</p>
+<ol>
+<li>帧检测（Bit Monitoring）：发送端探测总线上除了ID帧和ACK帧以外每一个帧实际数据是否与自己发送的数据相同，若不不同则说明发生了错误。</li>
+<li>插入帧检测（Stuff Check）：接收端检测是否有违反插入帧规则的帧的存在，比如6个连续的相同电平。若有说明传输有错误。</li>
+<li>帧格式检测（Form Check）：接收端检测帧格式中一些已知位置的帧是否是正确的值，比如 CRC 分割帧，ACK分割帧，EOF等。</li>
+<li>CRC校验：接收端检测，原理就不用再重复了。</li>
+<li>ACK检测：发送端探测是否能接收到任意一个接收端发来的ACK确认，若无说明没有任何接收端收到信息，发送有错误。</li>
+</ol>
+<p>当一个节点检测到一个错误，为了保持数据一致性，节点会发送连续6个显性电平来告知其他节点传输发生了错误。原理是触发其他节点的bit stuff插入帧的错误。第一个发出错误帧被称为primary error flags，这个打破了Sutff Check插入帧的格式，也会触发其他节点发送错误帧，其他节点的被称为 secondary error flags，有时候这两个错误帧会在一定的bit上重合。</p>
+<p>由上可看出，为了保证数据的一致性，CAN总线每个节点都可以叫停一次数据传输，这可以很大程度上提高数据一致性，也同时有很多风险比如是由于某个CAN节点控制器的原因，错误地将正确传输的数据识别为错误，从而叫停传输。为了防止这样的事情发生，CAN协议在每个节点设定了两个参数：TEC（Transmit Error Counter）和REC（Receive Error Counter）。当成功传输了一个数据帧或者远程帧，这两个值都会减1。当发送时候检测到了错误，那么TEC &#x3D; TEC + 8， 同时对应检测到错误的接收端REC &#x3D; REC + 1。当由于接收端的原因检测到的错误，REC &#x3D; REC + 8。 下边是知乎的一张图，列举了哪些情况是 +1哪些情况是+8。</p>
+<p><img data-src="https://cdn.passerby.net/2022/11/1496214400151091.png"></p>
+<p>之所以记录这两个数值，是为了降低个别失效节点对整个总线的损害。每个节点根据REC和TEC的值有Active和Passive以及Off三个状态，Active指的是发现错误可以发送显性错误帧，而Passive是发现错误只能发送隐式错误帧，Off是节点关闭状态，与总线断开。根据REC和TEC的值，节点在这三种状态的切换要求如下图：</p>
+<p><img data-src="https://cdn.passerby.net/2022/11/7759824228955962.png"></p>
+<p>至此CAN的基本内容总结差不多了。</p>
+<p>Reference：</p>
+<p><a target="_blank" rel="noopener" href="https://elearning.vector.com/mod/page/view.php?id=333">https://elearning.vector.com/mod/page/view.php?id=333</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/81026123">https://zhuanlan.zhihu.com/p/81026123</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Passerby
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://passerby.net/3649.html" title="CAN总线基础">https://passerby.net/3649.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/3640.html" rel="prev" title="敏捷和Scrum">
+                  <i class="fa fa-angle-left"></i> 敏捷和Scrum
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/3719.html" rel="next" title="CAN FD总线基础">
+                  CAN FD总线基础 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2016 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Passerby</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

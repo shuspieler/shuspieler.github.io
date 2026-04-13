@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"passerby.net","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="在整车功能开发以及调试过程中，ECU与ECU之间使用车载以太网的比例越来越多，所以区别于之前的CAN总线报文的，对于以太网数据包的抓取和分析越来越普及了，而其中又绕不开SOME&#x2F;IP，每一个搞过车载功能开发都或多或少接触过或者使用过SOME&#x2F;IP。我在了解这个协议过程中走了不少弯路，后来发现并没那么复杂，于是打算把自己的心得记录下来。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SomeIP学习笔记：基础知识">
+<meta property="og:url" content="https://passerby.net/6207.html">
+<meta property="og:site_name" content="矛盾体">
+<meta property="og:description" content="在整车功能开发以及调试过程中，ECU与ECU之间使用车载以太网的比例越来越多，所以区别于之前的CAN总线报文的，对于以太网数据包的抓取和分析越来越普及了，而其中又绕不开SOME&#x2F;IP，每一个搞过车载功能开发都或多或少接触过或者使用过SOME&#x2F;IP。我在了解这个协议过程中走了不少弯路，后来发现并没那么复杂，于是打算把自己的心得记录下来。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/8639693808214293.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/2379171471963190.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/8537736780545779.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/1503438125794709.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/7100249918676795.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/1331041549734852.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/8012214706795498.jpg">
+<meta property="og:image" content="https://cdn.passerby.net/2025/05/7488330561009347.jpg">
+<meta property="article:published_time" content="2025-05-15T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-13T13:44:38.625Z">
+<meta property="article:author" content="Passerby">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.passerby.net/2025/05/8639693808214293.jpg">
+
+
+<link rel="canonical" href="https://passerby.net/6207">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://passerby.net/6207.html","path":"/6207.html","title":"SomeIP学习笔记：基础知识"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>SomeIP学习笔记：基础知识 | 矛盾体</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@7.2.0/dist/browser/pangu.umd.js" integrity="sha256-JnmRRnJK7DC6RQJbAJb6AXOM9OmWzS6z8eYultk/48Y=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/pjax.js" defer></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.5.0/dist/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.3.1/pdfobject.min.js","integrity":"sha256-jI72I8ZLVflVOisZIOaLvRew3tyvzeu6aZXFm7P7dEo="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">矛盾体</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-about"><a href="/about.html" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-contact"><a href="/contact.html" rel="section"><i class="fa fa-heartbeat fa-fw"></i>Contact</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="Searching..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SOME-IP%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">SOME&#x2F;IP基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Event-and-Field-Notification"><span class="nav-number">1.1.</span> <span class="nav-text">Event and Field Notification</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Method"><span class="nav-number">1.2.</span> <span class="nav-text">Method</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Service-Discovery"><span class="nav-number">1.3.</span> <span class="nav-text">Service Discovery</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Passerby</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">226</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://passerby.net/6207.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Passerby">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="矛盾体">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="SomeIP学习笔记：基础知识 | 矛盾体">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SomeIP学习笔记：基础知识
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-05-16 00:00:00" itemprop="dateCreated datePublished" datetime="2025-05-16T00:00:00+08:00">2025-05-16</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>在整车功能开发以及调试过程中，ECU与ECU之间使用车载以太网的比例越来越多，所以区别于之前的CAN总线报文的，对于以太网数据包的抓取和分析越来越普及了，而其中又绕不开SOME&#x2F;IP，每一个搞过车载功能开发都或多或少接触过或者使用过SOME&#x2F;IP。我在了解这个协议过程中走了不少弯路，后来发现并没那么复杂，于是打算把自己的心得记录下来。</p>
+<span id="more"></span>
+
+<p>主要从3个角度记录我所学习的SOME&#x2F;IP，首先是一些基本的知识，其次是怎样用Vector CANoe来调试一个结合了AUTOSAR通信，包括怎样在CANoe里边调整数据库实现自定义调试；最后做一个实践，使用开源的SOME&#x2F;IP协议栈vsomeip，来和我们CANoe的SOME&#x2F;IP协议栈做一个真实的通信。</p>
+<h1 id="SOME-IP基础知识"><a href="#SOME-IP基础知识" class="headerlink" title="SOME&#x2F;IP基础知识"></a>SOME&#x2F;IP基础知识</h1><p>SOME&#x2F;IP是基于TCP&#x2F;UDP&#x2F;IP协议之上的应用层协议，很像网络开发中前后端交互的HTTP的方式。如果之前做过前后端的开发，对于客户端和服务器的连接有一定的知识储备，那么在了解SOME&#x2F;IP的过程中会觉得很简单的。SOME&#x2F;IP依托于TCP或UDP，所有的数据都是作为TCP&#x2F;UDP的Payload通过IP协议进行传输。可以理解成在Payload中又做了进一步的切分，并且比特位以及长度做了事先约定，例如下图中的前16个Bit固定为Service ID，紧接着的16个Bit为Method ID或者Event ID。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/8639693808214293.jpg"></p>
+<p>目前网络中常见的SOME&#x2F;IP学习路径和学习资料，包括我之前看的一些，大多是在CAN总线技术路线以及实现方式的基础上介绍SOME&#x2F;IP的特点以及技术细节的，很多从以太网IP以及UDP和TCP开始讲起，然后再说到SOME&#x2F;IP的各种Header头部还有服务订阅等等内容，这样的一个学习路径，非常容易把很多的类似的概念参合到一起，比如IP层、UDP、TCP以及SOME&#x2F;IP都有Header头部，IPv4和IPv6头部又不一样，TCP的三次握手四次挥手和SOME&#x2F;IP的Subscribe订阅以及UDP和Notification，太太太容易混淆了。可能看了好久还觉得云里雾里，觉得这个太高深了，其实真的SOME&#x2F;IP没啥，将其理解成ECU之间的HTTP类似协议，下层依赖的TCP&#x2F;UDP和电脑手机服务器用的没有任何区别，明白这个就已经学会了一大半。关于车载以太网和普通以太网的区别，我在另外一个学习记录贴中有记录，一句话总结就是物理层数据链路有区别，到了IP层以上就完全一样了。</p>
+<p>不过从另外一个角度也可以理解，很多汽车软件的开发人员是从传统技术栈比如CAN总线时代过来的，对于以太网的了解不像互联网人那样深入，所以有一定的需求再详细了解一些IP&#x2F;TCP&#x2F;UDP的知识。我的建议是将这两部分分开学习，先回顾一下计算机网络，七层协议啥的，再了解一个应用层协议比如HTTP，最后再详细学习SOME&#x2F;IP，绝对会事半功倍，发现真的好简单，半天时间SOME&#x2F;IP入门足够。</p>
+<p>另外在车载应用开发中，SOME&#x2F;IP的Payload部分填充，考虑到和其他ECU以及功能的兼容性问题，会使用AUTOSAR的规则定义方式，这和CAN总线的Frame帧非常的像。在CAN总线Data Field数据场一次最多传输8字节，通常会把这对应的64个比特拆分成传输数据的最小量，比如一个布尔型只分配1个比特，然后一个0-255的Uint8只分配8个比特，总共8字节64比特能拆分成很多个Signal信号，从而有限的资源传输更多数据，各个Bit对应的Signal信号长度以及数据类型的记录成一个表格，即得到了CAN总线数据库DBC。在车载SOME&#x2F;IP开发中Payload部分多数情况下也沿用了类似的思路，所以在Payload部分解析也需要一些额外的信号矩阵，结合了SOME&#x2F;IP支持的数据结构和AUTOSAR数据结构，就能组合出很多复杂的结构体，实现更多上层应用间的数据传输。</p>
+<p>这样的实现方式也可以很好的复用迁移传统汽车行业稳定成熟的软件解决方案，在必要的情况下，只需要在传输层做一些技术更新，核心逻辑不需要任何变动，从而降低潜在的风险。但是这一块是互联网人来做汽车软件的话，可能就不是很熟悉了，尤其对于不常见的Bit位的数据拆分，再结合这大端小端数据类型，还有信号矩阵有Scale放大缩小以及Offset偏移，八成互联网人转过来的开发第一次会搞错。建议之前对于汽车总线了解较少的开发人员可以系统学习一下CAN总线以及结合项目了解一下AUTOSAR信号矩阵，可以避免很多低级的错误。</p>
+<p>传统车载网络CAN总线在面向信号的数据传输中，发送方会根据自身需求（如数值更新或变更时）主动发送信息，而无需考虑网络中是否有接收方当下需要这些数据。与之不同的是面向服务的数据传输模式即发送方仅当网络中至少存在一个接收方需要该数据时才会进行传输。这种方式的优势在于避免了不必要的数据对网络及所有连接节点造成的负载。因此，面向服务的数据传输要求服务器必须通过某种方式获知哪些接收方正在等待其数据。在SOA架构中，服务是构成系统的基本单元，它代表了系统中的某个功能或操作。服务通过明确的接口与外界进行交互，实现了功能的封装和重用。SOA架构的核心就是服务，它通过将应用程序划分为一系列的服务来降低系统的复杂度，提高系统的灵活性和可维护性。在SOA中，服务是通过其接口被定义和访问。接口是服务与外界交互的桥梁，它定义了服务的输入、输出和行为规范。在SOA架构中，以太网通信作为服务的传输载体，负责在不同的ECU或服务之间传递数据和信息，根据AUTOSAR平台的规范与推荐，一般选择以太网应用层协议SOME&#x2F;IP协议或者DDS协议作为跨域通信协议。</p>
+<p>在SOME&#x2F;IP协议中，服务接口被明确划分为三种类型： Event、Field、Method，每种类型都服务于不同的通信需求。</p>
+<h2 id="Event-and-Field-Notification"><a href="#Event-and-Field-Notification" class="headerlink" title="Event and Field Notification"></a>Event and Field Notification</h2><p>服务器基于活跃订阅发送的内容可呈现两种格式：事件通知（Event Notification）和字段通知（Field Notification）。这两种格式的共同特性是事件驱动生成机制，但其数据结构存在本质差异:</p>
+<ul>
+<li>事件通知Event：采用自包含的静态快照形式，其字段填充的属性仅反映事件触发时的瞬时状态，与历史事件无任何关联</li>
+<li>字段通知Field：包含具有时序关联性的动态值，除当前值外还隐含历史状态。因此字段可扩展为包含Getter&#x2F;Setter方法，允许客户端对目标内容进行读写操作。</li>
+</ul>
+<p><img data-src="https://cdn.passerby.net/2025/05/2379171471963190.jpg"></p>
+<p><img data-src="https://cdn.passerby.net/2025/05/8537736780545779.jpg"></p>
+<p>需要特别说明的是，在SOME&#x2F;IP协议中，事件总是以事件组（Event group）的形式进行组织，客户端仅能订阅整个事件组，而无法单独订阅组内某个特定事件。Field的Setter&#x2F;Getter 方法遵循请求&#x2F;响应（REQUEST&#x2F;RESPONSE）模式，变更通知则通过事件机制实现，所有订阅操作都需通过SOME&#x2F;IP服务发现（SOME&#x2F;IP Service Discovery）协议完成。</p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p>另一种数据交换方式是通过方法调用（Method Call）实现信息传递。客户端通过发起远程过程调用（Remote Procedure Call, RPC），触发目标服务器上的函数执行。具体流程如下：</p>
+<ul>
+<li>调用过程：客户端通过网络发送请求来调用服务器函数，该请求可包含作为参数传递至被调用方法的数据；</li>
+<li>响应机制：服务器执行函数后，可能通过响应消息向客户端返回执行结果。</li>
+</ul>
+<p>需注意，当客户端主动调用函数时，通常意味着需要获取返回数据，通常被称作RR模式（Method Request with Response），但服务器方法也可能不返回任何值（Void类型），常被称作FF模式（Method Fire &amp; Forget），此时客户端在确认方法被成功调用后即完成整个流程。</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/1503438125794709.jpg"></p>
+<h2 id="Service-Discovery"><a href="#Service-Discovery" class="headerlink" title="Service Discovery"></a>Service Discovery</h2><p>为了让客户端能够获知当前可用的服务，SOME&#x2F;IP-SD（服务发现协议）提供了两种动态服务发现机制：</p>
+<ul>
+<li><p>服务提供(Offer Service)：</p>
+</li>
+<li><p>服务器通过该机制向网络宣告其提供的所有可用服务</p>
+</li>
+<li><p>每个设备通过组播（multicast）方式广播消息</p>
+</li>
+<li><p>消息内容包含该设备提供的所有服务列表</p>
+</li>
+<li><p>传输层采用UDP协议</p>
+</li>
+<li><p>服务查找(Find Service)：</p>
+</li>
+<li><p>客户端则可以通过该机制主动查询当前可用的服务</p>
+</li>
+</ul>
+<p>主要实现下列功能：</p>
+<ul>
+<li>服务实例定位</li>
+<li>服务运行状态检测</li>
+<li>发布&#x2F;订阅机制管理</li>
+</ul>
+<p>其他SOME&#x2F;IP-SD消息类型还包括：</p>
+<ul>
+<li>事件组发布（Publishing an Event group）</li>
+<li>事件组订阅（Subscribing an Event group）</li>
+</ul>
+<p><img data-src="https://cdn.passerby.net/2025/05/7100249918676795.jpg"></p>
+<p>根据标准要求，SD的头部的Service-ID和Method-ID是固定的，分别是0xFFFF和0x8100。至于是Offer Service还是Find  Service，以及在实际中经常用到的Service服务版本，在标准中是在Entry内容体现的：</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/1331041549734852.jpg"></p>
+<p>对于Offer Service&#x2F;Find Service 来说的头部Entity，Type中用到的值有：</p>
+<ul>
+<li>0x00：FindService</li>
+<li>0x01：OfferService</li>
+<li>0x02：StopOfferService</li>
+</ul>
+<p><img data-src="https://cdn.passerby.net/2025/05/8012214706795498.jpg"></p>
+<p>对于Eventgroup的发布和订阅用到的SD头部Entity，Type中用到的值有：</p>
+<ul>
+<li>0x06: Subscribe Eventgroup Entry (订阅事件组条目)</li>
+<li>0x07: Subscribe Eventgroup Ack (订阅事件组确认)</li>
+<li>0x08: Subscribe Eventgroup Nack (订阅事件组否定确认)</li>
+<li>0x09: Stop Subscribe Eventgroup Entry (取消订阅事件组条目)</li>
+</ul>
+<p>另外一个对于SD常见的配置是IP端口号：30490，这是AUTOSAR官方建议的端口号。对于IP层服务以上关于SOME&#x2F;IP-SD的要求，主要定义在《AUTOSAR_PRS_SOMEIPServiceDiscoveryProtocol.pdf》这份官方需求中，大家可以简单翻阅一下了解各大概。接下来记录一下，真正到了数据传输时，SOME&#x2F;IP的Header以及Payload是怎么填充的：</p>
+<p><img data-src="https://cdn.passerby.net/2025/05/7488330561009347.jpg"></p>
+<p>首先SOME&#x2F;IP的数据包分为Header和Payload两部分，而这两部分当作一个整体，作为TCP&#x2F;UDP的Payload通过IP进行传输。如图所示，两个设备（A和B）之间通过SOME&#x2F;IP协议进行通信：设备A向设备B发送一条SOME&#x2F;IP消息，并接收一条回复消息。底层传输协议可采用TCP或UDP，这对消息本身没有影响。在此场景中，设备B运行着某项服务，设备A通过发送消息调用该服务功能，而返回消息即为服务响应。</p>
+<p>头部报文结构：</p>
+<ul>
+<li>服务ID（Service ID）：每个服务的唯一标识符</li>
+<li>方法ID（Method ID）：0-32767 Method，32768-65535 Event，区别为Event的最高位为1</li>
+<li>长度（Length）：以字节为单位的有效载荷长度（包含后续8字节字段）</li>
+<li>客户端ID（Client ID）：ECU内部调用客户端的唯一标识（需保证整车范围内唯一）</li>
+<li>会话ID（Session ID）：会话处理标识（每次调用必须递增）</li>
+<li>协议版本（Protocol Version）：固定为0x01</li>
+<li>接口版本（Interface Version）：服务接口的主版本号</li>
+<li>消息类型（Message Type）：REQUEST (0x00) A request expecting a response (even void) — REQUEST_NO_RETURN (0x01) A Fire&amp;Forget request — NOTIFICATION (0x02) A request of a notification&#x2F;event callback expecting no response — RESPONSE (0x80) The response message — REQUEST_ACK (0x40) — NOTIFICATION_ACK (0x42) — ERROR (0x81) — RESPONSE_ACK (0xC0) — ERROR_ACK (0xC1) — UNKNOWN (0xFF)</li>
+<li>返回码（Return Code）：E_OK (0x00) No error occurred — E_NOT_OK (0x01) An unspecified error occurred — E_WRONG_INTERFACE_VERSION (0x08) Interface version mismatch — E_MALFORMED_MESSAGE (0x09) Deserialization error, so that payload cannot be deserialized — E_WRONG_MESSAGE_TYPE (0x0A) An unexpected message type was received (e.g. RE-QUEST_NO_RETURN for a method defined as RE-QUEST) — E_UNKNOWN_SERVICE (0x02) — E_UNKNOWN_METHOD (0x03) — E_NOT_READY (0x04) — E_NOT_REACHABLE (0x05) — E_TIMEOUT (0x06) — E_WRONG_PROTOCOL_VERSION (0x07) — E_UNKNOWN (0xFF)</li>
+</ul>
+<p>Payload 序列化：</p>
+<p>SOME&#x2F;IP协议定义了很多序列化方式，消息格式通常与内存中的数据结构（紧凑型结构体）高度一致甚至完全相同，主要支持下列数据类型：</p>
+<ul>
+<li><p>基础数据类型：</p>
+</li>
+<li><p>布尔值（Boolean）：8位字段，0表示False，1表示True（禁止使用其他值）</p>
+</li>
+<li><p>无符号整数：Uint8（8位）、Uint16（16位）、Uint32（32位）、Yint64（64位）</p>
+</li>
+<li><p>有符号整数：Sint8（8位）、Sint16（16位）、Sint32（32位）、Sint64（64位）</p>
+</li>
+<li><p>浮点数：Float32（32位单精度）、Float64（64位双精度）</p>
+</li>
+</ul>
+<p>默认采用网络字节序即大端模式，也可配置成小端模式；</p>
+<ul>
+<li><p>复合数据类型：</p>
+</li>
+<li><p>结构体（Struct）</p>
+</li>
+<li><p>字符串（String）支持大端变长模式</p>
+</li>
+<li><p>数组（Array）:支持变长模式</p>
+</li>
+<li><p>枚举（Enumeration）</p>
+</li>
+<li><p>位（Bitfield）:支持8、16和32Bit模式。</p>
+</li>
+<li><p>联合体（Union）:</p>
+</li>
+</ul>
+<p>对于复合数据类型，长度&#x2F;类型字段默认为32位，可配置为0&#x2F;8&#x2F;16&#x2F;32位，所有长度&#x2F;类型字段均采用网络字节序即大端模式。</p>
+<p>接下篇：<a href="https://passerby.net/6220.html">SomeIP学习笔记：使用CANoe调试&#x2F;仿真SomeIP服务</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Passerby
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://passerby.net/6207.html" title="SomeIP学习笔记：基础知识">https://passerby.net/6207.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/6220.html" rel="prev" title="SomeIP学习笔记：使用CANoe调试&#x2F;仿真SomeIP服务">
+                  <i class="fa fa-angle-left"></i> SomeIP学习笔记：使用CANoe调试/仿真SomeIP服务
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/6429.html" rel="next" title="德国中国（新生儿）疫苗对比">
+                  德国中国（新生儿）疫苗对比 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2016 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Passerby</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

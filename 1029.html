@@ -1,0 +1,2110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"passerby.net","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="通过路由器设置DNS屏蔽YouTube的广告服务器，从而实现连接次wifi下的所有设备播放视频不再有插入时广告。具体做法很简单，将下边的文本复制到电脑hosts文件中，或者智能路由器的hosts中。 这个列表是一年前的(2017年)，可能有些老了，用平板看视频时候绝大多数可以被阻拦掉，可是任然还有漏网之鱼。总体来说在可接受范围内。刚开看到Github有一些项目有实时更新的列表，如果追求极致的话可以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DNS屏蔽YouTube网页及APP视频中的广告">
+<meta property="og:url" content="https://passerby.net/1029.html">
+<meta property="og:site_name" content="矛盾体">
+<meta property="og:description" content="通过路由器设置DNS屏蔽YouTube的广告服务器，从而实现连接次wifi下的所有设备播放视频不再有插入时广告。具体做法很简单，将下边的文本复制到电脑hosts文件中，或者智能路由器的hosts中。 这个列表是一年前的(2017年)，可能有些老了，用平板看视频时候绝大多数可以被阻拦掉，可是任然还有漏网之鱼。总体来说在可接受范围内。刚开看到Github有一些项目有实时更新的列表，如果追求极致的话可以">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.passerby.net/2018/10/2018111305052383.jpg">
+<meta property="article:published_time" content="2018-10-30T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-13T13:48:16.899Z">
+<meta property="article:author" content="Passerby">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.passerby.net/2018/10/2018111305052383.jpg">
+
+
+<link rel="canonical" href="https://passerby.net/1029">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://passerby.net/1029.html","path":"/1029.html","title":"DNS屏蔽YouTube网页及APP视频中的广告"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>DNS屏蔽YouTube网页及APP视频中的广告 | 矛盾体</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@7.2.0/dist/browser/pangu.umd.js" integrity="sha256-JnmRRnJK7DC6RQJbAJb6AXOM9OmWzS6z8eYultk/48Y=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/pjax.js" defer></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.5.0/dist/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.3.1/pdfobject.min.js","integrity":"sha256-jI72I8ZLVflVOisZIOaLvRew3tyvzeu6aZXFm7P7dEo="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">矛盾体</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-about"><a href="/about.html" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-contact"><a href="/contact.html" rel="section"><i class="fa fa-heartbeat fa-fw"></i>Contact</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="Searching..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Passerby</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">226</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://passerby.net/1029.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Passerby">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="矛盾体">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="DNS屏蔽YouTube网页及APP视频中的广告 | 矛盾体">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DNS屏蔽YouTube网页及APP视频中的广告
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-10-31 00:00:00" itemprop="dateCreated datePublished" datetime="2018-10-31T00:00:00+08:00">2018-10-31</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>通过路由器设置DNS屏蔽YouTube的广告服务器，从而实现连接次wifi下的所有设备播放视频不再有插入时广告。具体做法很简单，将下边的文本复制到电脑hosts文件中，或者智能路由器的hosts中。</p>
+<p>这个列表是一年前的(2017年)，可能有些老了，用平板看视频时候绝大多数可以被阻拦掉，可是任然还有漏网之鱼。总体来说在可接受范围内。刚开看到Github有一些项目有实时更新的列表，如果追求极致的话可以在那里找一找，总体来说不复杂。</p>
+<span id="more"></span>
+
+<p><img data-src="https://cdn.passerby.net/2018/10/2018111305052383.jpg"></p>
+<p>0.0.0.0 *.6.googlevideo.com</p>
+<p>0.0.0.0 ad.doubleclick.net</p>
+<p>0.0.0.0 googlesyndication.com</p>
+<p>0.0.0.0 tpc.googlesyndication.com</p>
+<p>0.0.0.0 pagead.googlesyndication.com</p>
+<p>0.0.0.0 pagead1.googlesyndication.com</p>
+<p>0.0.0.0 pagead2.googlesyndication.com</p>
+<p>0.0.0.0 ade.googlesyndication.com</p>
+<p>0.0.0.0 googleads.g.doubleclick.net</p>
+<p>0.0.0.0 googleads4.g.doubleclick.net</p>
+<p>0.0.0.0 googlesyndication.com</p>
+<p>0.0.0.0 yt.moatads.com</p>
+<p>0.0.0.0 yts.moatads.com</p>
+<p>0.0.0.0 ads.doubleclick.net</p>
+<p>0.0.0.0 ad.youtube.com</p>
+<p>0.0.0.0 ads.youtube.com</p>
+<p>0.0.0.0 pixel.moatads.com</p>
+<p>0.0.0.0 rtd.tubemogul.com</p>
+<p>0.0.0.0 pubads.g.doubleclick.net</p>
+<p>0.0.0.0 stats.g.doubleclick.net</p>
+<p>0.0.0.0 pagead.l.doubleclick.net</p>
+<p>0.0.0.0 files.adform.net</p>
+<p>0.0.0.0 securepubads.g.doubleclick.net</p>
+<p>0.0.0.0 static.doubleclick.net</p>
+<p>0.0.0.0 ad-g.doubleclick.net</p>
+<p>0.0.0.0 ad.doubleclick.net</p>
+<p>0.0.0.0 ad.mo.doubleclick.net</p>
+<p>0.0.0.0 doubleclick.net</p>
+<p>0.0.0.0 <a target="_blank" rel="noopener" href="http://www.youtube-nocookie.com/">www.youtube-nocookie.com</a></p>
+<p>0.0.0.0 youtube-nocookie.com</p>
+<p>0.0.0.0 s0.2mdn.net</p>
+<p>0.0.0.0 r1—sn-4g57kn7d.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-4g57knek.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-4g57kndd.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-4g5e6ne6.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-4g5e6ney.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-4g5e6nls.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-4g5ednll.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-4g5ednls.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-5hne6ne6.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-5hne6nlr.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-p5qs7ner.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-4g57knek.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-4g57knzk.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-4g5e6n7d.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-4g5e6n7k.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-5hne6n7z.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-4g57kn7e.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-4g57knzd.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-4g5e6nes.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-4g5e6nez.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-4g5edne6.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-5hnednlk.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-4g57kn6l.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-4g57kn7d.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-4g57kney.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-4g5e6n76.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-4g5e6nl7.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-4g5edn7y.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-4g5edn7z.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-4g5ednle.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-5hnednlk.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-4g57kn6s.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-4g57knl6.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-4g5e6nl6.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-4g5edn7l.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-5hne6n7s.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-4g5ednle.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-4g5e6n7k.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-4g5e6nls.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-4g5edn7z.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-4g5ednee.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-4g5edn7e.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-4g5edn7y.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-4g5ednle.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-5hne6nlr.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-5hnednl7.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-4g57kndd.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-4g57knze.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-4g57knkr.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-4g57knzz.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-4g57knsy.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-4g57knze.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-5hne6n76.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-4g57knkl.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-4g57knzz.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-5hne6nel.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-4g57knls.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-4g57knlz.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-4g57knzl.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-5hnedn7k.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-4g57kn67.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-4g57knr7.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-5hne6nl6.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-4g57kn7l.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-4g57kn7s.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-4g57knld.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-4g57kner.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-4g57knd7.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-4g57knkr.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-5hne6nek.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-4g57knkz.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-4g57knde.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-5hne6n76.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-ab5szn76.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-ab5szn76.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-4g5e6nss.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-nx57yn7s.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-25ge7nlz.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-q4fl6nss.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-q4flrn7s.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-aigllns7.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-4g5e6nsr.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-hp57knss.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-hp57knls.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-cvh7knes.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-a5mlrn7s.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-a5mlrn7s.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-a5mlrn7s.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-a5mlrn7s.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-a5mlrn7s.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-a5mlrn7s.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-a5mlrn7s.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-a5mlrn7s.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-a5mlrn7s.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-a5mlrn7s.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-a5mlrn7s.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-a5mlrn7s.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-a5mlrn7s.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-a5mlrn7s.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-a5mlrn7s.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-a5mlrn7s.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-a5mlrn7s.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-a5mlrn7s.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-a5mlrn7s.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-a5mlrn7s.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-cvh7kn76.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-cvh7kn76.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-cvh7kn76.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-cvh7kn76.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-cvh7kn76.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-cvh7kn76.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-cvh7kn76.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-cvh7kn76.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-cvh7kn76.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-cvh7kn76.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-cvh7kn76.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-cvh7kn76.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-cvh7kn76.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-cvh7kn76.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-cvh7kn76.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-cvh7kn76.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-cvh7kn76.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-cvh7kn76.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-cvh7kn76.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-cvh7kn76.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-cvh7knes.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-cvh7knes.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-cvh7knes.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-cvh7knes.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-cvh7knes.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-cvh7knes.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-cvh7knes.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-cvh7knes.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-cvh7knes.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-cvh7knes.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-cvh7knes.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-cvh7knes.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-cvh7knes.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-cvh7knes.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-cvh7knes.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-cvh7knes.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-cvh7knes.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-cvh7knes.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-cvh7knes.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-cvh7knes.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-a5meknl6.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-a5meknl6.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-a5meknl6.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-a5meknl6.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-a5meknl6.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-a5meknl6.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-a5meknl6.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-a5meknl6.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-a5meknl6.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-a5meknl6.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-a5meknl6.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-a5meknl6.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-a5meknl6.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-a5meknl6.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-a5meknl6.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-a5meknl6.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-a5meknl6.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-a5meknl6.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-a5meknl6.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-a5meknl6.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-cvh7kn7r.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-cvh7kn7r.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-cvh7kn7r.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-cvh7kn7r.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-cvh7kn7r.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-cvh7kn7r.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-cvh7kn7r.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-cvh7kn7r.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-cvh7kn7r.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-cvh7kn7r.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-cvh7kn7r.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-cvh7kn7r.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-cvh7kn7r.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-cvh7kn7r.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-cvh7kn7r.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-cvh7kn7r.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-cvh7kn7r.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-cvh7kn7r.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-cvh7kn7r.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-cvh7kn7r.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-a5m7znez.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-a5m7znez.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-a5m7znez.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-a5m7znez.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-a5m7znez.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-a5m7znez.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-a5m7znez.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-a5m7znez.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-a5m7znez.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-a5m7znez.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-a5m7znez.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-a5m7znez.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-a5m7znez.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-a5m7znez.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-a5m7znez.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-a5m7znez.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-a5m7znez.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-a5m7znez.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-a5m7znez.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-a5m7znez.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-cvh7kn7d.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-cvh7kn7d.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-cvh7kn7d.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-cvh7kn7d.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-cvh7kn7d.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-cvh7kn7d.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-cvh7kn7d.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-cvh7kn7d.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-cvh7kn7d.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-cvh7kn7d.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-cvh7kn7d.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-cvh7kn7d.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-cvh7kn7d.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-cvh7kn7d.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-cvh7kn7d.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-cvh7kn7d.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-cvh7kn7d.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-cvh7kn7d.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-cvh7kn7d.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-cvh7kn7d.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-cvh7kn7y.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-cvh7kn7y.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-cvh7kn7y.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-cvh7kn7y.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-cvh7kn7y.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-cvh7kn7y.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-cvh7kn7y.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-cvh7kn7y.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-cvh7kn7y.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-cvh7kn7y.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-cvh7kn7y.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-cvh7kn7y.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-cvh7kn7y.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-cvh7kn7y.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-cvh7kn7y.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-cvh7kn7y.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-cvh7kn7y.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-cvh7kn7y.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-cvh7kn7y.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-cvh7kn7y.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-cvh7kn7s.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-cvh7kn7l.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-cvh7kn7l.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-cvh7kn7l.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-cvh7kn7l.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-cvh7kn7l.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-cvh7kn7l.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-cvh7kn7l.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-cvh7kn7l.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-cvh7kn7l.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-cvh7kn7l.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-cvh7kn7l.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-cvh7kn7l.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-cvh7kn7l.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-cvh7kn7l.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-cvh7kn7l.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-cvh7kn7l.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-cvh7kn7l.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-cvh7kn7l.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-cvh7kn7l.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-cvh7kn7l.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-cvh7kn7z.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-cvh7kn7z.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-cvh7kn7z.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-cvh7kn7z.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-cvh7kn7z.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-cvh7kn7z.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-cvh7kn7z.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-cvh7kn7z.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-cvh7kn7z.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-cvh7kn7z.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-cvh7kn7z.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-cvh7kn7z.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-cvh7kn7z.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-cvh7kn7z.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-cvh7kn7z.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-cvh7kn7z.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-cvh7kn7z.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-cvh7kn7z.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-cvh7kn7z.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-cvh7kn7z.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-cvh7kn7k.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-cvh7kn7k.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-cvh7kn7k.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-cvh7kn7k.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-cvh7kn7k.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-cvh7kn7k.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-cvh7kn7k.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-cvh7kn7k.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-cvh7kn7k.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-cvh7kn7k.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-cvh7kn7k.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-cvh7kn7k.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-cvh7kn7k.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-cvh7kn7k.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-cvh7kn7k.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-cvh7kn7k.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-cvh7kn7k.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-cvh7kn7k.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-cvh7kn7k.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-cvh7kn7k.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-4g5e6nle.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-4g5e6nle.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-4g5e6nle.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-4g5e6nle.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-4g5e6nle.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-4g5e6nle.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-4g5e6nle.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-4g5e6nle.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-4g5e6nle.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-4g5e6nle.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-4g5e6nle.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-4g5e6nle.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-4g5e6nle.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-4g5e6nle.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-4g5e6nle.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-4g5e6nle.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-4g5e6nle.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-4g5e6nle.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-4g5e6nle.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-4g5e6nle.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-4g57knky.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-4g57knky.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-4g57knky.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-4g57knky.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-4g57knky.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-4g57knky.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-4g57knky.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-4g57knky.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-4g57knky.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-4g57knky.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-4g57knky.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-4g57knky.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-4g57knky.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-4g57knky.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-4g57knky.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-4g57knky.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-4g57knky.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-4g57knky.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-4g57knky.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-4g57knky.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-h557snlz.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-h557snlz.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-h557snlz.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-h557snlz.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-h557snlz.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-h557snlz.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-h557snlz.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-h557snlz.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-h557snlz.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-h557snlz.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-h557snlz.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-h557snlz.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-h557snlz.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-h557snlz.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-h557snlz.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-h557snlz.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-h557snlz.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-h557snlz.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-h557snlz.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-h557snlz.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-h557sn7r.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-h557sn7r.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-h557sn7r.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-h557sn7r.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-h557sn7r.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-h557sn7r.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-h557sn7r.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-h557sn7r.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-h557sn7r.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-h557sn7r.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-h557sn7r.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-h557sn7r.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-h557sn7r.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-h557sn7r.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-h557sn7r.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-h557sn7r.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-h557sn7r.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-h557sn7r.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-h557sn7r.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-h557sn7r.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-h557sne6.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-h557sne6.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-h557sne6.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-h557sne6.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-h557sne6.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-h557sne6.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-h557sne6.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-h557sne6.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-h557sne6.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-h557sne6.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-h557sne6.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-h557sne6.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-h557sne6.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-h557sne6.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-h557sne6.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-h557sne6.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-h557sne6.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-h557sne6.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-h557sne6.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-h557sne6.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-h557sne7.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-h557snl6.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-h557snl6.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-h557snl6.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-h557snl6.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-h557snl6.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-h557snl6.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-h557snl6.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-h557snl6.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-h557snl6.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-h557snl6.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-h557snl6.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-h557snl6.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-h557snl6.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-h557snl6.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-h557snl6.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-h557snl6.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-h557snl6.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-h557snl6.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-h557snl6.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-h557snl6.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-h557snel.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-h557snel.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-h557snel.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-h557snel.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-h557snel.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-h557snel.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-h557snel.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-h557snel.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-h557snel.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-h557snel.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-h557snel.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-h557snel.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-h557snel.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-h557snel.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-h557snel.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-h557snel.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-h557snel.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-h557snel.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-h557snel.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-h557snel.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-a5meknee.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-a5meknee.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-a5meknee.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-a5meknee.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-a5meknee.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-a5meknee.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-a5meknee.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-a5meknee.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-a5meknee.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-a5meknee.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-a5meknee.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-a5meknee.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-a5meknee.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-a5meknee.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-a5meknee.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-a5meknee.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-a5meknee.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-a5meknee.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-a5meknee.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-a5meknee.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-h557snee.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-h557snee.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-h557snee.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-h557snee.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-h557snee.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-h557snee.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-h557snee.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-h557snee.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-h557snee.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-h557snee.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-h557snee.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-h557snee.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-h557snee.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-h557snee.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-h557snee.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-h557snee.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-h557snee.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-h557snee.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-h557snee.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-h557snee.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-h557snes.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-h557snes.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-h557snes.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-h557snes.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-h557snes.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-h557snes.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-h557snes.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-h557snes.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-h557snes.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-h557snes.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-h557snes.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-h557snes.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-h557snes.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-h557snes.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-h557snes.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-h557snes.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-h557snes.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-h557snes.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-h557snes.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-h557snes.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-cvh76n7e.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-cvh76n7e.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-cvh76n7e.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-cvh76n7e.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-cvh76n7e.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-cvh76n7e.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-cvh76n7e.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-cvh76n7e.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-cvh76n7e.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-cvh76n7e.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-cvh76n7e.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-cvh76n7e.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-cvh76n7e.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-cvh76n7e.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-cvh76n7e.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-cvh76n7e.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-cvh76n7e.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-cvh76n7e.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-cvh76n7e.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-cvh76n7e.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-cvh7knez.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-cvh76n7z.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-cvh76n7z.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-cvh76n7z.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-cvh76n7z.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-cvh76n7z.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-cvh76n7z.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-cvh76n7z.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-cvh76n7z.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-cvh76n7z.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-cvh76n7z.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-cvh76n7z.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-cvh76n7z.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-cvh76n7z.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-cvh76n7z.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-cvh76n7z.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-cvh76n7z.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-cvh76n7z.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-cvh76n7z.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-cvh76n7z.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-cvh76n7z.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-h557snez.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-h557snez.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-h557snez.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-h557snez.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-h557snez.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-h557snez.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-h557snez.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-h557snez.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-h557snez.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-h557snez.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-h557snez.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-h557snez.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-h557snez.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-h557snez.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-h557snez.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-h557snez.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-h557snez.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-h557snez.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-h557snez.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-h557snez.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-cvh76n7k.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-cvh76n7k.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-cvh76n7k.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-cvh76n7k.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-cvh76n7k.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-cvh76n7k.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-cvh76n7k.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-cvh76n7k.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-cvh76n7k.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-cvh76n7k.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-cvh76n7k.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-cvh76n7k.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-cvh76n7k.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-cvh76n7k.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-cvh76n7k.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-cvh76n7k.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-cvh76n7k.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-cvh76n7k.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-cvh76n7k.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-cvh76n7k.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-cvh76n7l.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-cvh76n7l.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-cvh76n7l.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-cvh76n7l.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-cvh76n7l.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-cvh76n7l.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-cvh76n7l.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-cvh76n7l.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-cvh76n7l.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-cvh76n7l.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-cvh76n7l.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-cvh76n7l.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-cvh76n7l.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-cvh76n7l.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-cvh76n7l.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-cvh76n7l.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-cvh76n7l.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-cvh76n7l.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-cvh76n7l.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-cvh76n7l.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-cvh76n7d.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-cvh76n7d.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-cvh76n7d.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-cvh76n7d.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-cvh76n7d.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-cvh76n7d.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-cvh76n7d.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-cvh76n7d.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-cvh76n7d.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-cvh76n7d.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-cvh76n7d.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-cvh76n7d.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-cvh76n7d.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-cvh76n7d.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-cvh76n7d.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-cvh76n7d.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-cvh76n7d.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-cvh76n7d.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-cvh76n7d.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-cvh76n7d.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-vgqskn7z.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-vgqskn7z.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-vgqskn7z.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-vgqskn7z.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-vgqskn7z.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-vgqskn7z.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-vgqskn7z.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-vgqskn7z.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-vgqskn7z.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-vgqskn7z.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-vgqskn7z.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-vgqskn7z.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-vgqskn7z.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-vgqskn7z.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-vgqskn7z.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-vgqskn7z.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-vgqskn7z.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-vgqskn7z.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-vgqskn7z.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-vgqskn7z.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-cvh76n7s.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-cvh76n7s.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-cvh76n7s.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-cvh76n7s.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-cvh76n7s.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-cvh76n7s.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-cvh76n7s.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-cvh76n7s.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-cvh76n7s.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-cvh76n7s.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-cvh76n7s.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-cvh76n7s.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-cvh76n7s.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-cvh76n7s.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-cvh76n7s.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-cvh76n7s.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-cvh76n7s.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-cvh76n7s.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-cvh76n7s.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-cvh76n7s.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-25ge7n7e.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-25ge7n7e.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-25ge7n7e.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-25ge7n7e.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-25ge7n7e.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-25ge7n7e.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-25ge7n7e.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-25ge7n7e.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-25ge7n7e.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-25ge7n7e.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-25ge7n7e.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-25ge7n7e.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-25ge7n7e.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-25ge7n7e.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-25ge7n7e.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-25ge7n7e.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-25ge7n7e.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-25ge7n7e.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-25ge7n7e.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-25ge7n7e.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-5hnedn7d.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-5hnedn7d.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-5hnedn7d.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-5hnedn7d.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-5hnedn7d.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-5hnedn7d.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-5hnedn7d.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-5hnedn7d.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-5hnedn7d.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-5hnedn7d.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-5hnedn7d.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-5hnedn7d.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-5hnedn7d.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-5hnedn7d.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-5hnedn7d.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-5hnedn7d.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-5hnedn7d.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-5hnedn7d.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-5hnedn7d.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-5hnedn7d.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-h0jeen7r.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-h0jeen7r.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-h0jeen7r.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-h0jeen7r.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-h0jeen7r.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-h0jeen7r.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-h0jeen7r.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-h0jeen7r.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-h0jeen7r.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-h0jeen7r.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-h0jeen7r.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-h0jeen7r.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-h0jeen7r.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-h0jeen7r.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-h0jeen7r.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-h0jeen7r.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-h0jeen7r.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-h0jeen7r.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-h0jeen7r.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-h0jeen7r.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-5hne6n76.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-5hne6n76.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-5hne6n76.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-5hne6n76.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-5hne6n76.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-5hne6n76.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-5hne6n76.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-5hne6n76.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-5hne6n76.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-5hne6n76.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-5hne6n76.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-5hne6n76.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-5hne6n76.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-5hne6n76.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-5hne6n76.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-5hne6n76.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-5hne6n76.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-5hne6n76.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-5hne6n76.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-5hne6n76.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-q4fl6n7s.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-q4fl6n7y.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-q4fl6n7y.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-q4fl6n7y.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-q4fl6n7y.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-q4fl6n7y.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-q4fl6n7y.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-q4fl6n7y.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-q4fl6n7y.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-q4fl6n7y.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-q4fl6n7y.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-q4fl6n7y.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-q4fl6n7y.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-q4fl6n7y.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-q4fl6n7y.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-q4fl6n7y.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-q4fl6n7y.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-q4fl6n7y.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-q4fl6n7y.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-q4fl6n7y.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-q4fl6n7y.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-q4fl6n7e.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-q4fl6n7d.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-q4fl6n7k.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-q4fl6n7l.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-q4fl6n7z.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-4g57knsy.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-4g57knsy.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-4g57knsy.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-4g57knsy.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-4g57knsy.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-4g57knsy.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-4g57knsy.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-4g57knsy.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-4g57knsy.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-4g57knsy.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-4g57knsy.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-4g57knsy.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-4g57knsy.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-4g57knsy.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-4g57knsy.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-4g57knsy.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-4g57knsy.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-4g57knsy.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-4g57knsy.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-4g57knsy.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-4g57knsd.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-4g57knsd.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-4g57knsd.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-4g57knsd.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-4g57knsd.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-4g57knsd.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-4g57knsd.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-4g57knsd.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-4g57knsd.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-4g57knsd.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-4g57knsd.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-4g57knsd.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-4g57knsd.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-4g57knsd.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-4g57knsd.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-4g57knsd.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-4g57knsd.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-4g57knsd.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-4g57knsd.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-4g57knsd.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-4g57knss.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-4g57knss.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-4g57knss.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-4g57knss.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-4g57knss.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-4g57knss.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-4g57knss.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-4g57knss.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-4g57knss.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-4g57knss.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-4g57knss.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-4g57knss.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-4g57knss.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-4g57knss.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-4g57knss.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-4g57knss.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-4g57knss.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-4g57knss.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-4g57knss.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-4g57knss.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-4g57knse.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-4g57knse.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-4g57knse.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-4g57knse.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-4g57knse.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-4g57knse.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-4g57knse.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-4g57knse.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-4g57knse.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-4g57knse.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-4g57knse.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-4g57knse.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-4g57knse.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-4g57knse.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-4g57knse.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-4g57knse.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-4g57knse.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-4g57knse.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-4g57knse.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-4g57knse.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-4g57knsyz.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-4g57knsyz.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-4g57knsyz.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-4g57knsyz.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-4g57knsyz.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-4g57knsyz.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-4g57knsyz.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-4g57knsyz.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-4g57knsyz.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-4g57knsyz.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-4g57knsyz.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-4g57knsyz.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-4g57knsyz.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-4g57knsyz.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-4g57knsyz.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-4g57knsyz.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-4g57knsyz.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-4g57knsyz.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-4g57knsyz.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-4g57knsyz.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-4g57knsk.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-4g57knsk.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-4g57knsk.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-4g57knsk.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-4g57knsk.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-4g57knsk.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-4g57knsk.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-4g57knsk.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-4g57knsk.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-4g57knsk.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-4g57knsk.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-4g57knsk.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-4g57knsk.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-4g57knsk.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-4g57knsk.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-4g57knsk.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-4g57knsk.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-4g57knsk.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-4g57knsk.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-4g57knsk.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-4g57knsl.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-4g57knsl.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-4g57knsl.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-4g57knsl.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-4g57knsl.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-4g57knsl.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-4g57knsl.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-4g57knsl.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-4g57knsl.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-4g57knsl.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-4g57knsl.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-4g57knsl.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-4g57knsl.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-4g57knsl.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-4g57knsl.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-4g57knsl.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-4g57knsl.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-4g57knsl.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-4g57knsl.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-4g57knsl.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-gvnuxaxjvh-p3ue.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-gvnuxaxjvh-p3ue.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-gvnuxaxjvh-p3ue.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-gvnuxaxjvh-p3ue.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-gvnuxaxjvh-p3ue.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-gvnuxaxjvh-p3ue.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-gvnuxaxjvh-p3ue.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-gvnuxaxjvh-p3ue.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-gvnuxaxjvh-p3ue.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-gvnuxaxjvh-p3ue.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-gvnuxaxjvh-p3ue.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-gvnuxaxjvh-p3ue.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-gvnuxaxjvh-p3ue.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-gvnuxaxjvh-p3ue.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-gvnuxaxjvh-p3ue.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-gvnuxaxjvh-p3ue.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-gvnuxaxjvh-p3ue.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-gvnuxaxjvh-p3ue.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-gvnuxaxjvh-p3ue.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-gvnuxaxjvh-p3ue.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-vgqs7nek.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-vgqs7nek.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-vgqs7nek.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-vgqs7nek.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-vgqs7nek.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-vgqs7nek.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-vgqs7nek.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-vgqs7nek.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-vgqs7nek.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-vgqs7nek.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-vgqs7nek.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-vgqs7nek.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-vgqs7nek.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-vgqs7nek.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-vgqs7nek.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-vgqs7nek.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-vgqs7nek.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-vgqs7nek.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-vgqs7nek.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-vgqs7nek.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-vgqs7nel.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-vgqs7nel.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-vgqs7nel.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-vgqs7nel.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-vgqs7nel.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-vgqs7nel.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-vgqs7nel.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-vgqs7nel.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-vgqs7nel.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-vgqs7nel.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-vgqs7nel.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-vgqs7nel.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-vgqs7nel.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-vgqs7nel.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-vgqs7nel.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-vgqs7nel.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-vgqs7nel.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-vgqs7nel.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-vgqs7nel.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-vgqs7nel.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-vgqs7nez.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-vgqs7nez.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-vgqs7nez.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-vgqs7nez.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-vgqs7nez.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-vgqs7nez.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-vgqs7nez.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-vgqs7nez.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-vgqs7nez.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-vgqs7nez.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-vgqs7nez.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-vgqs7nez.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-vgqs7nez.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-vgqs7nez.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-vgqs7nez.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-vgqs7nez.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-vgqs7nez.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-vgqs7nez.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-vgqs7nez.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-vgqs7nez.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-vgqs7neke.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-vgqs7neke.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-vgqs7neke.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-vgqs7neke.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-vgqs7neke.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-vgqs7neke.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-vgqs7neke.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-vgqs7neke.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-vgqs7neke.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-vgqs7neke.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-vgqs7neke.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-vgqs7neke.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-vgqs7neke.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-vgqs7neke.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-vgqs7neke.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-vgqs7neke.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-vgqs7neke.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-vgqs7neke.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-vgqs7neke.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-vgqs7neke.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-vgqs7nes.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-vgqs7nes.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-vgqs7nes.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-vgqs7nes.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-vgqs7nes.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-vgqs7nes.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-vgqs7nes.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-vgqs7nes.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-vgqs7nes.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-vgqs7nes.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-vgqs7nes.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-vgqs7nes.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-vgqs7nes.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-vgqs7nes.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-vgqs7nes.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-vgqs7nes.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-vgqs7nes.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-vgqs7nes.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-vgqs7nes.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-vgqs7nes.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-vgqs7ned.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-vgqs7ned.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-vgqs7ned.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-vgqs7ned.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-vgqs7ned.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-vgqs7ned.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-vgqs7ned.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-vgqs7ned.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-vgqs7ned.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-vgqs7ned.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-vgqs7ned.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-vgqs7ned.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-vgqs7ned.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-vgqs7ned.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-vgqs7ned.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-vgqs7ned.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-vgqs7ned.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-vgqs7ned.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-vgqs7ned.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-vgqs7ned.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-vgqs7ney.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-vgqs7ney.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-vgqs7ney.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-vgqs7ney.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-vgqs7ney.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-vgqs7ney.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-vgqs7ney.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-vgqs7ney.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-vgqs7ney.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-vgqs7ney.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-vgqs7ney.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-vgqs7ney.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-vgqs7ney.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-vgqs7ney.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-vgqs7ney.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-vgqs7ney.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-vgqs7ney.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-vgqs7ney.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-vgqs7ney.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-vgqs7ney.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-ab5l6n7k.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-ab5l6n7k.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-ab5l6n7k.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-ab5l6n7k.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-ab5l6n7k.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-ab5l6n7k.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-ab5l6n7k.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-ab5l6n7k.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-ab5l6n7k.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-ab5l6n7k.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-ab5l6n7k.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-ab5l6n7k.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-ab5l6n7k.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-ab5l6n7k.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-ab5l6n7k.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-ab5l6n7k.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-ab5l6n7k.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-ab5l6n7k.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-ab5l6n7k.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-ab5l6n7k.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-ab5l6n7l.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-ab5l6n7l.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-ab5l6n7l.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-ab5l6n7l.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-ab5l6n7l.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-ab5l6n7l.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-ab5l6n7l.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-ab5l6n7l.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-ab5l6n7l.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-ab5l6n7l.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-ab5l6n7l.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-ab5l6n7l.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-ab5l6n7l.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-ab5l6n7l.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-ab5l6n7l.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-ab5l6n7l.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-ab5l6n7l.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-ab5l6n7l.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-ab5l6n7l.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-ab5l6n7l.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-ab5l6n7z.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-ab5l6n7z.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-ab5l6n7z.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-ab5l6n7z.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-ab5l6n7z.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-ab5l6n7z.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-ab5l6n7z.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-ab5l6n7z.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-ab5l6n7z.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-ab5l6n7z.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-ab5l6n7z.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-ab5l6n7z.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-ab5l6n7z.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-ab5l6n7z.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-ab5l6n7z.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-ab5l6n7z.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-ab5l6n7z.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-ab5l6n7z.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-ab5l6n7z.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-ab5l6n7z.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-ab5l6n7e.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-ab5l6n7e.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-ab5l6n7e.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-ab5l6n7e.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-ab5l6n7e.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-ab5l6n7e.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-ab5l6n7e.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-ab5l6n7e.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-ab5l6n7e.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-ab5l6n7e.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-ab5l6n7e.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-ab5l6n7e.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-ab5l6n7e.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-ab5l6n7e.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-ab5l6n7e.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-ab5l6n7e.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-ab5l6n7e.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-ab5l6n7e.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-ab5l6n7e.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-ab5l6n7e.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-ab5l6n7s.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-ab5l6n7s.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-ab5l6n7s.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-ab5l6n7s.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-ab5l6n7s.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-ab5l6n7s.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-ab5l6n7s.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-ab5l6n7s.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-ab5l6n7s.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-ab5l6n7s.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-ab5l6n7s.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-ab5l6n7s.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-ab5l6n7s.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-ab5l6n7s.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-ab5l6n7s.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-ab5l6n7s.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-ab5l6n7s.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-ab5l6n7s.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-ab5l6n7s.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-ab5l6n7s.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-ab5l6n7d.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-ab5l6n7d.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-ab5l6n7d.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-ab5l6n7d.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-ab5l6n7d.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-ab5l6n7d.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-ab5l6n7d.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-ab5l6n7d.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-ab5l6n7d.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-ab5l6n7d.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-ab5l6n7d.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-ab5l6n7d.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-ab5l6n7d.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-ab5l6n7d.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-ab5l6n7d.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-ab5l6n7d.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-ab5l6n7d.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-ab5l6n7d.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-ab5l6n7d.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-ab5l6n7d.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-ab5l6n7y.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-ab5l6n7y.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-ab5l6n7y.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-ab5l6n7y.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-ab5l6n7y.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-ab5l6n7y.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-ab5l6n7y.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-ab5l6n7y.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-ab5l6n7y.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-ab5l6n7y.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-ab5l6n7y.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-ab5l6n7y.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-ab5l6n7y.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-ab5l6n7y.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-ab5l6n7y.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-ab5l6n7y.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-ab5l6n7y.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-ab5l6n7y.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-ab5l6n7y.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-ab5l6n7y.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-nv47lned.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-nv47lned.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-nv47lned.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-nv47lned.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-nv47lned.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-nv47lned.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-nv47lned.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-nv47lned.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-nv47lned.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-nv47lned.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-nv47lned.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-nv47lned.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-nv47lned.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-nv47lned.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-nv47lned.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-nv47lned.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-nv47lned.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-nv47lned.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-nv47lned.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-nv47lned.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-nv47lney.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-nv47lney.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-nv47lney.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-nv47lney.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-nv47lney.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-nv47lney.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-nv47lney.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-nv47lney.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-nv47lney.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-nv47lney.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-nv47lney.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-nv47lney.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-nv47lney.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-nv47lney.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-nv47lney.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-nv47lney.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-nv47lney.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-nv47lney.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-nv47lney.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-nv47lney.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-nv47lnes.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-nv47lnes.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-nv47lnes.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-nv47lnes.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-nv47lnes.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-nv47lnes.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-nv47lnes.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-nv47lnes.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-nv47lnes.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-nv47lnes.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-nv47lnes.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-nv47lnes.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-nv47lnes.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-nv47lnes.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-nv47lnes.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-nv47lnes.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-nv47lnes.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-nv47lnes.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-nv47lnes.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-nv47lnes.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-nv47lnee.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-nv47lnee.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-nv47lnee.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-nv47lnee.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-nv47lnee.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-nv47lnee.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-nv47lnee.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-nv47lnee.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-nv47lnee.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-nv47lnee.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-nv47lnee.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-nv47lnee.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-nv47lnee.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-nv47lnee.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-nv47lnee.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-nv47lnee.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-nv47lnee.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-nv47lnee.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-nv47lnee.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-nv47lnee.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-nv47lnez.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-nv47lnez.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-nv47lnez.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-nv47lnez.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-nv47lnez.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-nv47lnez.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-nv47lnez.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-nv47lnez.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-nv47lnez.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-nv47lnez.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-nv47lnez.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-nv47lnez.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-nv47lnez.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-nv47lnez.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-nv47lnez.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-nv47lnez.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-nv47lnez.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-nv47lnez.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-nv47lnez.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-nv47lnez.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-nv47lnek.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-nv47lnek.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-nv47lnek.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-nv47lnek.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-nv47lnek.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-nv47lnek.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-nv47lnek.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-nv47lnek.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-nv47lnek.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-nv47lnek.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-nv47lnek.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-nv47lnek.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-nv47lnek.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-nv47lnek.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-nv47lnek.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-nv47lnek.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-nv47lnek.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-nv47lnek.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-nv47lnek.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-nv47lnek.googlevideo.com</p>
+<p>0.0.0.0 r1—sn-nv47lnel.googlevideo.com</p>
+<p>0.0.0.0 r2—sn-nv47lnel.googlevideo.com</p>
+<p>0.0.0.0 r3—sn-nv47lnel.googlevideo.com</p>
+<p>0.0.0.0 r4—sn-nv47lnel.googlevideo.com</p>
+<p>0.0.0.0 r5—sn-nv47lnel.googlevideo.com</p>
+<p>0.0.0.0 r6—sn-nv47lnel.googlevideo.com</p>
+<p>0.0.0.0 r7—sn-nv47lnel.googlevideo.com</p>
+<p>0.0.0.0 r8—sn-nv47lnel.googlevideo.com</p>
+<p>0.0.0.0 r9—sn-nv47lnel.googlevideo.com</p>
+<p>0.0.0.0 r10—sn-nv47lnel.googlevideo.com</p>
+<p>0.0.0.0 r11—sn-nv47lnel.googlevideo.com</p>
+<p>0.0.0.0 r12—sn-nv47lnel.googlevideo.com</p>
+<p>0.0.0.0 r13—sn-nv47lnel.googlevideo.com</p>
+<p>0.0.0.0 r14—sn-nv47lnel.googlevideo.com</p>
+<p>0.0.0.0 r15—sn-nv47lnel.googlevideo.com</p>
+<p>0.0.0.0 r16—sn-nv47lnel.googlevideo.com</p>
+<p>0.0.0.0 r17—sn-nv47lnel.googlevideo.com</p>
+<p>0.0.0.0 r18—sn-nv47lnel.googlevideo.com</p>
+<p>0.0.0.0 r19—sn-nv47lnel.googlevideo.com</p>
+<p>0.0.0.0 r20—sn-nv47lnel.googlevideo.com</p>
+<p>Reference:</p>
+<p><a target="_blank" rel="noopener" href="https://jasonhill.co.uk/pfsense/ytadblock.txt">https://jasonhill.co.uk/pfsense/ytadblock.txt</a></p>
+<p><a target="_blank" rel="noopener" href="https://forum.netgate.com/topic/123154/comprehensive-youtube-google-ad-block-list/9">https://forum.netgate.com/topic/123154/comprehensive-youtube-google-ad-block-list/9</a></p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.reddit.com/r/PFSENSE/comments/7c2y6f/pfblockerng_youtube_adblock_list/?ref_source=embed&ref=share">PfBlockerNG YouTube AdBlock List</a> from      <a target="_blank" rel="noopener" href="https://www.reddit.com/r/PFSENSE/">PFSENSE</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Passerby
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://passerby.net/1029.html" title="DNS屏蔽YouTube网页及APP视频中的广告">https://passerby.net/1029.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/1022.html" rel="prev" title="黑客帝国：红蓝药丸，孰好孰坏？">
+                  <i class="fa fa-angle-left"></i> 黑客帝国：红蓝药丸，孰好孰坏？
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/1032.html" rel="next" title="十一月， 请对我好一点">
+                  十一月， 请对我好一点 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2016 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Passerby</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
